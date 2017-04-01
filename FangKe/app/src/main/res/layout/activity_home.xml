@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+  <android.support.v4.view.ViewPager
+      android:id="@+id/home_viewpager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+  </android.support.v4.view.ViewPager>
+
+
+  <!--最下面布局-->
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="60dp"
+      android:layout_alignParentBottom="true"
+      android:background="#E9F1F1">
+
+    <ImageView
+        android:id="@+id/home_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/home_mhome" />
+
+    <TextView
+        android:id="@+id/home_guide_tvhome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="36dp"
+        android:text="首页" />
+
+    <ImageView
+        android:id="@+id/home_wechact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:background="@drawable/home_wechact" />
+
+    <TextView
+        android:id="@+id/home_guide_tvWechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="36dp"
+        android:text="微聊" />
+
+    <ImageView
+        android:id="@+id/home_tuijian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="120dp"
+        android:background="@drawable/home_tuijian" />
+
+    <TextView
+        android:id="@+id/home_guide_tvtuijian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="125dp"
+        android:layout_marginTop="36dp"
+        android:text="推荐" />
+
+    <ImageView
+        android:id="@+id/home_mime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/home_my" />
+
+    <TextView
+        android:id="@+id/home_guide_tvmime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="36dp"
+        android:text="我的" />
+
+
+  </RelativeLayout>
+
+</RelativeLayout>

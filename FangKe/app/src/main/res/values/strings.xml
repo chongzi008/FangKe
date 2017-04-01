@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">房客</string>
+    <string name="home_title">珠海</string>
+    <string name="home_map">地图</string>
+    <string name="home_xinfang">新房</string>
+    <string name="home_ershoufang">二手房</string>
+    <string name="home_zufang">租房</string>
+    <string name="home_xiezilou">商品写字楼</string>
+    <string name="home_maifang">卖房</string>
+    <string name="home_haiwaifang">海外房产</string>
+    <string name="home_zhaofang">帮你找房</string>
+    <string name="home_xiaoqufangjia">小区房价</string>
+    <integer name="home_listY">-43</integer>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

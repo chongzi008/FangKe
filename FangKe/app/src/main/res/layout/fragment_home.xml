@@ -1,0 +1,139 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fangke.com.fragment.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="-30dp"
+        android:background="#00BBFF">
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <fangke.com.view.HomeLinearLayout
+            android:id="@+id/home_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ListView
+                android:id="@+id/ls_home"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            </ListView>
+
+        </fangke.com.view.HomeLinearLayout>
+
+        <!--android:background="#00BBFF"-->
+        最上面固定布局
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="120dp"
+       >
+
+       <RelativeLayout
+           android:id="@+id/home_top_relativelayout"
+           android:layout_width="match_parent"
+           android:layout_height="74dp"
+           android:background="#00BBFF">
+
+
+
+           <TextView
+               android:id="@+id/home_tv_area"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="20dp"
+               android:layout_marginTop="30dp"
+               android:text="@string/home_title"
+               android:textSize="18sp" />
+
+           <ImageView
+               android:id="@+id/home_img_area"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="52dp"
+               android:layout_marginTop="33dp"
+               android:background="@drawable/home_area_background" />
+
+           <TextView
+               android:id="@+id/home_tv_map"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_marginLeft="5dp"
+               android:layout_marginRight="20dp"
+               android:layout_marginTop="30dp"
+               android:text="@string/home_map"
+               android:textSize="18sp" />
+
+           <ImageView
+               android:id="@+id/home_img_map"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="50dp"
+               android:layout_marginTop="25dp"
+               android:background="@drawable/home_map" />
+
+       </RelativeLayout>
+
+<RelativeLayout
+    android:id="@+id/home_top_top_relativelayout"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    >
+
+    <ImageView
+    android:id="@+id/home_serch_framwork"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="74dp"
+    android:layout_marginRight="82dp"
+    android:layout_marginTop="22dp"
+    android:background="@drawable/home_serch_stre" />
+
+<ImageView
+    android:id="@+id/home_img_sao_sao"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="84dp"
+    android:layout_marginTop="24dp"
+    android:background="@drawable/sao_sao" />
+
+<ImageView
+    android:id="@+id/home_img_sousuo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="100dp"
+    android:layout_marginTop="22dp"
+    android:background="@drawable/home_servch_icon" />
+
+<TextView
+    android:id="@+id/home_tv_headTitleforsearch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="140dp"
+    android:layout_marginTop="30dp"
+    android:text="挑好房，上房客"
+    android:textSize="13dp" />
+
+
+</RelativeLayout>
+
+   </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</FrameLayout>
