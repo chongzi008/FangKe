@@ -85,7 +85,6 @@ public class HomeFragment extends Fragment {
         mActivity = (HomeActivity) getActivity();
         initViews();
         initListener();
-        System.out.println("我是主页");
         return view;
     }
 
