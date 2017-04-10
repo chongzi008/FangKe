@@ -3,4 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--权当学习用吧不用listview而是用自定义的流布局-->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="特色"
+      android:textSize="18sp"
+      android:textColor="@color/black"
+      android:padding="20dp"
+      />
+    <fangke.com.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <Button
+        android:id="@+id/newhouse_popupview_more_wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微聊"/>
+        <Button
+            android:id="@+id/newhouse_popupview_more_shapanlou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="沙盘楼"/>
+        <Button
+            android:id="@+id/newhouse_popupview_more_videohouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频看房"/>
+
+    </fangke.com.view.FlowLayout>
+</LinearLayout>
 </RelativeLayout>
