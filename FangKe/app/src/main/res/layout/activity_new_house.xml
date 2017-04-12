@@ -163,5 +163,112 @@
   </ListView>
  </LinearLayout>
 
+<RelativeLayout
+    android:id="@+id/newhouse_bottom_item"
+    android:layout_width="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_height="60dp"
+    >
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="60dp"
+     android:background="#D5D5D6"
+     android:orientation="horizontal">
 
+  <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:padding="3dp">
+
+   <ImageView
+       android:id="@+id/newhouse_bottom_img_new"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:layout_centerHorizontal="true"
+       android:background="@drawable/newhouse_new" />
+
+   <TextView
+       android:id="@+id/newhouse_bottom_tv_new"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:text="最新开盘"
+       android:textSize="18sp" />
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:padding="3dp">
+
+   <ImageView
+       android:id="@+id/newhouse_bottom_img_discount"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:layout_centerHorizontal="true"
+       android:background="@drawable/newhouse_discount" />
+
+   <TextView
+       android:id="@+id/newhouse_bottom_tv_discount"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:text="优惠楼盘"
+       android:textSize="18sp" />
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:padding="3dp">
+
+   <ImageView
+       android:id="@+id/newhouse_bottom_img_clever"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:layout_centerHorizontal="true"
+       android:background="@drawable/newhouse_clever" />
+
+   <TextView
+       android:id="@+id/newhouse_bottom_tv_clever"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:text="智能买房"
+       android:textSize="18sp" />
+
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:padding="3dp">
+
+   <ImageView
+       android:id="@+id/newhouse_bottom_img_freelook"
+       android:layout_width="30dp"
+       android:layout_height="30dp"
+       android:layout_centerHorizontal="true"
+       android:background="@drawable/newhouse_freelook" />
+
+   <TextView
+       android:id="@+id/newhouse_bottom_tv_freelook"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:text="免费看房"
+       android:textSize="18sp" />
+
+  </RelativeLayout>
+ </LinearLayout>
+
+</RelativeLayout>
 </RelativeLayout>

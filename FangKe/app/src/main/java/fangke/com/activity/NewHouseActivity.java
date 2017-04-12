@@ -4,22 +4,28 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import utils.DispalyUtil;
 
 /**
  * 新房页面
@@ -37,6 +43,24 @@ public class NewHouseActivity extends AppCompatActivity {
     private ArrayList list;
     private TextView tv_near;
     private ImageView img_near;
+    private TextView tv_price;
+    private ImageView img_price;
+    private float mLastY = 0;
+    private RelativeLayout rl_bottom;
+    private float mY = 0;
+    private int mHeight;
+    private TextView tv_room;
+    private ImageView img_room;
+    private TextView tv_more;
+    private ImageView img_more;
+    private TextView tv_new;
+    private ImageView img_new;
+    private TextView tv_discount;
+    private ImageView img_discount;
+    private TextView tv_clever;
+    private ImageView img_clever;
+    private TextView tv_freelook;
+    private ImageView img_freelook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +73,86 @@ public class NewHouseActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        int[] location = new int[2];
+        rl_bottom.getLocationOnScreen(location);//获取在整个屏幕内的绝对坐标
+        mY = location[1];
+        mHeight = rl_bottom.getMeasuredHeight();
+    }
+
+    private void initViews() {
+        //得到popupwindow的所有按钮
+        tv_near = (TextView) findViewById(R.id.newhouse_tv_near);
+        img_near = (ImageView) findViewById(R.id.newhouse_img_near);
+        tv_price = (TextView) findViewById(R.id.newhouse_tv_price);
+        img_price = (ImageView) findViewById(R.id.newhouse_img_price);
+        rl_bottom = (RelativeLayout) findViewById(R.id.newhouse_bottom_item);
+        tv_room = (TextView) findViewById(R.id.newhouse_tv_room);
+        img_room = (ImageView) findViewById(R.id.newhouse_img_room);
+        tv_more = (TextView) findViewById(R.id.newhouse_tv_more);
+        img_more = (ImageView) findViewById(R.id.newhouse_img_more);
+        //获取底部的按钮
+        tv_new = (TextView) findViewById(R.id.newhouse_bottom_tv_new);
+        img_new = (ImageView) findViewById(R.id.newhouse_bottom_img_new);
+        tv_discount = (TextView) findViewById(R.id.newhouse_bottom_tv_discount);
+        img_discount = (ImageView) findViewById(R.id.newhouse_bottom_img_discount);
+        tv_clever = (TextView) findViewById(R.id.newhouse_bottom_tv_clever);
+        img_clever = (ImageView) findViewById(R.id.newhouse_bottom_img_clever);
+        tv_freelook = (TextView) findViewById(R.id.newhouse_bottom_tv_freelook);
+        img_freelook = (ImageView) findViewById(R.id.newhouse_bottom_img_freelook);
+
+        lv = (ListView) findViewById(R.id.newhouse_lv);
+        lv.setAdapter(new MyAdapter());
+    }
+
     private void initListener() {
+        //监听主页面列表滑动时弹出收回底部window
+        lv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 触摸按下时的操作
+                        //创建window
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        float currentY = event.getRawY();
+
+                        if (currentY - mLastY != currentY) {
+
+                            if (currentY - mLastY > 0) {
+                                //下滑
+                                //显示底部框
+                                showBottomView();
+                            } else if (currentY - mLastY < 0) {
+                                //上滑 隐藏底部框
+                                hideBottomView();
+
+                            } else {
+                                //其他我们就让它直接显示就好了
+                                showBottomView();
+                            }
+
+                        }
+                        mLastY = currentY;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // 触摸抬起时的操作
+                        mLastY = 0;
+                        break;
+                }
+                return false;
+            }
+        });
         //初始化新房附近的监听。
         tv_near.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点击附近的时候我们就弹出下拉窗口
                 showNearWindow();
-
             }
         });
         img_near.setOnClickListener(new View.OnClickListener() {
@@ -66,26 +162,128 @@ public class NewHouseActivity extends AppCompatActivity {
                 showNearWindow();
             }
         });
+        //初始化价格的监听
+        tv_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPriceWindow();
+            }
+        });
+        img_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPriceWindow();
+            }
+        });
+
+        //初始化户型的监听
+        tv_room.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRoomWindow();
+            }
+        });
+        img_room.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRoomWindow();
+            }
+        });
+
+        //初始化更多的window
+        tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMoreWindow();
+            }
+        });
+        img_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMoreWindow();
+            }
+        });
     }
 
+    //显示更多的window
+    private void showMoreWindow() {
+        View moreView = View.inflate(NewHouseActivity.this, R.layout.newhouse_popupwindow_more, null);
+        //处理几百个按钮的点击事件
+
+        PopupWindow pricePopupWindow = new PopupWindow(moreView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+        pricePopupWindow.setTouchable(true);
+        pricePopupWindow.showAtLocation(tv_price, Gravity.TOP, 0, 0);
+        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+
+    }
+
+    //显示户型好的Window
+    private void showRoomWindow() {
+        View roomView = View.inflate(NewHouseActivity.this, R.layout.newhouse_popupwindow_room, null);
+        ListView lv_room = (ListView) roomView.findViewById(R.id.newhouse_popupwindow_room_lv);
+        SimpleAdapter priceAdapter = new SimpleAdapter(NewHouseActivity.this, getRoomWindowData(), R.layout.popupwindow_room_item,
+                new String[]{"title"}, new int[]{R.id.popupwindow_room_item_tv});
+        lv_room.setAdapter(priceAdapter);
+        PopupWindow pricePopupWindow = new PopupWindow(roomView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+        pricePopupWindow.setTouchable(true);
+        pricePopupWindow.showAtLocation(tv_price, Gravity.TOP, 0, 0);
+        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+
+    }
+
+    //隐藏底部框
+    private void hideBottomView() {
+        TranslateAnimation botromTranslation = new TranslateAnimation(0, 0, 0, mHeight);
+        botromTranslation.setDuration(500);
+        rl_bottom.startAnimation(botromTranslation);
+        rl_bottom.setVisibility(View.INVISIBLE);
+    }
+
+    //显示底部框
+    private void showBottomView() {
+        TranslateAnimation botromTranslation = new TranslateAnimation(0, 0, mHeight, 0);
+        botromTranslation.setDuration(500);
+        rl_bottom.startAnimation(botromTranslation);
+        rl_bottom.setVisibility(View.VISIBLE);
+    }
+
+
+    //显示价格的window
+    private void showPriceWindow() {
+        View priceView = View.inflate(NewHouseActivity.this, R.layout.newhouse_popupwindow_price, null);
+        ListView lv_price = (ListView) priceView.findViewById(R.id.newhouse_popupview_price_lv);
+        SimpleAdapter priceAdapter = new SimpleAdapter(NewHouseActivity.this, getPriceWindowData(), R.layout.popupwindow_price_item,
+                new String[]{"title"}, new int[]{R.id.popupwindow_price_item_tv});
+        lv_price.setAdapter(priceAdapter);
+        PopupWindow pricePopupWindow = new PopupWindow(priceView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+        pricePopupWindow.setTouchable(true);
+        pricePopupWindow.showAtLocation(tv_price, Gravity.TOP, 0, 0);
+        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+
+    }
+
+    //显示附近的window
     private void showNearWindow() {
         //弹出附近窗口
         View nearview = View.inflate(NewHouseActivity.this, R.layout.newhouse_popupwindow_near, null);
         final ListView near_lv_left = (ListView) nearview.findViewById(R.id.newhouse_popupview_near_lv_left);
         final ListView near_lv_right = (ListView) nearview.findViewById(R.id.newhouse_popupview_near_lv_right);
 
-        SimpleAdapter nearAdapter=new SimpleAdapter(NewHouseActivity.this,getNearWindowData(),R.layout.popupwindow_near_left_item,
-                new String[]{"title"},new int[]{R.id.popupwindow_near_left});
+        SimpleAdapter nearAdapter = new SimpleAdapter(NewHouseActivity.this, getNearWindowData(), R.layout.popupwindow_near_left_item,
+                new String[]{"title"}, new int[]{R.id.popupwindow_near_left});
         near_lv_left.setAdapter(nearAdapter);
         near_lv_left.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                      near_lv_right.setVisibility(View.INVISIBLE);
-                }else if(position==1){
-                    if(near_lv_right.getVisibility()==View.VISIBLE){
+                if (position == 0) {
+                    near_lv_right.setVisibility(View.INVISIBLE);
+                } else if (position == 1) {
+                    if (near_lv_right.getVisibility() == View.VISIBLE) {
 
-                    }else {
+                    } else {
 
                         near_lv_right.setVisibility(View.VISIBLE);
                         ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
@@ -120,7 +318,7 @@ public class NewHouseActivity extends AppCompatActivity {
 
                     }
 
-                }else if(position==2){
+                } else if (position == 2) {
                     near_lv_right.setVisibility(View.VISIBLE);
                 }
             }
@@ -135,14 +333,14 @@ public class NewHouseActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<HashMap<String, Object>> getNearWindowData(){
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String,Object>>();
+    private ArrayList<HashMap<String, Object>> getNearWindowData() {
+        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
-        tempHashMap1.put("title","附近");
+        tempHashMap1.put("title", "附近");
         HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
-        tempHashMap2.put("title","区域");
+        tempHashMap2.put("title", "区域");
         HashMap<String, Object> tempHashMap3 = new HashMap<String, Object>();
-        tempHashMap3.put("title","地铁");
+        tempHashMap3.put("title", "地铁");
 
         arrayList.add(tempHashMap1);
         arrayList.add(tempHashMap2);
@@ -235,12 +433,63 @@ public class NewHouseActivity extends AppCompatActivity {
 
     }
 
-    private void initViews() {
-        tv_near = (TextView) findViewById(R.id.newhouse_tv_near);
-        img_near = (ImageView) findViewById(R.id.newhouse_img_near);
-        lv = (ListView) findViewById(R.id.newhouse_lv);
-        lv.setAdapter(new MyAdapter());
+    private ArrayList<HashMap<String, Object>> getPriceWindowData() {
+        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
+        tempHashMap1.put("title", "不限");
+        HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
+        tempHashMap2.put("title", "优惠楼盘");
+        HashMap<String, Object> tempHashMap3 = new HashMap<String, Object>();
+        tempHashMap3.put("title", "一万以下");
+        HashMap<String, Object> tempHashMap4 = new HashMap<String, Object>();
+        tempHashMap4.put("title", "1-1.5万");
+        HashMap<String, Object> tempHashMap5 = new HashMap<String, Object>();
+        tempHashMap5.put("title", "1.5到2万");
+        HashMap<String, Object> tempHashMap6 = new HashMap<String, Object>();
+        tempHashMap6.put("title", "2万-3万");
+        HashMap<String, Object> tempHashMap7 = new HashMap<String, Object>();
+        tempHashMap7.put("title", "3万-4万");
+        HashMap<String, Object> tempHashMap8 = new HashMap<String, Object>();
+        tempHashMap8.put("title", "4万以上");
+
+        arrayList.add(tempHashMap1);
+        arrayList.add(tempHashMap2);
+        arrayList.add(tempHashMap3);
+        arrayList.add(tempHashMap4);
+        arrayList.add(tempHashMap5);
+        arrayList.add(tempHashMap6);
+        arrayList.add(tempHashMap7);
+        arrayList.add(tempHashMap8);
+
+        return arrayList;
+
     }
+
+    private ArrayList<HashMap<String, Object>> getRoomWindowData() {
+        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
+        tempHashMap1.put("title", "不限");
+        HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
+        tempHashMap2.put("title", "一室");
+        HashMap<String, Object> tempHashMap3 = new HashMap<String, Object>();
+        tempHashMap3.put("title", "二室");
+        HashMap<String, Object> tempHashMap4 = new HashMap<String, Object>();
+        tempHashMap4.put("title", "三室");
+        HashMap<String, Object> tempHashMap5 = new HashMap<String, Object>();
+        tempHashMap5.put("title", "四室");
+        HashMap<String, Object> tempHashMap6 = new HashMap<String, Object>();
+        tempHashMap6.put("title", "五室以上");
+        arrayList.add(tempHashMap1);
+        arrayList.add(tempHashMap2);
+        arrayList.add(tempHashMap3);
+        arrayList.add(tempHashMap4);
+        arrayList.add(tempHashMap5);
+        arrayList.add(tempHashMap6);
+
+        return arrayList;
+
+    }
+
 
     class MyAdapter extends BaseAdapter {
 
