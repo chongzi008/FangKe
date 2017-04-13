@@ -7,59 +7,65 @@
 
 <!--权当学习用吧不用listview而是用自定义的流布局-->
     <!--特色-->
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="特色"
-      android:textSize="18sp"
-      android:textColor="@color/black"
-      android:padding="10dp"
-      />
-    <fangke.com.view.FlowLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-    <Button
-        style="?android:attr/borderlessButtonStyle"
-        android:id="@+id/newhouse_popupview_more_wechat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:textColor="@color/white"
-        android:background="#C4F0F0"
-        android:text="微聊"/>
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/newhouse_popupview_more_shapanlou"
+        android:orientation="vertical">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:textColor="@color/white"
-            android:background="#C4F0F0"
-            android:text="沙盘楼"/>
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/newhouse_popupview_more_videohouse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="#C4F0F0"
-            android:layout_marginLeft="12dp"
-            android:text="视频看房"/>
+            android:padding="10dp"
+            android:text="特色"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
-    </fangke.com.view.FlowLayout>
+        <fangke.com.view.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/m_moregray"/>
-</LinearLayout>
-<!--面积平方米-->
+            <Button
+                android:id="@+id/newhouse_popupview_more_wechat"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="12dp"
+                android:background="#C4F0F0"
+                android:text="微聊"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/newhouse_popupview_more_shapanlou"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:background="#C4F0F0"
+                android:text="沙盘楼"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/newhouse_popupview_more_videohouse"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:background="#C4F0F0"
+                android:text="视频看房"
+                android:textColor="@color/white" />
+
+        </fangke.com.view.FlowLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/m_moregray" />
+    </LinearLayout>
+    <!--面积平方米-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,8 +89,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_60"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
                 android:text="60以下"/>
@@ -92,7 +99,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_80"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
@@ -101,7 +109,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_100"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
@@ -110,7 +119,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_120"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
@@ -119,7 +129,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_150"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:textColor="@color/white"
@@ -129,7 +139,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_200"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
@@ -139,7 +149,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_250"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
                 android:layout_marginTop="12dp"
@@ -150,7 +160,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="30dp"
             android:background="@color/m_moregray"/>
     </LinearLayout>
 <!--物业-->
@@ -175,8 +185,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_zhuzhai"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:background="#C4F0F0"
                 android:text="住宅"
                 android:textColor="@color/white" />
@@ -185,7 +196,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_bieshu"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="12dp"
                 android:background="#C4F0F0"
                 android:text="别墅"
@@ -195,7 +207,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_shangzhu"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginLeft="12dp"
                 android:background="#C4F0F0"
                 android:text="商住"
@@ -205,8 +218,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_shangpu"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:background="#C4F0F0"
                 android:text="商铺"
                 android:textColor="@color/white" />
@@ -215,7 +229,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_xiezilou"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:background="#C4F0F0"
@@ -227,7 +241,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="30dp"
             android:background="@color/m_moregray" />
     </LinearLayout>
     <!--热门标签-->
@@ -255,8 +269,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_gangxu"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
                 android:text="刚需房"/>
@@ -264,8 +279,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_youhui"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
                 android:text="优惠打折"/>
@@ -273,8 +289,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_buxiangou"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
                 android:text="不限购"/>
@@ -282,8 +299,9 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_jijiangkaipan"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:background="#C4F0F0"
                 android:text="即将开盘"/>
@@ -291,7 +309,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_feimaopi"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:textColor="@color/white"
@@ -301,7 +319,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_gaishanfang"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="12dp"
                 android:textColor="@color/white"
@@ -312,12 +330,13 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="30dp"
             android:background="@color/m_moregray"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         >
         <Button

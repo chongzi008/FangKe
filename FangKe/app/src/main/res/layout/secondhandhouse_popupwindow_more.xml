@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FEFFFF"
+            android:orientation="vertical">
+
+            <!--权当学习用吧不用listview而是用自定义的流布局-->
+            <!--特色-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="特色"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    />
+                <fangke.com.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_videohouse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="视频房源"/>
+
+                </fangke.com.view.FlowLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/m_moregray"/>
+            </LinearLayout>
+            <!--面积平方米-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="面积(平方米)"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    />
+
+                <fangke.com.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_60"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="60以下"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_80"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="60-80"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_100"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="80-100"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_120"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="100-120"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_150"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="120-150"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_200"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:layout_marginTop="12dp"
+                        android:text="150-200"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_250"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:text="200以上"/>
+
+                </fangke.com.view.FlowLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/m_moregray"/>
+            </LinearLayout>
+            <!--房龄-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="房龄"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <fangke.com.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/secondhandhouse_popupview_more_2year"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#C4F0F0"
+                        android:text="2年内"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/secondhandhouse_popupview_more_5year"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#C4F0F0"
+                        android:text="2-5年"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/secondhandhouse_popupview_more_10yrar"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#C4F0F0"
+                        android:text="5-10年"
+                        android:textColor="@color/white" />
+
+                    <Button
+                        android:id="@+id/secondhandhouse_popupview_more_20year"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#C4F0F0"
+                        android:text="10年以上"
+                        android:textColor="@color/white" />
+
+                </fangke.com.view.FlowLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/m_moregray" />
+            </LinearLayout>
+            <!--装修-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="装修"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    />
+
+                <fangke.com.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_maopi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="毛坯"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_easyzhuangxiu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="简单装修"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_jingzhuangxiu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="精装修"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_zhongdeng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="中等装修"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_haohua"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="豪华装修"/>
+
+
+                </fangke.com.view.FlowLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/m_moregray"/>
+            </LinearLayout>
+
+            <!--类型-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="类型"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <fangke.com.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_putong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="普通住宅"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_bieshu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="别墅"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_pingfang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="平房"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_gongyu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="公寓"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_qita"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="其他"/>
+
+
+                </fangke.com.view.FlowLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/m_moregray"/>
+            </LinearLayout>
+            <!--排序-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="排序"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    />
+
+                <fangke.com.view.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_areada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="面积从大到小"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_areaxiao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="面积从小到大"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_pricegao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="总价从低到高"/>
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:id="@+id/secondhandhouse_popupview_more_pricedi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/white"
+                        android:background="#C4F0F0"
+                        android:text="总价从高到低"/>
+
+                </fangke.com.view.FlowLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/m_moregray"/>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"></LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/secondhandhouse_popupview_more_resize"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_gray_guide"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/black_light"
+                android:text="重置"/>
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/secondhandhouse_popupview_more_check"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/btn_guide"
+                android:textColor="@color/white"
+                android:text="确定"/>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
