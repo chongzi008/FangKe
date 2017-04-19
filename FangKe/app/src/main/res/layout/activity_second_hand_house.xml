@@ -6,11 +6,10 @@
     tools:context="fangke.com.activity.SecondHandHouseActivity">
 
     <LinearLayout
-        android:layout_width="395dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,6 +19,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -31,12 +31,12 @@
                     android:background="@drawable/newhouse_leftarrow" />
 
                 <RelativeLayout
-                    android:layout_width="280dp"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp">
 
                     <ImageView
-                        android:layout_width="280dp"
+                        android:layout_width="230dp"
                         android:layout_height="38dp"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/newhome_serch_stre" />
@@ -44,16 +44,17 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:background="@drawable/newhouse_sousuo" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_marginLeft="60dp"
                         android:text="请输入小区名或地址"
                         android:textColor="@color/gray_light"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
                 </RelativeLayout>
 
                 <TextView

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!--左边图片布局-->
+    <RelativeLayout
+        android:layout_width="170dp"
+        android:layout_height="130dp">
+
+        <ImageView
+            android:id="@+id/rental_lv_img_normalview"
+            android:layout_width="160dp"
+            android:layout_height="120dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/newhouse1"/>
+
+        <TextView
+            android:id="@+id/rental_tv_normalview_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="#0F1418"
+            android:text="期房"/>
+
+    </RelativeLayout>
+    <!--右边文字的布局-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginLeft="160dp"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:id="@+id/rental_tv_normalview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="万科神域海岛"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:id="@+id/rental_tv_normalview_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="金湾-金湾"
+                android:textSize="16sp"
+                android:textColor="@color/black_light"/>
+
+            <TextView
+                android:id="@+id/rental_tv_normalview_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="8800元/m2"
+                android:textSize="16sp"
+                android:textColor="#CC0000"/>
+        </RelativeLayout>
+
+
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="38dp"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="22dp"
+               android:text="景区"
+               android:textSize="16sp"
+               android:textColor="@color/black_light"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="22dp"
+               android:layout_marginLeft="5dp"
+               android:text="海景"
+               android:textSize="16sp"
+               android:textColor="@color/black_light"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="5dp"
+               android:layout_marginTop="22dp"
+               android:text="综合体"
+               android:textSize="16sp"
+               android:textColor="@color/black_light"/>
+       </LinearLayout>
+
+        <TextView
+            android:id="@+id/rental_tv_normalview_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="全款95折，此基础上再99折"
+            android:textSize="16sp"
+            android:textColor="#CC0000"/>
+    </RelativeLayout>
+</RelativeLayout>

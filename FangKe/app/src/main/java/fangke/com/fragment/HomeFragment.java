@@ -2,6 +2,7 @@ package fangke.com.fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -367,6 +368,13 @@ public class HomeFragment extends Fragment {
             }
             viewHolder.tlt.setText(title[position]);
             viewHolder.image.setImageResource(imags[position]);
+
+            ViewGroup.LayoutParams params = viewHolder.image.getLayoutParams();
+            params.width=DispalyUtil.dip2px(mActivity,45);
+            params.height=DispalyUtil.dip2px(mActivity,45);
+            viewHolder.image.setLayoutParams(params);
+
+
             return convertView;
         }
     }

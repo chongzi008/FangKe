@@ -1,14 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fangke.com.activity.RentalHouseActivity">
 
-  <TextView
-      android:layout_width="wrap_content"
+  <LinearLayout
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="你好 我是租房页面"/>
+      android:orientation="vertical"
+      >
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#EEEEEE">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/newhouse_leftarrow" />
+
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+          <ImageView
+              android:layout_width="280dp"
+              android:layout_height="38dp"
+              android:layout_marginLeft="15dp"
+              android:background="@drawable/newhome_serch_stre" />
+
+          <ImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/newhouse_sousuo" />
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="40dp"
+              android:text="请输入小区名或地址"
+              android:textColor="@color/gray_light"
+              android:textSize="20dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="地图"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="20dp" />
+
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_marginBottom="10dp"
+          android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_weight="1">
+
+          <TextView
+              android:id="@+id/rental_middle_tv_quyu"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="区域"
+              android:textSize="18sp" />
+
+          <ImageView
+              android:id="@+id/rental_middle_img_quyu"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="40dp"
+              android:background="@drawable/newhouse_blue_downarrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+          <TextView
+              android:id="@+id/rental_middle_tv_price"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="售价"
+              android:textSize="18sp" />
+
+          <ImageView
+              android:id="@+id/rental_middle_img_price"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="40dp"
+              android:background="@drawable/newhouse_gray_downarrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+          <TextView
+              android:id="@+id/rental_middle_tv_more"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="更多"
+              android:textSize="18sp" />
+
+          <ImageView
+              android:id="@+id/rental_middle_img_more"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_marginLeft="40dp"
+              android:background="@drawable/newhouse_gray_downarrow" />
+        </RelativeLayout>
+
+      </LinearLayout>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/rental_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+  </LinearLayout>
+
+</RelativeLayout>

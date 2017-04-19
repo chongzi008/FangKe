@@ -1,5 +1,6 @@
 package fangke.com.activity;
 
+import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ import static android.R.id.list;
  * @return
  */
 
-public class SecondHandHouseActivity extends AppCompatActivity {
+public class SecondHandHouseActivity extends Activity {
 
     private ListView lv;
     private List list;

@@ -1,5 +1,6 @@
 package fangke.com.activity;
 
+import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ import utils.DispalyUtil;
  * @参数
  * @return
  */
-public class NewHouseActivity extends AppCompatActivity {
+public class NewHouseActivity extends Activity {
     public final static int Type_1 = 0;
     public final static int Type_2 = 1;
     public final static int Type_3 = 2;
