@@ -5,14 +5,18 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -45,11 +49,15 @@ public class SecondHandHouseActivity extends Activity {
     private TextView tv_more;
     private ImageView img_more;
     private TextView tv_search;
+    private int mHeight;
     private ImageView img_search;
     private TextView tv_xiaoqufangjia;
     private ImageView img_xiaoqufangjia;
     private TextView tv_area;
     private ImageView img_area;
+    private float mLastY=0;
+    private float mLastX=0;
+    private RelativeLayout rl_bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +87,9 @@ public class SecondHandHouseActivity extends Activity {
         img_xiaoqufangjia = (ImageView) findViewById(R.id.secondhandhouse_bottom_img_xiaoqufangjia);
         tv_area = (TextView) findViewById(R.id.secondhandhouse_bottom_tv_area);
         img_area = (ImageView) findViewById(R.id.secondhandhouse_bottom_img_area);
+
+        //获取底部栏
+        rl_bottom = (RelativeLayout) findViewById(R.id.secondhandhouse_bottom_item);
         //为listview填充数据
         lv = (ListView) findViewById(R.id.secondhandhouse_lv);//获取listview
         lv.setAdapter(new MyAdapter());
@@ -260,6 +271,84 @@ public class SecondHandHouseActivity extends Activity {
 
             }
         });
+
+
+        //监听主页面列表滑动时弹出收回底部window
+        lv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 触摸按下时的操作
+                        //创建window
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        // 触摸移动时的操作
+                        float currentY = event.getRawY();
+                        float currentX = event.getRawX();
+                        //左右滑动跟上下滑动
+                        if(Math.abs((currentY-mLastY))>Math.abs((currentX-mLastX))){
+                            //上下滑动
+
+                            if (currentY - mLastY != currentY) {
+
+                                if (currentY - mLastY > 0) {
+                                    //下滑
+                                    //显示底部框
+                                    showBottomView();
+                                } else if (currentY - mLastY < 0) {
+                                    //上滑 隐藏底部框
+                                    hideBottomView();
+
+                                } else {
+                                    //其他我们就让它直接显示就好了
+                                    showBottomView();
+                                }
+
+                            }
+                        }else{
+                            //左右滑动不做处理即可
+
+                        }
+
+
+                        mLastY = currentY;
+                        mLastX=currentX;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // 触摸抬起时的操作
+                        mLastY = 0;
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        mHeight = rl_bottom.getMeasuredHeight();
+    }
+
+    /**
+     * 隐藏底部栏
+     */
+    private void hideBottomView() {
+        TranslateAnimation botromTranslation = new TranslateAnimation(0, 0, 0, mHeight);
+        botromTranslation.setDuration(500);
+        rl_bottom.startAnimation(botromTranslation);
+        rl_bottom.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * 显示底部栏
+     */
+    private void showBottomView() {
+        TranslateAnimation botromTranslation = new TranslateAnimation(0, 0, mHeight, 0);
+        botromTranslation.setDuration(500);
+        rl_bottom.startAnimation(botromTranslation);
+        rl_bottom.setVisibility(View.VISIBLE);
     }
 
     private void showMoreWindow() {

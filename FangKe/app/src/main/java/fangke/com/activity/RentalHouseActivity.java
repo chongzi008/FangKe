@@ -8,23 +8,28 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 租房页面
- *@author ChongZi007
- *@time 2017/3/30 21:00
- *@参数
- *@return
-*/
+ *
+ * @author ChongZi007
+ * @time 2017/3/30 21:00
+ * @参数
+ * @return
+ */
 public class RentalHouseActivity extends Activity {
 
     private TextView tv_quyu;
@@ -35,6 +40,7 @@ public class RentalHouseActivity extends Activity {
     private ImageView img_more;
     private ListView rental_lv;
     private ArrayList list;
+    private RelativeLayout rl_top;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +140,8 @@ public class RentalHouseActivity extends Activity {
         //得到lv 设置adapter
         rental_lv = (ListView) findViewById(R.id.rental_lv);
         rental_lv.setAdapter(new MyAdapter());
+        //得到顶部相对布局
+        rl_top = (RelativeLayout) findViewById(R.id.rentalhouse_rl_top);
     }
 
     private void initListener() {
@@ -184,8 +192,8 @@ public class RentalHouseActivity extends Activity {
         final ListView near_lv_left = (ListView) quyuview.findViewById(R.id.rental_popupview_near_lv_left);
         final ListView near_lv_right = (ListView) quyuview.findViewById(R.id.rental_popupview_near_lv_right);
 
-        SimpleAdapter nearAdapter = new SimpleAdapter(RentalHouseActivity.this, getQuYuWindowData(), R.layout.rentalhouse_popupwindow_near_left_item,
-                new String[]{"title"}, new int[]{R.id.rentalhouse_popupwindow_near_left});
+        SimpleAdapter nearAdapter = new SimpleAdapter(RentalHouseActivity.this, getQuYuWindowData(), R.layout.rentalhouse_popupwindow_more_left_item,
+                new String[]{"title"}, new int[]{R.id.rentalhouse_popupwindow_more_left});
 
         near_lv_left.setAdapter(nearAdapter);
 
@@ -309,109 +317,122 @@ public class RentalHouseActivity extends Activity {
         return arrayList;
 
     }
+
     //弹出更多的窗口
     private void showMoreWindow() {
-        View quyuview = View.inflate(RentalHouseActivity.this, R.layout.rentalhouse_popupwindow_more, null);
-        final ListView rental_near_lv_left = (ListView) quyuview.findViewById(R.id.rental_popupview_more_lv_left);
-        final ListView rental_near_lv_right = (ListView) quyuview.findViewById(R.id.rental_popupview_more_lv_right);
+        View moreview = View.inflate(RentalHouseActivity.this, R.layout.rentalhouse_popupwindow_more, null);
+        final ListView rental_near_lv_left = (ListView) moreview.findViewById(R.id.rental_popupview_more_lv_left);
+        final ListView rental_near_lv_right = (ListView) moreview.findViewById(R.id.rental_popupview_more_lv_right);
 
-        SimpleAdapter nearAdapter = new SimpleAdapter(RentalHouseActivity.this, getMoreLeftWindowDataWindowData(), R.layout.rentalhouse_popupwindow_near_left_item,
-                new String[]{"title"}, new int[]{R.id.rentalhouse_popupwindow_more_left});
 
-        rental_near_lv_left.setAdapter(nearAdapter);
+        ArrayAdapter<String> adapterRight = new ArrayAdapter<String>(RentalHouseActivity.this,
+                R.layout.rentalhouse_popupwindow_more_right_simple_item, getRightData());
+
+        ArrayAdapter<String> adapterLeft = new ArrayAdapter<String>(RentalHouseActivity.this,
+                R.layout.rentalhouse_popupwindow_more_left_simple_item, getLeftData());
+        rental_near_lv_right.setAdapter(adapterRight);
+
+        rental_near_lv_left.setAdapter(adapterLeft);
 
         rental_near_lv_left.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    rental_near_lv_right.setVisibility(View.INVISIBLE);
+
+                    ArrayAdapter<String> adapter0 = new ArrayAdapter<String>(RentalHouseActivity.this,
+                            R.layout.rentalhouse_popupwindow_more_right_simple_item, getRightData());
+                    rental_near_lv_right.setAdapter(adapter0);
                 } else if (position == 1) {
-                    if (rental_near_lv_right.getVisibility() == View.VISIBLE) {
 
-                    } else {
-
-                        rental_near_lv_right.setVisibility(View.VISIBLE);
-                        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
-                        HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
-                        tempHashMap1.put("title", "不限");
-                        HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
-                        tempHashMap2.put("title", "香洲");
-                        HashMap<String, Object> tempHashMap3 = new HashMap<String, Object>();
-                        tempHashMap3.put("title", "金湾");
-                        HashMap<String, Object> tempHashMap4 = new HashMap<String, Object>();
-                        tempHashMap4.put("title", "斗门");
-                        HashMap<String, Object> tempHashMap5 = new HashMap<String, Object>();
-                        tempHashMap5.put("title", "中山市");
-                        HashMap<String, Object> tempHashMap6 = new HashMap<String, Object>();
-                        tempHashMap6.put("title", "横琴");
-                        HashMap<String, Object> tempHashMap7 = new HashMap<String, Object>();
-                        tempHashMap7.put("title", "高栏港经济区");
-                        HashMap<String, Object> tempHashMap8 = new HashMap<String, Object>();
-                        tempHashMap8.put("title", "其他");
-
-                        arrayList.add(tempHashMap1);
-                        arrayList.add(tempHashMap2);
-                        arrayList.add(tempHashMap3);
-                        arrayList.add(tempHashMap4);
-                        arrayList.add(tempHashMap5);
-                        arrayList.add(tempHashMap6);
-                        arrayList.add(tempHashMap7);
-                        arrayList.add(tempHashMap8);
-                        SimpleAdapter nearRightAdapter = new SimpleAdapter(RentalHouseActivity.this, arrayList, R.layout.rentalhouse_popupwindow_more_right_item,
-                                new String[]{"title"}, new int[]{R.id.rentalhouse_popupwindow_more_right});
-                        rental_near_lv_right.setAdapter(nearRightAdapter);
-
-                    }
+                    ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(RentalHouseActivity.this,
+                            R.layout.rentalhouse_popupwindow_more_right_simple_item, getRight_1_Data());
+                    rental_near_lv_right.setAdapter(adapter1);
 
                 } else if (position == 2) {
-                    rental_near_lv_right.setVisibility(View.VISIBLE);
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(RentalHouseActivity.this,
+                            R.layout.rentalhouse_popupwindow_more_right_simple_item, getRight_2_Data());
+                    rental_near_lv_right.setAdapter(adapter2);
+
+                } else if (position == 3) {
+                    ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(RentalHouseActivity.this,
+                            R.layout.rentalhouse_popupwindow_more_right_simple_item, getRight_3_Data());
+                    rental_near_lv_right.setAdapter(adapter3);
+
+                } else if (position == 4) {
+                    ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(RentalHouseActivity.this,
+                            R.layout.rentalhouse_popupwindow_more_right_simple_item, getRight_4_Data());
+                    rental_near_lv_right.setAdapter(adapter4);
+
                 }
             }
         });
 
 
-        PopupWindow quyuPopupWindow = new PopupWindow(quyuview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        quyuPopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
-        quyuPopupWindow.setTouchable(true);
-        quyuPopupWindow.showAtLocation(tv_quyu, Gravity.TOP, 0, 0);
-        quyuPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        PopupWindow morePopupWindow = new PopupWindow(moreview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        morePopupWindow.setAnimationStyle(R.style.rentalhouse_popwin_near_anim_style);
+        morePopupWindow.setTouchable(true);
+        morePopupWindow.showAsDropDown(rl_top, 0, 0);
+        morePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
     }
 
-    private ArrayList<HashMap<String, Object>> getMoreWindowData() {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
-        tempHashMap1.put("title", "附近");
-        HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
-        tempHashMap2.put("title", "区域");
-        arrayList.add(tempHashMap1);
-        arrayList.add(tempHashMap2);
 
-
-        return arrayList;
-
+    private String[] getLeftData() {
+        String[] array = new String[]{
+                "房型",
+                "整租/合租",
+                "来源",
+                "装修",
+                "排序"
+        };
+        return array;
     }
-    private ArrayList<HashMap<String, Object>> getMoreLeftWindowDataWindowData() {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
-        tempHashMap1.put("title", "房型");
-        HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
-        tempHashMap2.put("title", "整租/合租");
-        HashMap<String, Object> tempHashMap3 = new HashMap<String, Object>();
-        tempHashMap3.put("title", "来源");
-        HashMap<String, Object> tempHashMap4 = new HashMap<String, Object>();
-        tempHashMap4.put("title", "装修");
-        HashMap<String, Object> tempHashMap5 = new HashMap<String, Object>();
-        tempHashMap5.put("title", "排序");
-        arrayList.add(tempHashMap1);
-        arrayList.add(tempHashMap2);
-        arrayList.add(tempHashMap3);
-        arrayList.add(tempHashMap4);
-        arrayList.add(tempHashMap5);
+    private String[] getRightData() {
+        String[] array = new String[]{
+                "不限",
+                "1室",
+                "二室",
+                "三室",
+                "四室+"
+        };
+        return array;
+    }
+    private String[] getRight_1_Data() {
+        String[] array = new String[]{
+                "不限",
+                "整租",
+                "合租",
 
+        };
+        return array;
+    }
+    private String[] getRight_2_Data() {
+        String[] array = new String[]{
+                "不限",
+                "个人",
+                "经纪人",
+        };
+        return array;
+    }
+    private String[] getRight_3_Data() {
+        String[] array = new String[]{
+                "不限",
+                "毛坯",
+                "简单装修",
+                "中等装修",
+                "高等装修",
+                "豪华装修"
+        };
+        return array;
+    }
+    private String[] getRight_4_Data() {
+        String[] array = new String[]{
+                "默认排序",
+                "租金从低到高",
+                "租金从高到低",
 
-        return arrayList;
-
+        };
+        return array;
     }
 
     //创建listview的适配器

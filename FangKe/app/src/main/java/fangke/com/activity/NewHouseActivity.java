@@ -47,6 +47,7 @@ public class NewHouseActivity extends Activity {
     private TextView tv_price;
     private ImageView img_price;
     private float mLastY = 0;
+    private float mLastX = 0;
     private RelativeLayout rl_bottom;
     private float mY = 0;
     private int mHeight;
@@ -121,24 +122,35 @@ public class NewHouseActivity extends Activity {
                     case MotionEvent.ACTION_MOVE:
                         // 触摸移动时的操作
                         float currentY = event.getRawY();
+                        float currentX = event.getRawX();
+                        //左右滑动跟上下滑动
+                        if(Math.abs((currentY-mLastY))>Math.abs((currentX-mLastX))){
+                            //上下滑动
 
-                        if (currentY - mLastY != currentY) {
+                            if (currentY - mLastY != currentY) {
 
-                            if (currentY - mLastY > 0) {
-                                //下滑
-                                //显示底部框
-                                showBottomView();
-                            } else if (currentY - mLastY < 0) {
-                                //上滑 隐藏底部框
-                                hideBottomView();
+                                if (currentY - mLastY > 0) {
+                                    //下滑
+                                    //显示底部框
+                                    showBottomView();
+                                } else if (currentY - mLastY < 0) {
+                                    //上滑 隐藏底部框
+                                    hideBottomView();
 
-                            } else {
-                                //其他我们就让它直接显示就好了
-                                showBottomView();
+                                } else {
+                                    //其他我们就让它直接显示就好了
+                                    showBottomView();
+                                }
+
                             }
+                        }else{
+                            //左右滑动不做处理即可
 
                         }
+
+
                         mLastY = currentY;
+                        mLastX=currentX;
                         break;
                     case MotionEvent.ACTION_UP:
                         // 触摸抬起时的操作

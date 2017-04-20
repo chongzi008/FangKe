@@ -11,13 +11,17 @@
         android:layout_weight="1">
 
     </ListView>
-
+<ImageView
+    android:layout_width=".5dp"
+    android:layout_height="match_parent"
+    android:background="@color/gray_light"/>
     <ListView
         android:id="@+id/rental_popupview_more_lv_right"
         android:layout_width="0dp"
         android:layout_height="450dp"
         android:layout_weight="1"
-        android:visibility="invisible">
+        android:layout_marginLeft="5dp"
+        >
 
     </ListView>
 </LinearLayout>
