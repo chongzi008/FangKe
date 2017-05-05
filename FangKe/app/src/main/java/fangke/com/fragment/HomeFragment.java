@@ -144,12 +144,12 @@ public class HomeFragment extends Fragment {
                         int[]lo=new int[2];
                         headView.getLocationOnScreen(lo);
 
-                        if(lo[1]<-48){
+                        if(lo[1]<-53){
                             Drawable rl_topBackground = rl_top.getBackground();
                             rl_topBackground.setAlpha(255);
                             home_top_topLayoutParams.setMargins(0, 0, 0, 0);
                             home_top_top.setLayoutParams(home_top_topLayoutParams);
-                        }if(lo[1]>=52){
+                        }if(lo[1]>=60){
                         Drawable rl_topBackground = rl_top.getBackground();
                         rl_topBackground.setAlpha(0);
                         home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
@@ -173,13 +173,13 @@ public class HomeFragment extends Fragment {
                 headView.getLocationOnScreen(location);
                 Drawable rl_topBackground = rl_top.getBackground();
                 int offY = location[1] - mLastY;
-                if (location[1] >= -63 && location[1] <= 63) {
+                if (location[1] >= -63 && location[1] <= 66) {
                     //相对布局的top从40到0  left -50到0 right -60到0
                     //改变rl的透明度
-                    if (location[1] >= -63 && location[1] <= -48) {
+                    if (location[1] >= -63 && location[1] <= -60) {
                         rl_topBackground.setAlpha(255);
-                        home_top_topLayoutParams.setMargins(0, 0, 0, 0);
-                        home_top_top.setLayoutParams(home_top_topLayoutParams);
+                     //   home_top_topLayoutParams.setMargins(0, 0, 0, 0);
+                       // home_top_top.setLayoutParams(home_top_topLayoutParams);
                     } else if (location[1] >= -47 && location[1] <= -43) {
                         rl_topBackground.setAlpha(230);
                     } else if (location[1] >= -42 && location[1] <= -33) {
@@ -209,26 +209,26 @@ public class HomeFragment extends Fragment {
                 }
 
 
-               if(offY>0&&location[1] >= -48 && location[1] <= 60){
+               if(offY>0&&location[1] >= -73 && location[1] <= 68){
                    //下滑
                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin-offY, home_top_topLayoutParams.topMargin+offY,
                        home_top_topLayoutParams.rightMargin-offY, 0);
                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }else if(offY<0&&location[1] >= -48 && location[1] <= 60){
+               }else if(offY<0&&location[1] >= -73 && location[1] <= 68){
                    //上滑
                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin-offY, home_top_topLayoutParams.topMargin+offY,
                            home_top_topLayoutParams.rightMargin-offY, 0);
                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }else if(location[1] >= 61 && location[1] <= 63){
+               }else if(location[1] >= 61 && location[1] <= 68){
                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
                            -(DispalyUtil.dip2px(mActivity, 60)), 0);
                    home_top_top.setLayoutParams(home_top_topLayoutParams);
 
-               }else if(location[1]<-48){
+               }else if(location[1]<-73){
                    rl_topBackground.setAlpha(255);
                    home_top_topLayoutParams.setMargins(0, 0, 0, 0);
                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }else if(location[1]>63){
+               }else if(location[1]>68){
                    rl_topBackground.setAlpha(0);
                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
                            -(DispalyUtil.dip2px(mActivity, 60)), 0);

@@ -1,13 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context="fangke.com.activity.OverseasHouseActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#F8F8F9"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/narrow_left"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="你好 我是帮你海外房产页面"/>
-</android.support.constraint.ConstraintLayout>
+        android:text="海外房产"
+        android:textColor="@color/black"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"/>
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/overseas_lv"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </ListView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="招商邮箱:overseas-marketing@fangke.com"
+        android:textSize="14sp"
+        android:background="@color/mblue"/>
+
+</RelativeLayout>
