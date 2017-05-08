@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class PullLeftLoadMoreLayout extends CoordinatorLayout {
     private boolean mInAnimator = false, mGo = false/*标记是否需要跳转*/;
     private ValueAnimator mValueAnimator;
     private OnNoticeGoListener mOnNoticeGoListener;
+
 
     public PullLeftLoadMoreLayout(Context context) {
         super(context);
@@ -199,4 +201,6 @@ public class PullLeftLoadMoreLayout extends CoordinatorLayout {
     public void setFillLoadingColor(@ColorInt int color) {
         mLoadingView.setColor(color);
     }
+
+
 }
