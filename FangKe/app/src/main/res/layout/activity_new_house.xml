@@ -198,7 +198,7 @@
        android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
        android:text="最新开盘"
-       android:textSize="18sp" />
+       android:textSize="14sp" />
   </RelativeLayout>
 
   <RelativeLayout
@@ -221,7 +221,7 @@
        android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
        android:text="优惠楼盘"
-       android:textSize="18sp" />
+       android:textSize="14sp" />
   </RelativeLayout>
 
   <RelativeLayout
@@ -244,7 +244,7 @@
        android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
        android:text="智能买房"
-       android:textSize="18sp" />
+       android:textSize="14sp" />
 
   </RelativeLayout>
 
@@ -268,7 +268,7 @@
        android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
        android:text="免费看房"
-       android:textSize="18sp" />
+       android:textSize="14sp" />
 
   </RelativeLayout>
  </LinearLayout>

@@ -8,14 +8,14 @@
         android:layout_height="100dp">
 
         <ImageView
-            android:id="@+id/rental_lv_img_normalview"
+            android:id="@+id/overseashouse_lv_img_normalview"
             android:layout_width="130dp"
             android:layout_height="100dp"
             android:layout_margin="10dp"
             android:background="@drawable/newhouse1"/>
 
         <TextView
-            android:id="@+id/rental_tv_normalview_left"
+            android:id="@+id/overseashouse_tv_normalview_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -36,7 +36,7 @@
         >
 
         <TextView
-            android:id="@+id/rental_tv_normalview_title"
+            android:id="@+id/overseashouse_tv_normalview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="万科神域海岛"
@@ -49,7 +49,7 @@
             android:layout_marginTop="20dp">
 
             <TextView
-                android:id="@+id/rental_tv_normalview_area"
+                android:id="@+id/overseashouse_tv_normalview_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="金湾-金湾"
@@ -57,7 +57,7 @@
                 android:textColor="@color/black_light"/>
 
             <TextView
-                android:id="@+id/rental_tv_normalview_money"
+                android:id="@+id/overseashouse_tv_normalview_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -99,7 +99,7 @@
        </LinearLayout>
 
         <TextView
-            android:id="@+id/rental_tv_normalview_discount"
+            android:id="@+id/overseashouse_tv_normalview_discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

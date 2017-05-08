@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import fangke.com.bean.CycleImageBean;
@@ -36,6 +38,7 @@ public class OverseasHouseActivity extends Activity {
     private LinearLayout oversears_container_ll;
     private RecyclerView mRecyclerView;
     private PullLeftLoadMoreLayout mPullLeftLoadMoreLayout;
+    private ArrayList list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,82 @@ public class OverseasHouseActivity extends Activity {
 
         images = new int[]{R.drawable.usa, R.drawable.england, R.drawable.putaoya,
                 R.drawable.xinjiapo, R.drawable.malaixiya, R.drawable.cannada, R.drawable.morearea};
+
+        list = new ArrayList();
+        ArrayList list1 = new ArrayList();
+        ArrayList list2 = new ArrayList();
+        ArrayList list3 = new ArrayList();
+        ArrayList list4 = new ArrayList();
+        ArrayList list5 = new ArrayList();
+        ArrayList list6 = new ArrayList();
+        ArrayList list7 = new ArrayList();
+        ArrayList list8 = new ArrayList();
+
+        list1.add(R.drawable.newhouse1);
+        list1.add("丽景湾花园");
+        list1.add("金湾-金湾");
+        list1.add("17500m/m2");
+        list1.add("刚需房 低密度 ");
+        list1.add("110m2");
+
+        list2.add(R.drawable.newhouse2);
+        list2.add("中海湖畔兰亭");
+        list2.add("金湾-金湾");
+        list2.add("17500m/m2");
+        list2.add("刚需房 低密度 ");
+        list2.add("110m2");
+
+        list3.add(R.drawable.newhouse3);
+        list3.add("山海一品海岸花园");
+        list3.add("金湾-金湾");
+        list3.add("17500m/m2");
+        list3.add("刚需房 低密度 ");
+        list3.add("110m2");
+
+        list4.add(R.drawable.newhouse4);
+        list4.add("翰林公寓");
+        list4.add("金湾-金湾");
+        list4.add("17500m/m2");
+        list4.add("刚需房 低密度 ");
+        list4.add("110m2");
+
+
+        list5.add(R.drawable.newhouse1);
+        list5.add("海贼王");
+        list5.add("金湾-金湾");
+        list5.add("17500m/m2");
+        list5.add("刚需房 低密度 ");
+        list5.add("110m2");
+
+        list6.add(R.drawable.newhouse1);
+        list6.add("海贼王");
+        list6.add("金湾-金湾");
+        list6.add("17500m/m2");
+        list6.add("刚需房 低密度 ");
+        list6.add("110m2");
+
+        list7.add(R.drawable.newhouse1);
+        list7.add("海贼王");
+        list7.add("金湾-金湾");
+        list7.add("17500m/m2");
+        list7.add("刚需房 低密度 ");
+        list7.add("110m2");
+
+        list8.add(R.drawable.newhouse1);
+        list8.add("海贼王");
+        list8.add("金湾-金湾");
+        list8.add("17500m/m2");
+        list8.add("刚需房 低密度 ");
+        list8.add("110m2");
+
+        list.add(list1);
+        list.add(list2);
+        list.add(list3);
+        list.add(list4);
+        list.add(list5);
+        list.add(list6);
+        list.add(list7);
+        list.add(list8);
     }
 
     private void initViews() {
@@ -87,7 +166,7 @@ public class OverseasHouseActivity extends Activity {
         });
 
 
-        overseas_lv.setAdapter(null);
+        overseas_lv.setAdapter(new MyAdapter());
     }
 
     @Override
@@ -141,5 +220,61 @@ public class OverseasHouseActivity extends Activity {
 
         }
     }
+    //创建listview的适配器
+    class MyAdapter extends BaseAdapter {
 
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            OverseasHouseActivity.MyViewHolder holder = null;
+            if (convertView == null) {
+                //缓存为空 需要news资源
+                convertView = View.inflate(OverseasHouseActivity.this, R.layout.overseashouse_lv_item, null);
+                holder = new OverseasHouseActivity.MyViewHolder();
+                holder.img = (ImageView) convertView.findViewById(R.id.overseashouse_lv_img_normalview);
+                holder.left = (TextView) convertView.findViewById(R.id.overseashouse_tv_normalview_left);
+                holder.title = (TextView) convertView.findViewById(R.id.overseashouse_tv_normalview_title);
+                holder.area = (TextView) convertView.findViewById(R.id.overseashouse_tv_normalview_area);
+                holder.discount = (TextView) convertView.findViewById(R.id.overseashouse_tv_normalview_discount);
+                holder.money = (TextView) convertView.findViewById(R.id.overseashouse_tv_normalview_money);
+                convertView.setTag(holder);
+
+            } else {
+                //缓存不为空直接取
+                holder = (OverseasHouseActivity.MyViewHolder) convertView.getTag();
+            }
+            //设置资源
+            ArrayList l = (ArrayList) list.get(position);
+            holder.img.setBackgroundResource((int) l.get(0));
+            holder.title.setText((String) l.get(1));
+            holder.area.setText((String) l.get(2));
+            holder.money.setText((String) l.get(3));
+            return convertView;
+        }
+    }
+    static class MyViewHolder {
+
+        private ImageView img;
+        private TextView left;
+        private TextView title;
+        private TextView area;
+        private TextView discount;
+        private TextView money;
+
+    }
 }
