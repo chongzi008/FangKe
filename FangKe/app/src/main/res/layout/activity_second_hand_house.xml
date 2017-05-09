@@ -28,30 +28,27 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="2dp"
-                    android:background="@drawable/newhouse_leftarrow" />
+                    android:background="@drawable/newhouse_narrow_left" />
 
                 <RelativeLayout
                     android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp">
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E5E5E5">
+
 
                     <ImageView
-                        android:layout_width="230dp"
-                        android:layout_height="38dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:background="@drawable/newhome_serch_stre" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:background="@drawable/newhouse_sousuo" />
+                        android:background="@drawable/home_servch_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="60dp"
+                        android:layout_marginLeft="40dp"
                         android:text="请输入小区名或地址"
                         android:textColor="@color/gray_light"
                         android:textSize="18dp" />
