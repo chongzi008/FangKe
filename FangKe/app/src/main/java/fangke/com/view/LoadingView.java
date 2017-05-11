@@ -1,4 +1,5 @@
 package fangke.com.view;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -23,7 +24,7 @@ public class LoadingView extends View {
     private float mTranslation/*依赖的view偏移的大小*/, mLineXLeft, mFraction = 0;//进行的比例
 
     public LoadingView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public LoadingView(Context context, @Nullable AttributeSet attrs) {
@@ -42,8 +43,6 @@ public class LoadingView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
-
-
         mLineXLeft = mWidth;
     }
 
@@ -52,14 +51,10 @@ public class LoadingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //小于3／4
-
         mLineXLeft = mWidth + mTranslation;
-
-        mLineXLeft=mLineXLeft>mWidth/4*3?mWidth+mTranslation:mWidth/4*3;
-
+        mLineXLeft = mLineXLeft > mWidth / 4 * 3 ? mWidth + mTranslation : mWidth / 4 * 3;
         //代入二节贝塞尔曲线公式，圆弧的顶点最后要在1／2宽度的话，控制点要移动 mWidth/2
         float lineXLeftControl = mLineXLeft - mFraction * mWidth / 2;//最左边控制点的x坐标
-
         mPath.reset();
         //首先把点移动到右上角
         mPath.moveTo(mWidth, 0);
@@ -69,7 +64,6 @@ public class LoadingView extends View {
         //画圆弧
         mPath.quadTo(lineXLeftControl, mHeight / 2, mLineXLeft, 0);
         mPath.close();//闭合
-
         canvas.drawPath(mPath, mPaint);
     }
 
@@ -79,7 +73,6 @@ public class LoadingView extends View {
         mTranslation = translationX;
         invalidate();
     }
-
 
     public void setColor(@ColorInt int color) {
         mPaint.setColor(color);

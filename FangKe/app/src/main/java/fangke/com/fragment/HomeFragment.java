@@ -28,6 +28,7 @@ import fangke.com.activity.DiscountActivity;
 import fangke.com.activity.FindHouseActivity;
 import fangke.com.activity.HomeActivity;
 import fangke.com.activity.HousePriceActivity;
+import fangke.com.activity.LocationMapActivity;
 import fangke.com.activity.NewHouseActivity;
 import fangke.com.activity.OverseasHouseActivity;
 import fangke.com.activity.R;
@@ -68,6 +69,8 @@ public class HomeFragment extends Fragment {
     private ImageView img_jiangjia;
     private ImageView img_clever;
     private ImageView img_youhui;
+    private TextView tv_area;
+    private ImageView img_area;
 
     public HomeFragment() {
 
@@ -106,7 +109,10 @@ public class HomeFragment extends Fragment {
         ls = (ListView) view.findViewById(R.id.ls_home);//listview
         gv = (GridView) headView.findViewById(R.id.gv_home);//GridView
         imageView = (ImageView) view.findViewById(R.id.imageView);
-
+        //地图文字
+        tv_area = (TextView) view.findViewById(R.id.home_tv_area);
+        //地图白色小三角
+        img_area = (ImageView) view.findViewById(R.id.home_img_area);
         img_searchFramwork = (ImageView) view.findViewById(R.id.home_serch_framwork);//搜索白框
         img_saosao = (ImageView) view.findViewById(R.id.home_img_sao_sao);//扫一扫图片
         ll = (HomeLinearLayout) view.findViewById(R.id.home_ll);//要滑动的线性布局
@@ -153,7 +159,7 @@ public class HomeFragment extends Fragment {
                         Drawable rl_topBackground = rl_top.getBackground();
                         rl_topBackground.setAlpha(0);
                         home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                                -(DispalyUtil.dip2px(mActivity, 60)), 0);
+                                -(DispalyUtil.dip2px(mActivity, 50)), 0);
                         home_top_top.setLayoutParams(home_top_topLayoutParams);
 
                     }
@@ -231,7 +237,7 @@ public class HomeFragment extends Fragment {
                }else if(location[1]>68){
                    rl_topBackground.setAlpha(0);
                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                           -(DispalyUtil.dip2px(mActivity, 60)), 0);
+                           -(DispalyUtil.dip2px(mActivity, 50)), 0);
                    home_top_top.setLayoutParams(home_top_topLayoutParams);
                }
                 mLastY = location[1];
@@ -307,8 +313,23 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        tv_area.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(mActivity, LocationMapActivity.class);
+                startActivity(intent);
+            }
+        });
 
-    }
+        img_area.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(mActivity, LocationMapActivity.class);
+                startActivity(intent);
+            }
+        });
+
+  }
 
     private List<String> getData() {
 
