@@ -13,7 +13,9 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
 import com.github.promeg.pinyinhelper.Pinyin;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,45 +24,44 @@ import java.util.List;
 
 import fangke.com.activity.R;
 import fangke.com.bean.BaseIndexPinyinBean;
+import fangke.com.bean.CityBean;
+import utils.DispalyUtil;
 
 /**
  * 介绍：索引右侧边栏
- * 作者：zhangxutong
- * 邮箱：mcxtzhang@163.com
- * CSDN：http://blog.csdn.net/zxt0601
- * 时间： 16/09/04.
  */
 
 public class IndexBar extends View {
-    private static final String TAG = "zxt/IndexBar";
     public static String[] INDEX_STRING = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-            "W", "X", "Y", "Z", "#"};//#在最后面（默认的数据源）
+            "W", "X", "Y", "Z"};//#在最后面（默认的数据源）
     private List<String> mIndexDatas;//索引数据源
     private boolean isNeedRealIndex;//是否需要根据实际的数据来生成索引数据源（例如 只有 A B C 三种tag，那么索引栏就 A B C 三项）
 
     private int mWidth, mHeight;//View的宽高
     private int mGapHeight;//每个index区域的高度
-
     private Paint mPaint;
-
     private int mPressedBackground;//手指按下时的背景色
+    private Context mcontext;
 
     //以下边变量是外部set进来的
     private TextView mPressedShowTextView;//用于特写显示正在被触摸的index值
     private List<? extends BaseIndexPinyinBean> mSourceDatas;//Adapter的数据源
-    private LinearLayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;//关联的Recylerview的线性管理器
 
     public IndexBar(Context context) {
         this(context, null);
+        this.mcontext = context;
     }
 
     public IndexBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        this.mcontext = context;
     }
 
     public IndexBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mcontext = context;
         init(context, attrs, defStyleAttr);
     }
 
@@ -90,7 +91,6 @@ public class IndexBar extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(textSize);
-
         mPaint.setColor(getResources().getColor(R.color.mblue));
 
         //设置index触摸监听器
@@ -98,8 +98,15 @@ public class IndexBar extends View {
             @Override
             public void onIndexPressed(int index, String text) {
                 if (mPressedShowTextView != null) { //显示hintTexView
-                    mPressedShowTextView.setVisibility(View.VISIBLE);
-                    mPressedShowTextView.setText(text);
+                    if (text.equals("热门")) {
+                        mPressedShowTextView.setVisibility(View.VISIBLE);
+                        mPressedShowTextView.setTextSize(DispalyUtil.dip2px(mcontext, 10));
+                        mPressedShowTextView.setText(text);
+                    } else {
+                        mPressedShowTextView.setVisibility(View.VISIBLE);
+                        mPressedShowTextView.setText(text);
+                    }
+
                 }
                 //滑动Rv
                 if (mLayoutManager != null) {
@@ -301,21 +308,30 @@ public class IndexBar extends View {
                 pySb.append(Pinyin.toPinyin(target.charAt(i1)));
             }
             indexPinyinBean.setPyCity(pySb.toString());//设置城市名全拼音
-
             //以下代码设置城市拼音首字母
             String tagString = pySb.toString().substring(0, 1);
             if (tagString.matches("[A-Z]")) {//如果是A-Z字母开头
+
                 indexPinyinBean.setTag(tagString);
                 if (isNeedRealIndex) {//如果需要真实的索引数据源
                     if (!mIndexDatas.contains(tagString)) {//则判断是否已经将这个索引添加进去，若没有则添加
                         mIndexDatas.add(tagString);
                     }
                 }
+            } else if (tagString.equals("*")) {
+                //表示为gps定位城市
+                indexPinyinBean.setTag("GPS定位城市");
+                //因为这里我们在热门城市名字前面添加了#所以我们要把热门城市名字在排完后再去掉特殊符号
+                ((CityBean) indexPinyinBean).setCity(indexPinyinBean.getTarget().substring(1));
+
+
             } else {//特殊字母这里统一用#处理
-                indexPinyinBean.setTag("#");
+                indexPinyinBean.setTag("热门城市");
+                //因为这里我们在热门城市名字前面添加了#所以我们要把热门城市名字在排完后再去掉特殊符号
+                ((CityBean) indexPinyinBean).setCity(indexPinyinBean.getTarget().substring(1));
                 if (isNeedRealIndex) {//如果需要真实的索引数据源
-                    if (!mIndexDatas.contains("#")) {
-                        mIndexDatas.add("#");
+                    if (!mIndexDatas.contains("热门")) {
+                        mIndexDatas.add("热门");
                     }
                 }
             }
@@ -327,14 +343,14 @@ public class IndexBar extends View {
      * 对数据源排序
      */
     private void sortData() {
-        //对右侧栏进行排序 将 # 丢在最后
+        //对右侧栏进行排序 将 热门城市放在最前面两个地方
         Collections.sort(mIndexDatas, new Comparator<String>() {
             @Override
             public int compare(String lhs, String rhs) {
-                if (lhs.equals("#")) {
-                    return 1;
-                } else if (rhs.equals("#")) {
+                if (lhs.equals("热门")) {
                     return -1;
+                } else if (rhs.equals("热门")) {
+                    return 1;
                 } else {
                     return lhs.compareTo(rhs);
                 }
@@ -345,16 +361,30 @@ public class IndexBar extends View {
         Collections.sort(mSourceDatas, new Comparator<BaseIndexPinyinBean>() {
             @Override
             public int compare(BaseIndexPinyinBean lhs, BaseIndexPinyinBean rhs) {
-                if (lhs.getTag().equals("#")) {
-                    return 1;
-                } else if (rhs.getTag().equals("#")) {
+                if (lhs.getTag().equals("GPS定位城市")) {
+
                     return -1;
+                } else if (rhs.getTag().equals("GPS定位城市")) {
+
+                    return 1;
                 } else {
                     return lhs.getPyCity().compareTo(rhs.getPyCity());
                 }
             }
         });
     }
+
+    public void setGpsLocationCity(String cityName) {
+
+        int size = mSourceDatas.size();
+        for (int i = 0; i < size; i++) {
+             if(mSourceDatas.get(i).getTag().equals("GPS定位城市")){
+                 ((CityBean)mSourceDatas.get(i)).setCity(cityName);
+             }
+
+        }
+    }
+
 
 
     /**
@@ -368,9 +398,17 @@ public class IndexBar extends View {
             return -1;
         }
         for (int i = 0; i < mSourceDatas.size(); i++) {
-            if (tag.equals(mSourceDatas.get(i).getTag())) {
-                return i;
+            if (tag.equals("热门")) {
+                if ("热门城市".equals(mSourceDatas.get(i).getTag())) {
+                    return i;
+                }
+            } else {
+
+                if (tag.equals(mSourceDatas.get(i).getTag())) {
+                    return i;
+                }
             }
+
         }
         return -1;
     }
