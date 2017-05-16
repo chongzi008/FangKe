@@ -1,11 +1,16 @@
 package fangke.com.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -39,13 +44,17 @@ import fangke.com.activity.SellHouseActivity;
 import fangke.com.activity.ShopOfficeActivity;
 import fangke.com.view.HomeLinearLayout;
 import utils.DispalyUtil;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * 主页
- *@author ChongZi007
- *@time 2017/3/31 10:09
- *@参数
- *@return
-*/
+ *
+ * @author ChongZi007
+ * @time 2017/3/31 10:09
+ * @参数
+ * @return
+ */
 public class HomeFragment extends Fragment {
     private ListView ls;
     private GridView gv;
@@ -71,6 +80,7 @@ public class HomeFragment extends Fragment {
     private ImageView img_youhui;
     private TextView tv_area;
     private ImageView img_area;
+
 
     public HomeFragment() {
 
@@ -128,9 +138,9 @@ public class HomeFragment extends Fragment {
         ls.addHeaderView(headView);
         ls.setSelectionFromTop(0, -120);
         gv.setAdapter(new HomeFragment.mGridViewAdapter());
-        if(mVelocityTracker == null){
+        if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
-        }else{
+        } else {
             mVelocityTracker.clear();
         }
         location = new int[2];
@@ -147,22 +157,23 @@ public class HomeFragment extends Fragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case SCROLL_STATE_FLING:
-                        int[]lo=new int[2];
+                        int[] lo = new int[2];
                         headView.getLocationOnScreen(lo);
 
-                        if(lo[1]<-53){
+                        if (lo[1] < -53) {
                             Drawable rl_topBackground = rl_top.getBackground();
                             rl_topBackground.setAlpha(255);
                             home_top_topLayoutParams.setMargins(0, 0, 0, 0);
                             home_top_top.setLayoutParams(home_top_topLayoutParams);
-                        }if(lo[1]>=60){
-                        Drawable rl_topBackground = rl_top.getBackground();
-                        rl_topBackground.setAlpha(0);
-                        home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                                -(DispalyUtil.dip2px(mActivity, 50)), 0);
-                        home_top_top.setLayoutParams(home_top_topLayoutParams);
+                        }
+                        if (lo[1] >= 60) {
+                            Drawable rl_topBackground = rl_top.getBackground();
+                            rl_topBackground.setAlpha(0);
+                            home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
+                                    -(DispalyUtil.dip2px(mActivity, 50)), 0);
+                            home_top_top.setLayoutParams(home_top_topLayoutParams);
 
-                    }
+                        }
 
 
                         break;
@@ -184,8 +195,8 @@ public class HomeFragment extends Fragment {
                     //改变rl的透明度
                     if (location[1] >= -63 && location[1] <= -60) {
                         rl_topBackground.setAlpha(255);
-                     //   home_top_topLayoutParams.setMargins(0, 0, 0, 0);
-                       // home_top_top.setLayoutParams(home_top_topLayoutParams);
+                        //   home_top_topLayoutParams.setMargins(0, 0, 0, 0);
+                        // home_top_top.setLayoutParams(home_top_topLayoutParams);
                     } else if (location[1] >= -47 && location[1] <= -43) {
                         rl_topBackground.setAlpha(230);
                     } else if (location[1] >= -42 && location[1] <= -33) {
@@ -215,100 +226,100 @@ public class HomeFragment extends Fragment {
                 }
 
 
-               if(offY>0&&location[1] >= -73 && location[1] <= 68){
-                   //下滑
-                   home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin-offY, home_top_topLayoutParams.topMargin+offY,
-                       home_top_topLayoutParams.rightMargin-offY, 0);
-                   home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }else if(offY<0&&location[1] >= -73 && location[1] <= 68){
-                   //上滑
-                   home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin-offY, home_top_topLayoutParams.topMargin+offY,
-                           home_top_topLayoutParams.rightMargin-offY, 0);
-                   home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }else if(location[1] >= 61 && location[1] <= 68){
-                   home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                           -(DispalyUtil.dip2px(mActivity, 60)), 0);
-                   home_top_top.setLayoutParams(home_top_topLayoutParams);
+                if (offY > 0 && location[1] >= -73 && location[1] <= 68) {
+                    //下滑
+                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY, home_top_topLayoutParams.topMargin + offY,
+                            home_top_topLayoutParams.rightMargin - offY, 0);
+                    home_top_top.setLayoutParams(home_top_topLayoutParams);
+                } else if (offY < 0 && location[1] >= -73 && location[1] <= 68) {
+                    //上滑
+                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY, home_top_topLayoutParams.topMargin + offY,
+                            home_top_topLayoutParams.rightMargin - offY, 0);
+                    home_top_top.setLayoutParams(home_top_topLayoutParams);
+                } else if (location[1] >= 61 && location[1] <= 68) {
+                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
+                            -(DispalyUtil.dip2px(mActivity, 60)), 0);
+                    home_top_top.setLayoutParams(home_top_topLayoutParams);
 
-               }else if(location[1]<-73){
-                   rl_topBackground.setAlpha(255);
-                   home_top_topLayoutParams.setMargins(0, 0, 0, 0);
-                   home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }else if(location[1]>68){
-                   rl_topBackground.setAlpha(0);
-                   home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                           -(DispalyUtil.dip2px(mActivity, 50)), 0);
-                   home_top_top.setLayoutParams(home_top_topLayoutParams);
-               }
+                } else if (location[1] < -73) {
+                    rl_topBackground.setAlpha(255);
+                    home_top_topLayoutParams.setMargins(0, 0, 0, 0);
+                    home_top_top.setLayoutParams(home_top_topLayoutParams);
+                } else if (location[1] > 68) {
+                    rl_topBackground.setAlpha(0);
+                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
+                            -(DispalyUtil.dip2px(mActivity, 50)), 0);
+                    home_top_top.setLayoutParams(home_top_topLayoutParams);
+                }
                 mLastY = location[1];
             }
         });
 
-       // 处理 gridview的点击事件
+        // 处理 gridview的点击事件
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              switch (position) {
-                  case 0:
-              			Intent intent =new Intent(mActivity, NewHouseActivity.class);
+                switch (position) {
+                    case 0:
+                        Intent intent = new Intent(mActivity, NewHouseActivity.class);
                         startActivity(intent);
-                      break;
-                  case 1:
-                      Intent intent1 =new Intent(mActivity, SecondHandHouseActivity.class);
-                      startActivity(intent1);
-                      break;
-                  case 2:
-                      Intent intent2 =new Intent(mActivity, RentalHouseActivity.class);
-                      startActivity(intent2);
-                      break;
-                  case 3:
-                      Intent intent3 =new Intent(mActivity, ShopOfficeActivity.class);
-                      startActivity(intent3);
-                      break;
-                  case 4:
-                      Intent intent4 =new Intent(mActivity, SellHouseActivity.class);
-                      startActivity(intent4);
-                      break;
-                  case 5:
-                      Intent intent5 =new Intent(mActivity, OverseasHouseActivity.class);
-                      startActivity(intent5);
-                      break;
-                  case 6:
-                      Intent intent6 =new Intent(mActivity, FindHouseActivity.class);
-                      startActivity(intent6);
-                      break;
-                  case 7:
-                      Intent intent7 =new Intent(mActivity, HousePriceActivity.class);
-                      startActivity(intent7);
-                      break;
-                  default:
-              			break;
-              		}
+                        break;
+                    case 1:
+                        Intent intent1 = new Intent(mActivity, SecondHandHouseActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case 2:
+                        Intent intent2 = new Intent(mActivity, RentalHouseActivity.class);
+                        startActivity(intent2);
+                        break;
+                    case 3:
+                        Intent intent3 = new Intent(mActivity, ShopOfficeActivity.class);
+                        startActivity(intent3);
+                        break;
+                    case 4:
+                        Intent intent4 = new Intent(mActivity, SellHouseActivity.class);
+                        startActivity(intent4);
+                        break;
+                    case 5:
+                        Intent intent5 = new Intent(mActivity, OverseasHouseActivity.class);
+                        startActivity(intent5);
+                        break;
+                    case 6:
+                        Intent intent6 = new Intent(mActivity, FindHouseActivity.class);
+                        startActivity(intent6);
+                        break;
+                    case 7:
+                        Intent intent7 = new Intent(mActivity, HousePriceActivity.class);
+                        startActivity(intent7);
+                        break;
+                    default:
+                        break;
+                }
             }
         });
 
         //处理降价楼盘 独家优惠 还有智能买房的点击事件
-       img_youhui.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               //独家优惠
-               Intent intent =new Intent(mActivity,DiscountActivity.class);
-               startActivity(intent);
-           }
-       });
+        img_youhui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //独家优惠
+                Intent intent = new Intent(mActivity, DiscountActivity.class);
+                startActivity(intent);
+            }
+        });
         img_jiangjia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //降价楼盘
-                Intent intent =new Intent(mActivity,ReducePriceActivity.class);
+                Intent intent = new Intent(mActivity, ReducePriceActivity.class);
                 startActivity(intent);
             }
         });
         img_clever.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //智能买房
-                Intent intent =new Intent(mActivity,BrainBuyActivity.class);
+                //智能买房
+                Intent intent = new Intent(mActivity, BrainBuyActivity.class);
                 startActivity(intent);
             }
         });
@@ -316,20 +327,25 @@ public class HomeFragment extends Fragment {
         tv_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(mActivity, LocationMapActivity.class);
+                //地图
+                Intent intent = new Intent(mActivity, LocationMapActivity.class);
                 startActivity(intent);
+
+
             }
         });
+
 
         img_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(mActivity, LocationMapActivity.class);
+                //地图小按钮
+                Intent intent = new Intent(mActivity, LocationMapActivity.class);
                 startActivity(intent);
             }
         });
 
-  }
+    }
 
     private List<String> getData() {
 
@@ -391,8 +407,8 @@ public class HomeFragment extends Fragment {
             viewHolder.image.setImageResource(imags[position]);
 
             ViewGroup.LayoutParams params = viewHolder.image.getLayoutParams();
-            params.width=DispalyUtil.dip2px(mActivity,45);
-            params.height=DispalyUtil.dip2px(mActivity,45);
+            params.width = DispalyUtil.dip2px(mActivity, 45);
+            params.height = DispalyUtil.dip2px(mActivity, 45);
             viewHolder.image.setLayoutParams(params);
 
 
