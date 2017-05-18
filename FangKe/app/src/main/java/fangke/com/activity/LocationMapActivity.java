@@ -1,6 +1,9 @@
 package fangke.com.activity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +42,7 @@ import static android.R.attr.data;
  * @参数
  * @return
  */
-public class LocationMapActivity extends AppCompatActivity {
+public class LocationMapActivity extends Activity {
     private RecyclerView mRv;
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager mManager;
@@ -52,30 +56,17 @@ public class LocationMapActivity extends AppCompatActivity {
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            if (aMapLocation != null) {
-                if (aMapLocation.getErrorCode() == 0) {
-                 //可在其中解析amapLocation获取相应内容。
-                    System.out.println(aMapLocation.getCountry()+"++"+aMapLocation.getProvince()+"++++"+aMapLocation.getCity());
-                } else {
-                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                    Log.e("AmapError呵呵哈哈哈", "location Error, ErrCode:"
-                            + aMapLocation.getErrorCode() + ", errInfo:"
-                            + aMapLocation.getErrorInfo());
-                }
-            }
-        }
-    };
+    public AMapLocationListener mLocationListener = null;
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_location_map);
-
+        sp = getSharedPreferences("maps", Context.MODE_PRIVATE);
 /**
  * 设置Android6.0的权限申请
  */
@@ -85,9 +76,8 @@ public class LocationMapActivity extends AppCompatActivity {
             startLocation();
 
         } else {
-
+            startLocation();
         }
-
 
 
         mRv = (RecyclerView) findViewById(R.id.locationmap_rec);
@@ -110,7 +100,6 @@ public class LocationMapActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(LocationMapActivity.this, mDatas.get(position).getCity(), Toast.LENGTH_SHORT).show();
-                mIndexBar.setGpsLocationCity(mDatas.get(position).getCity());
             }
         });
 
@@ -172,8 +161,29 @@ public class LocationMapActivity extends AppCompatActivity {
 
     }
 
-    public void startLocation(){
+    public void startLocation() {
+        mLocationListener = new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation != null) {
+                    if (aMapLocation.getErrorCode() == 0) {
+                        //可在其中解析amapLocation获取相应内容。
+                        //把数据保存在sahareprefess中
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("location",aMapLocation.getCity());
+                        editor.commit();
 
+
+
+                    } else {
+                        //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                        Log.e("AmapError", "location Error, ErrCode:"
+                                + aMapLocation.getErrorCode() + ", errInfo:"
+                                + aMapLocation.getErrorInfo());
+                    }
+                }
+            }
+        };
         //初始化定位
         mLocationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
@@ -185,7 +195,7 @@ public class LocationMapActivity extends AppCompatActivity {
         //设置是否返回地址信息（默认返回地址信息）
         mLocationOption.setNeedAddress(true);
         //设置是否只定位一次,默认为false
-        mLocationOption.setOnceLocation(false);
+        mLocationOption.setOnceLocation(true);
         //设置是否强制刷新WIFI，默认为强制刷新
         mLocationOption.setWifiActiveScan(true);
         //设置是否允许模拟位置,默认为false，不允许模拟位置

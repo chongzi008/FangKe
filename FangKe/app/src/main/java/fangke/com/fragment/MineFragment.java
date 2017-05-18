@@ -2,11 +2,12 @@ package fangke.com.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import fangke.com.activity.HomeActivity;
 import fangke.com.activity.R;
 
 /**
@@ -20,6 +21,7 @@ import fangke.com.activity.R;
 public class MineFragment extends Fragment {
 
     private View view;
+    private HomeActivity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,15 +32,26 @@ public class MineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_mine, null);
-        initViews();
-        System.out.println("我是我的页面");
+        mActivity = (HomeActivity) getActivity();
+        initViews(inflater);
         return view;
 
 
     }
 
-    private void initViews() {
+    private void initViews(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.fragment_mine, null);
+        view.findViewById(R.id.mime_but).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v,"大家好",Snackbar.LENGTH_SHORT).setAction("取消",new View.OnClickListener(){
 
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println("哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或");
+                    }
+                }).show();
+            }
+        });
     }
 }

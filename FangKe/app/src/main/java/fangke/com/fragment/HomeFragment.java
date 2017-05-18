@@ -1,7 +1,9 @@
 package fangke.com.fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -34,6 +36,7 @@ import fangke.com.activity.FindHouseActivity;
 import fangke.com.activity.HomeActivity;
 import fangke.com.activity.HousePriceActivity;
 import fangke.com.activity.LocationMapActivity;
+import fangke.com.activity.MapActivity;
 import fangke.com.activity.NewHouseActivity;
 import fangke.com.activity.OverseasHouseActivity;
 import fangke.com.activity.R;
@@ -80,6 +83,8 @@ public class HomeFragment extends Fragment {
     private ImageView img_youhui;
     private TextView tv_area;
     private ImageView img_area;
+    private ImageView img_map;
+    private TextView tv_map;
 
 
     public HomeFragment() {
@@ -119,10 +124,16 @@ public class HomeFragment extends Fragment {
         ls = (ListView) view.findViewById(R.id.ls_home);//listview
         gv = (GridView) headView.findViewById(R.id.gv_home);//GridView
         imageView = (ImageView) view.findViewById(R.id.imageView);
-        //地图文字
+        //定位文字
         tv_area = (TextView) view.findViewById(R.id.home_tv_area);
-        //地图白色小三角
+        //定位白色小三角
+        SharedPreferences sp = mActivity.getSharedPreferences("maps", Context.MODE_PRIVATE);
+        String location = sp.getString("location", "---");
+        tv_area.setText(location);
         img_area = (ImageView) view.findViewById(R.id.home_img_area);
+        //map
+        img_map = (ImageView) view.findViewById(R.id.home_img_map);
+        tv_map = (TextView) view.findViewById(R.id.home_tv_map);
         img_searchFramwork = (ImageView) view.findViewById(R.id.home_serch_framwork);//搜索白框
         img_saosao = (ImageView) view.findViewById(R.id.home_img_sao_sao);//扫一扫图片
         ll = (HomeLinearLayout) view.findViewById(R.id.home_ll);//要滑动的线性布局
@@ -136,14 +147,14 @@ public class HomeFragment extends Fragment {
         home_top_topLayoutParams = (RelativeLayout.LayoutParams) home_top_top.getLayoutParams();
         ls.setAdapter(new ArrayAdapter<String>(mActivity, android.R.layout.simple_list_item_1, getData()));
         ls.addHeaderView(headView);
-        ls.setSelectionFromTop(0, -120);
+        ls.setSelectionFromTop(0, -140);
         gv.setAdapter(new HomeFragment.mGridViewAdapter());
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
         } else {
             mVelocityTracker.clear();
         }
-        location = new int[2];
+        this.location = new int[2];
     }
 
 
@@ -160,7 +171,7 @@ public class HomeFragment extends Fragment {
                         int[] lo = new int[2];
                         headView.getLocationOnScreen(lo);
 
-                        if (lo[1] < -53) {
+                        if (lo[1] < -73) {
                             Drawable rl_topBackground = rl_top.getBackground();
                             rl_topBackground.setAlpha(255);
                             home_top_topLayoutParams.setMargins(0, 0, 0, 0);
@@ -195,8 +206,6 @@ public class HomeFragment extends Fragment {
                     //改变rl的透明度
                     if (location[1] >= -63 && location[1] <= -60) {
                         rl_topBackground.setAlpha(255);
-                        //   home_top_topLayoutParams.setMargins(0, 0, 0, 0);
-                        // home_top_top.setLayoutParams(home_top_topLayoutParams);
                     } else if (location[1] >= -47 && location[1] <= -43) {
                         rl_topBackground.setAlpha(230);
                     } else if (location[1] >= -42 && location[1] <= -33) {
@@ -226,29 +235,33 @@ public class HomeFragment extends Fragment {
                 }
 
 
-                if (offY > 0 && location[1] >= -73 && location[1] <= 68) {
+                if (offY > 0 && location[1] > -66&& location[1] <= 71) {
                     //下滑
-                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY, home_top_topLayoutParams.topMargin + offY,
-                            home_top_topLayoutParams.rightMargin - offY, 0);
+                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - (int)(offY*1.0),
+                            home_top_topLayoutParams.topMargin + offY,
+                            home_top_topLayoutParams.rightMargin - (int)(offY*1.0), 0);
                     home_top_top.setLayoutParams(home_top_topLayoutParams);
-                } else if (offY < 0 && location[1] >= -73 && location[1] <= 68) {
+                } else if (offY < 0 && location[1] >-66 && location[1] <= 71) {
                     //上滑
-                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY, home_top_topLayoutParams.topMargin + offY,
+                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY,
+                            home_top_topLayoutParams.topMargin + offY,
                             home_top_topLayoutParams.rightMargin - offY, 0);
                     home_top_top.setLayoutParams(home_top_topLayoutParams);
-                } else if (location[1] >= 61 && location[1] <= 68) {
-                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                            -(DispalyUtil.dip2px(mActivity, 60)), 0);
-                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-
-                } else if (location[1] < -73) {
+                }  else if (location[1] <= -66) {
+//                    else if (location[1] >= 61 && location[1] <= 71) {
+//                        home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
+//                                -(DispalyUtil.dip2px(mActivity, 60)), 0);
+//                        home_top_top.setLayoutParams(home_top_topLayoutParams);
+//
+//                    }
                     rl_topBackground.setAlpha(255);
                     home_top_topLayoutParams.setMargins(0, 0, 0, 0);
                     home_top_top.setLayoutParams(home_top_topLayoutParams);
-                } else if (location[1] > 68) {
+                } else if (location[1] > 71) {
                     rl_topBackground.setAlpha(0);
-                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-                            -(DispalyUtil.dip2px(mActivity, 50)), 0);
+                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 45)),
+                            DispalyUtil.dip2px(mActivity, 45),
+                            -(DispalyUtil.dip2px(mActivity, 45)), 0);
                     home_top_top.setLayoutParams(home_top_topLayoutParams);
                 }
                 mLastY = location[1];
@@ -327,8 +340,30 @@ public class HomeFragment extends Fragment {
         tv_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //地图
+                //定位
                 Intent intent = new Intent(mActivity, LocationMapActivity.class);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+        img_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //定位小按钮
+                Intent intent = new Intent(mActivity, MapActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        tv_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //map
+                Intent intent = new Intent(mActivity, MapActivity.class);
                 startActivity(intent);
 
 
@@ -339,11 +374,12 @@ public class HomeFragment extends Fragment {
         img_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //地图小按钮
+                //map小按钮
                 Intent intent = new Intent(mActivity, LocationMapActivity.class);
                 startActivity(intent);
             }
         });
+
 
     }
 

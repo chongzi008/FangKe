@@ -1,14 +1,18 @@
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fangke.com.fragment.MineFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#811a1a"
-        android:text="你好我是 我的页面"
-        />
-</FrameLayout>
+
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/mime_but"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right|bottom"
+    android:src="@drawable/comm_my_icon_58"
+    android:layout_marginBottom="100dp"
+    />
+
+</android.support.design.widget.CoordinatorLayout>
