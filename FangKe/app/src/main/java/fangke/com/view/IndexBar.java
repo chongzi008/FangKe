@@ -1,6 +1,7 @@
 package fangke.com.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -384,6 +385,8 @@ public class IndexBar extends View {
 
         }
     }
+
+
 
 
 

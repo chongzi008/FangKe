@@ -248,12 +248,7 @@ public class HomeFragment extends Fragment {
                             home_top_topLayoutParams.rightMargin - offY, 0);
                     home_top_top.setLayoutParams(home_top_topLayoutParams);
                 }  else if (location[1] <= -66) {
-//                    else if (location[1] >= 61 && location[1] <= 71) {
-//                        home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 50)), DispalyUtil.dip2px(mActivity, 50),
-//                                -(DispalyUtil.dip2px(mActivity, 60)), 0);
-//                        home_top_top.setLayoutParams(home_top_topLayoutParams);
-//
-//                    }
+
                     rl_topBackground.setAlpha(255);
                     home_top_topLayoutParams.setMargins(0, 0, 0, 0);
                     home_top_top.setLayoutParams(home_top_topLayoutParams);

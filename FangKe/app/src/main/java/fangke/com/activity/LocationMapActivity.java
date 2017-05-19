@@ -67,19 +67,6 @@ public class LocationMapActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_location_map);
         sp = getSharedPreferences("maps", Context.MODE_PRIVATE);
-/**
- * 设置Android6.0的权限申请
- */
-        if (ContextCompat.checkSelfPermission(LocationMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //Android 6.0申请权限
-            ActivityCompat.requestPermissions(LocationMapActivity.this, PERMISSION, 1);
-            startLocation();
-
-        } else {
-            startLocation();
-        }
-
-
         mRv = (RecyclerView) findViewById(R.id.locationmap_rec);
         mRv.setLayoutManager(mManager = new LinearLayoutManager(this));
         initDatas();
@@ -102,11 +89,34 @@ public class LocationMapActivity extends Activity {
                 Toast.makeText(LocationMapActivity.this, mDatas.get(position).getCity(), Toast.LENGTH_SHORT).show();
             }
         });
+        /**
+         * 设置Android6.0的权限申请
+         */
+        if (ContextCompat.checkSelfPermission(LocationMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Android 6.0申请权限
+            ActivityCompat.requestPermissions(LocationMapActivity.this, PERMISSION, 1);
+            startLocation();
+
+        } else {
+            startLocation();
+        }
+
 
     }
 
     private void initDatas() {
         mDatas = new ArrayList<>();
+        mDatas.add(new CityBean("安徽"));
+        mDatas.add(new CityBean("北京"));
+        mDatas.add(new CityBean("福建"));
+        mDatas.add(new CityBean("广东"));
+        mDatas.add(new CityBean("甘肃"));
+        mDatas.add(new CityBean("贵州"));
+        mDatas.add(new CityBean("广西"));
+        mDatas.add(new CityBean("河南"));
+        mDatas.add(new CityBean("湖北"));
+        mDatas.add(new CityBean("湖南"));
+        mDatas.add(new CityBean("河北"));
         mDatas.add(new CityBean("安徽"));
         mDatas.add(new CityBean("北京"));
         mDatas.add(new CityBean("福建"));
@@ -157,7 +167,9 @@ public class LocationMapActivity extends Activity {
         mDatas.add(new CityBean("#长龙山"));
         mDatas.add(new CityBean("#百岁山"));
         //为gprs定位
-        mDatas.add(new CityBean("*---"));
+        SharedPreferences sp = getSharedPreferences("maps", Context.MODE_PRIVATE);
+        String location = sp.getString("location", "---");
+        mDatas.add(new CityBean("*"+location));
 
     }
 
@@ -168,11 +180,23 @@ public class LocationMapActivity extends Activity {
                 if (aMapLocation != null) {
                     if (aMapLocation.getErrorCode() == 0) {
                         //可在其中解析amapLocation获取相应内容。
+                        //同时我还要刷新一下定位的gps定位城市数据
                         //把数据保存在sahareprefess中
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("location",aMapLocation.getCity());
-                        editor.commit();
+                        String city = aMapLocation.getCity();
 
+                        if (city.charAt(city.length()-1)=='市'){
+                            editor.putString("location", city.substring(0,city.length()-1));
+                            //刷新下页面
+                            mIndexBar.setGpsLocationCity( city.substring(0,city.length()-1));
+                            mAdapter.notifyDataSetChanged();
+
+                        }else{
+                            editor.putString("location", city);
+                            mIndexBar.setGpsLocationCity(city);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                        editor.commit();
 
 
                     } else {

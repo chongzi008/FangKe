@@ -1,11 +1,11 @@
 package fangke.com.activity;
 
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 
 import com.amap.api.maps.MapView;
-
 
 /**
  * 地图页面
@@ -23,6 +23,12 @@ public class MapActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        initViews(savedInstanceState);
+
+
+    }
+
+    private void initViews(Bundle savedInstanceState) {
         setContentView(R.layout.activity_map);
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);// 此方法必须重写
