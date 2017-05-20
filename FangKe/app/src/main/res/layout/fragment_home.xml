@@ -49,17 +49,17 @@
 
            <TextView
                android:id="@+id/home_tv_area"
-               android:layout_width="wrap_content"
+               android:layout_width="30dp"
                android:layout_height="wrap_content"
                android:layout_marginLeft="20dp"
-               android:layout_marginTop="30dp"
-               android:text="@string/home_title"
-               android:textSize="18sp" />
+               android:layout_marginTop="27dp"
+               android:text="珠海"
+               android:textSize="14sp" />
 
            <ImageView
                android:id="@+id/home_img_area"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
+               android:layout_width="10dp"
+               android:layout_height="10dp"
                android:layout_marginLeft="52dp"
                android:layout_marginTop="33dp"
                android:background="@drawable/home_area_background" />
@@ -73,12 +73,12 @@
                android:layout_marginRight="20dp"
                android:layout_marginTop="30dp"
                android:text="@string/home_map"
-               android:textSize="18sp" />
+               android:textSize="14sp" />
 
            <ImageView
                android:id="@+id/home_img_map"
-               android:layout_width="30dp"
-               android:layout_height="30dp"
+               android:layout_width="25dp"
+               android:layout_height="25dp"
                android:layout_alignParentRight="true"
                android:layout_marginRight="50dp"
                android:layout_marginTop="25dp"
