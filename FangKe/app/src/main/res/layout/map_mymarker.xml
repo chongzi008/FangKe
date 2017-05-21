@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+<ImageView
+    android:id="@+id/map_img_level"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:background="@drawable/shape_mymarker_recommandlevel_1"
+    />
+    <TextView
+        android:id="@+id/map_marker_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="坦洲"
+        android:textColor="@color/markerlever_2"
+        android:textSize="12dp"/>
+    <TextView
+        android:id="@+id/map_marker_tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/map_marker_tv_name"
+        android:text="27814"
+        android:textColor="@color/markerlever_2"
+        android:textSize="12dp"/>
+</RelativeLayout>
