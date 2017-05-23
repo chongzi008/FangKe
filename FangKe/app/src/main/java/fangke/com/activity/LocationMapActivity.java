@@ -187,12 +187,16 @@ public class LocationMapActivity extends Activity {
 
                         if (city.charAt(city.length()-1)=='市'){
                             editor.putString("location", city.substring(0,city.length()-1));
+                            editor.putString("latitude",aMapLocation.getLatitude()+"");
+                            editor.putString("longitude",aMapLocation.getLongitude()+"");
                             //刷新下页面
                             mIndexBar.setGpsLocationCity( city.substring(0,city.length()-1));
                             mAdapter.notifyDataSetChanged();
 
                         }else{
                             editor.putString("location", city);
+                            editor.putString("latitude",aMapLocation.getLatitude()+"");
+                            editor.putString("longitude",aMapLocation.getLongitude()+"");
                             mIndexBar.setGpsLocationCity(city);
                             mAdapter.notifyDataSetChanged();
                         }

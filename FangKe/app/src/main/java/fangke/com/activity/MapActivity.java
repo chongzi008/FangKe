@@ -2,6 +2,8 @@ package fangke.com.activity;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -52,6 +55,8 @@ public class MapActivity extends Activity implements PoiSearch.OnPoiSearchListen
     private ArrayList<City> cityLatLonPointList;
     private ArrayList<City> citydatalist;
     private int startSetMarker=0;
+    private CameraUpdate mUpdata;
+    private SharedPreferences sp;
 
 
     @Override
@@ -71,12 +76,20 @@ public class MapActivity extends Activity implements PoiSearch.OnPoiSearchListen
      */
     private void initViews(Bundle savedInstanceState) {
         setContentView(R.layout.activity_map);
+        sp = getSharedPreferences("maps", Context.MODE_PRIVATE);
         mMapView = (MapView) findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);// 此方法必须重写
         //初始化地图控制器对象
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
+        //改变默认显示城市 改为当前定位城市
+        String latitude = sp.getString("latitude", 40.043212 + "");
+        String longitude = sp.getString("longitude", 116.299728 + "");
+        mUpdata = CameraUpdateFactory.newCameraPosition(
+                //15是缩放比例，0是倾斜度，30显示比例
+                new CameraPosition(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)), 10, 0, 0));//这是地理位置，就是经纬度。
+        aMap.moveCamera(mUpdata);//定位的方法
         mUiSettings = aMap.getUiSettings();//实例化UiSettings类对象
         mUiSettings.setZoomControlsEnabled(false);//不显示缩放按钮
         //设置希望展示的地图缩放级别

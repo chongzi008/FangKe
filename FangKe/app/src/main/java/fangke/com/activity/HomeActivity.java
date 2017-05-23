@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ import fangke.com.fragment.WeChatFragment;
 /**
  * 主页面的开发
  */
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private MyFragmentStatemPagerAdapter mAdapter;
     private ImageView imgHome;
@@ -29,7 +30,7 @@ public class HomeActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_home);
         mViewPager = (ViewPager) findViewById(R.id.home_viewpager);
         //3.0及其以上版本，只需继承Activity，通过getFragmentManager获取事物

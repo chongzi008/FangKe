@@ -35,5 +35,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('src/main/libs/AMap2DMap_4.2.0_AMapLocation_3.4.0_20170427.jar')
     compile 'com.amap.api:3dmap:latest.integration'
+    compile 'com.amap.api:search:latest.integration'
+    compile 'de.hdodenhof:circleimageview:1.3.0'
 
 }

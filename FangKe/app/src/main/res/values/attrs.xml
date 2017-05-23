@@ -7,4 +7,7 @@
         <attr name="textSize" />
         <attr name="pressBackground" format="color" />
     </declare-styleable>
+    <declare-styleable name="CustomBehavior">
+        <attr name="finalHeight" format="dimension"/>
+    </declare-styleable>
 </resources>

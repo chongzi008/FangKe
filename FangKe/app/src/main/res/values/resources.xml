@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- colors -->
+
+  <!-- dimensions -->
+  <dimen name="image_final_width">32dp</dimen>
+  <dimen name="spacing_normal">16dp</dimen>
+
+  <!-- styles
+  <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primaryDark</item>
+  </style> -->
+
+
+</resources>

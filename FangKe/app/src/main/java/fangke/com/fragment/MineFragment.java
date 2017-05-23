@@ -41,17 +41,7 @@ public class MineFragment extends Fragment {
 
     private void initViews(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.fragment_mine, null);
-        view.findViewById(R.id.mime_but).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v,"大家好",Snackbar.LENGTH_SHORT).setAction("取消",new View.OnClickListener(){
 
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println("哈哈哈哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或");
-                    }
-                }).show();
-            }
-        });
+
     }
 }

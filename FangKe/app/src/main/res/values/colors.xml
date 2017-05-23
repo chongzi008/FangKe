@@ -20,4 +20,6 @@
     <color name="markerlever_2">#C1E846</color>
     <color name="markerlever_3">#F9F567</color>
     <color name="partTranslucent">#39000000</color>
+    <color name="primary">#03A9F4</color>
+    <color name="primaryDark">#0288D1</color>
 </resources>
