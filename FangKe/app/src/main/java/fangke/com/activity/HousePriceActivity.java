@@ -498,22 +498,22 @@ public class HousePriceActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             int type = getItemViewType(position);
-            ShopOfficeActivity.ViewHolderHead viewHolderHead = null;
-            ShopOfficeActivity.ViewHolderMiddle viewHolderMiddle = null;
-            ShopOfficeActivity.ViewHolderNormal viewHolderNormal = null;
+            HousePriceActivity.ViewHolderHead viewHolderHead = null;
+            HousePriceActivity.ViewHolderMiddle viewHolderMiddle = null;
+            HousePriceActivity.ViewHolderNormal viewHolderNormal = null;
             if (convertView == null) {
                 //没有缓存我们需要新创出各个需要的控件
                 //根据当前的类型创建对应的布局
                 switch (type) {
                     case Type_1:
                         convertView = View.inflate(HousePriceActivity.this, R.layout.village_lv_headview, null);
-                        viewHolderHead = new ShopOfficeActivity.ViewHolderHead();
+                        viewHolderHead = new HousePriceActivity.ViewHolderHead();
                         viewHolderHead.tv = (TextView) convertView.findViewById(R.id.village_tv_headview);
                         convertView.setTag(viewHolderHead);
                         break;
                     case Type_2:
                         convertView = View.inflate(HousePriceActivity.this, R.layout.village_lv_normalview, null);
-                        viewHolderNormal = new ShopOfficeActivity.ViewHolderNormal();
+                        viewHolderNormal = new HousePriceActivity.ViewHolderNormal();
                         viewHolderNormal.img = (ImageView) convertView.findViewById(R.id.village_img_normalview);
                         viewHolderNormal.left = (TextView) convertView.findViewById(R.id.village_tv_normalview_left);
                         viewHolderNormal.title = (TextView) convertView.findViewById(R.id.village_tv_normalview_title);
@@ -524,7 +524,7 @@ public class HousePriceActivity extends AppCompatActivity {
                         break;
                     case Type_3:
                         convertView = View.inflate(HousePriceActivity.this, R.layout.village_lv_middleview, null);
-                        viewHolderMiddle = new ShopOfficeActivity.ViewHolderMiddle();
+                        viewHolderMiddle = new HousePriceActivity.ViewHolderMiddle();
                         viewHolderMiddle.btn = (Button) convertView.findViewById(R.id.village_btn_middleview_btn);
                         convertView.setTag(viewHolderMiddle);
                         break;
@@ -534,13 +534,13 @@ public class HousePriceActivity extends AppCompatActivity {
             } else {
                 switch (type) {
                     case Type_1:
-                        viewHolderHead = (ShopOfficeActivity.ViewHolderHead) convertView.getTag();
+                        viewHolderHead = (HousePriceActivity.ViewHolderHead) convertView.getTag();
                         break;
                     case Type_2:
-                        viewHolderNormal = (ShopOfficeActivity.ViewHolderNormal) convertView.getTag();
+                        viewHolderNormal = (HousePriceActivity.ViewHolderNormal) convertView.getTag();
                         break;
                     case Type_3:
-                        viewHolderMiddle = (ShopOfficeActivity.ViewHolderMiddle) convertView.getTag();
+                        viewHolderMiddle = (HousePriceActivity.ViewHolderMiddle) convertView.getTag();
                         break;
                     default:
                         break;
@@ -596,7 +596,7 @@ public class HousePriceActivity extends AppCompatActivity {
 
     static class ViewHolderNormal {
         //一般的holder
-        private ImageView img1;
+        private ImageView img;
         private TextView left;
         private TextView title;
         private TextView area;
