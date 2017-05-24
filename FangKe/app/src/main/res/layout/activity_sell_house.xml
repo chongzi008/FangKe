@@ -54,11 +54,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="您的小区"/>
                             <EditText
+                                android:layout_marginRight="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -76,13 +78,14 @@
                             android:layout_height="40dp"
                             android:layout_gravity="center">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:text="面积"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <EditText
                                 android:layout_gravity="center"
-                                android:layout_width="310dp"
+                                android:layout_width="300dp"
                                 android:layout_height="wrap_content"
                                 android:hint="输入您的房屋面积  "
                                 android:gravity="right"
@@ -102,11 +105,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="户型"/>
                             <EditText
+                                android:layout_marginRight="10dp"
                                 android:id="@+id/huxing"
                                 android:layout_gravity="center"
                                 android:layout_width="match_parent"
@@ -124,13 +129,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
                                 android:text="售价"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                             <EditText
                                 android:layout_gravity="center"
-                                android:layout_width="310dp"
+                                android:layout_width="300dp"
                                 android:layout_height="wrap_content"
                                 android:hint="输入您的房价  "
                                 android:gravity="right"
@@ -160,11 +166,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="您的小区"/>
                             <EditText
+                                android:layout_marginRight="10dp"
                                 android:layout_gravity="center"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -181,11 +189,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp">
                         <TextView
+                            android:layout_marginLeft="10dp"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="联系方式"/>
                         <EditText
+                            android:layout_marginRight="10dp"
                             android:layout_gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -201,18 +211,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp">
                         <TextView
+
+                            android:layout_marginLeft="10dp"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="验证码"/>
                         <EditText
                             android:layout_gravity="center"
-                            android:layout_width="224dp"
+                            android:layout_width="210dp"
                             android:layout_height="wrap_content"
                             android:hint="输入手机验证码"
                             android:gravity="right"
                             android:background="@null"/>
                         <Button
+                            android:layout_marginRight="10dp"
                             android:hint="获取验证码"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
