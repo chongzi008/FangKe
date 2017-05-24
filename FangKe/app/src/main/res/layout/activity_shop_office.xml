@@ -9,60 +9,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="#EEEEEE">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"
-                android:orientation="horizontal">
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="2dp"
-                    android:background="@drawable/newhouse_leftarrow"/>
+                    android:background="@drawable/newhouse_narrow_left" />
 
                 <RelativeLayout
                     android:layout_width="230dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp">
-                    <ImageView
-                        android:layout_width="230dp"
-                        android:layout_height="38dp"
-                        android:layout_marginLeft="15dp"
-                        android:background="@drawable/newhome_serch_stre" />
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#E5E5E5">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
-                        android:background="@drawable/newhouse_sousuo"
-                        />
+                        android:background="@drawable/home_servch_icon" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="55dp"
                         android:text="搜索"
                         android:textColor="@color/gray_light"
-                        android:layout_marginLeft="60dp"
-                        android:textSize="18dp"/>
+                        android:textSize="18dp" />
 
                 </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地图"
-                    android:textSize="20dp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="20dp"
-                    android:textColor="@android:color/holo_blue_light"/>
+                    android:layout_marginTop="5dp"
+                    android:text="地图"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="20dp" />
 
 
             </LinearLayout>

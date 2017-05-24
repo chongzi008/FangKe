@@ -1,8 +1,11 @@
 package fangke.com.fragment;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.widget.TextView;
@@ -141,12 +145,16 @@ public class RecommendFragment extends Fragment {
 
     }
 
+
     private void initViews() {
 
         lv = (ListView) view.findViewById(R.id.recommend_lv);
         text1 = (TextView) view.findViewById(R.id.text1);
         text2 = (TextView) view.findViewById(R.id.text2);
         text3 = (TextView) view.findViewById(R.id.text3);
+        final View v1 = view.findViewById(R.id.v1);
+        final View v2 = view.findViewById(R.id.v2);
+        final View v3 = view.findViewById(R.id.v3);
         adapter = new MyAdapter();
 
         lv.setAdapter(adapter);
@@ -154,7 +162,9 @@ public class RecommendFragment extends Fragment {
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                v1.setVisibility(View.VISIBLE);
+                v2.setVisibility(View.INVISIBLE);
+                v3.setVisibility(View.INVISIBLE);
                 ArrayList list1 = new ArrayList();
                 ArrayList list2 = new ArrayList();
                 ArrayList list3 = new ArrayList();
@@ -183,12 +193,15 @@ public class RecommendFragment extends Fragment {
                 list.add(list2);
                 list.add(list3);
 
-               adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         });
         text2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v1.setVisibility(View.INVISIBLE);
+                v2.setVisibility(View.VISIBLE);
+                v3.setVisibility(View.INVISIBLE);
                 ArrayList list1 = new ArrayList();
                 ArrayList list2 = new ArrayList();
                 ArrayList list3 = new ArrayList();
@@ -223,6 +236,9 @@ public class RecommendFragment extends Fragment {
         text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v1.setVisibility(View.INVISIBLE);
+                v2.setVisibility(View.INVISIBLE);
+                v3.setVisibility(View.VISIBLE);
                 ArrayList list1 = new ArrayList();
                 ArrayList list2 = new ArrayList();
                 ArrayList list3 = new ArrayList();
@@ -254,6 +270,8 @@ public class RecommendFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+
+
     }
 
     class MyAdapter extends BaseAdapter {
