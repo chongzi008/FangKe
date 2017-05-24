@@ -48,14 +48,7 @@ public class CycleViewPager extends ViewPager {
             if(null != listener) {
                 listener.onPageScrollStateChanged( arg0);
             }
-//            if(arg0 == ViewPager.SCROLL_STATE_IDLE) {
-//                if(position == mAdapter.getCount() - 1) {
-//                    setCurrentItem( 1, false);
-//                }
-//                else if(position == 0) {
-//                    setCurrentItem(mAdapter.getCount() - 2, false);
-//                }
-//            }
+
         }
 
         @Override
@@ -107,15 +100,7 @@ public class CycleViewPager extends ViewPager {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-//            if(position == 0) {
-//                position = adapter.getCount() - 1;
-//            }
-//            else if(position == adapter.getCount() + 1) {
-//                position = 0;
-//            }
-//            else {
-//                position -= 1;
-//            }
+
             return adapter.instantiateItem( container, position);
         }
 

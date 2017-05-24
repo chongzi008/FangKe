@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
- * Created by wing on 16/8/24.
+ *
  */
 public class DrawerBehavior extends CoordinatorLayout.Behavior<TextView> {
   private int mFrameMaxHeight = 100;

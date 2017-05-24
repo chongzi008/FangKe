@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -233,32 +234,62 @@ public class HomeFragment extends Fragment {
                     }
 
                 }
+       if(headView.getWidth()<800){
+
+           if (offY > 0 && location[1] > -66 && location[1] <= 47) {
+               //下滑
+               home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - (int) (offY * 1.0),
+                       home_top_topLayoutParams.topMargin + offY,
+                       home_top_topLayoutParams.rightMargin - (int) (offY * 1.0), 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           } else if (offY < 0 && location[1] > -66 && location[1] <= 47) {
+               //上滑
+               home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY,
+                       home_top_topLayoutParams.topMargin + offY,
+                       home_top_topLayoutParams.rightMargin - offY, 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           } else if (location[1] <= -66) {
+
+               rl_topBackground.setAlpha(255);
+               home_top_topLayoutParams.setMargins(0, 0, 0, 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           } else if (location[1] > 46) {
+               rl_topBackground.setAlpha(0);
+               home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 56)),
+                       DispalyUtil.dip2px(mActivity, 56),
+                       -(DispalyUtil.dip2px(mActivity, 56)), 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           }
 
 
-                if (offY > 0 && location[1] > -66&& location[1] <= 71) {
-                    //下滑
-                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - (int)(offY*1.0),
-                            home_top_topLayoutParams.topMargin + offY,
-                            home_top_topLayoutParams.rightMargin - (int)(offY*1.0), 0);
-                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-                } else if (offY < 0 && location[1] >-66 && location[1] <= 71) {
-                    //上滑
-                    home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY,
-                            home_top_topLayoutParams.topMargin + offY,
-                            home_top_topLayoutParams.rightMargin - offY, 0);
-                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-                }  else if (location[1] <= -66) {
+       }else{
+           if (offY > 0 && location[1] > -66 && location[1] <= 71) {
+               //下滑
+               home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - (int) (offY * 1.0),
+                       home_top_topLayoutParams.topMargin + offY,
+                       home_top_topLayoutParams.rightMargin - (int) (offY * 1.0), 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           } else if (offY < 0 && location[1] > -66 && location[1] <= 71) {
+               //上滑
+               home_top_topLayoutParams.setMargins(home_top_topLayoutParams.leftMargin - offY,
+                       home_top_topLayoutParams.topMargin + offY,
+                       home_top_topLayoutParams.rightMargin - offY, 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           } else if (location[1] <= -66) {
 
-                    rl_topBackground.setAlpha(255);
-                    home_top_topLayoutParams.setMargins(0, 0, 0, 0);
-                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-                } else if (location[1] > 71) {
-                    rl_topBackground.setAlpha(0);
-                    home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 45)),
-                            DispalyUtil.dip2px(mActivity, 45),
-                            -(DispalyUtil.dip2px(mActivity, 45)), 0);
-                    home_top_top.setLayoutParams(home_top_topLayoutParams);
-                }
+               rl_topBackground.setAlpha(255);
+               home_top_topLayoutParams.setMargins(0, 0, 0, 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           } else if (location[1] > 71) {
+               rl_topBackground.setAlpha(0);
+               home_top_topLayoutParams.setMargins(-(DispalyUtil.dip2px(mActivity, 45)),
+                       DispalyUtil.dip2px(mActivity, 45),
+                       -(DispalyUtil.dip2px(mActivity, 45)), 0);
+               home_top_top.setLayoutParams(home_top_topLayoutParams);
+           }
+
+
+       }
                 mLastY = location[1];
             }
         });
@@ -372,6 +403,22 @@ public class HomeFragment extends Fragment {
                 //map小按钮
                 Intent intent = new Intent(mActivity, LocationMapActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        img_saosao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //二维码小按钮
+                Toast.makeText(mActivity, "哈哈哈哈哈哈哈哈，我是二维码扫一扫你好", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        img_searchFramwork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //搜索白框小按钮
+                Toast.makeText(mActivity, "哈哈哈哈哈哈哈哈，你要搜索了吗", Toast.LENGTH_SHORT).show();
             }
         });
 

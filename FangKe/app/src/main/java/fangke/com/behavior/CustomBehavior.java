@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import fangke.com.activity.R;
+import utils.DispalyUtil;
 
 
 //泛型为child类型
@@ -17,17 +17,14 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<CircleImageView> 
     private Context mContext;
     //头像的最终大小
     private float mCustomFinalHeight;
-
     //最终头像的Y
     private float mFinalAvatarY;
-
+    private float mFinalAvatarX;
     private float mStartAvatarY;
-
+    private float mStartY;
     private float mStartAvatarX;
-
     private int mAvatarMaxHeight;
 
-    private BounceInterpolator interpolator = new BounceInterpolator();
 
     public CustomBehavior(Context context, AttributeSet attrs) {
         mContext = context;
@@ -37,9 +34,9 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<CircleImageView> 
             mCustomFinalHeight = a.getDimension(R.styleable.CustomBehavior_finalHeight, 0);
             a.recycle();
         }
+        mFinalAvatarY = DispalyUtil.dip2px(mContext, 5);//照片最终y坐标
+        mFinalAvatarX = DispalyUtil.dip2px(mContext, 5);//照片最终y坐标
     }
-
-
 
 
     // 如果dependency为Toolbar
@@ -53,48 +50,64 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<CircleImageView> 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, CircleImageView child, View dependency) {
         //初始化属性
-        //init(child, dependency);
-        mFinalAvatarY = dependency.getHeight()/2;
-        if(mStartAvatarY == 0){
-            mStartAvatarY = dependency.getY();
-        }
-        if(mStartAvatarX == 0){
-            mStartAvatarX = child.getX();
-        }
 
-        if(mAvatarMaxHeight == 0){
-            mAvatarMaxHeight = child.getHeight();
+        if (mStartAvatarY == 0) {
+            mStartAvatarY = dependency.getY();//依赖view初始y坐标
+        }
+        if (mStartAvatarX == 0) {
+            mStartAvatarX = child.getX();//图片初始x坐标
         }
 
-
-        //child.setY(dependency.getY());
-
-        //让ImageView跟随toolbar垂直移动
-
-        child.setY(dependency.getY()+dependency.getHeight()/2-mCustomFinalHeight/2);
-
-        float percent = dependency.getY() / mStartAvatarY;
-
-        //float x = mStartAvatarX*(1+percent);
-        float x = mStartAvatarX * (1+ interpolator.getInterpolation(percent));
-
-        //Log.e("wing","started x "+ mStartAvatarX + " currentX "+ x);
-
-        //当toolbar 达到了位置，就不改变了。
-        if(dependency.getY() > dependency.getHeight()/2) {
-                child.setX(x);
-        }else {
-            child.setX(mStartAvatarX + ((mAvatarMaxHeight-mCustomFinalHeight))/2);
+        if (mAvatarMaxHeight == 0) {
+            mAvatarMaxHeight = child.getHeight();//图片最大长度
         }
+        if (mStartY == 0) {
+            mStartY = child.getY();//图片初始y坐标
+        }
+
+
+        float percent = dependency.getY() / mStartAvatarY;//得到移动百分比
+        //如果没有超过制定的最终y坐标我们就给他动起来
+        //如果没有超过制定的最终y坐标我们就给他动起来
+        if (dependency.getY() - mStartAvatarY < 0) {
+            //上滑
+            if (mStartY * percent > mFinalAvatarY) {
+                child.setY(mStartY * percent);
+            } else if (mStartY * percent <= mFinalAvatarY) {
+                child.setY(mFinalAvatarY);
+            }
+
+            if (mStartAvatarX * percent > mFinalAvatarX) {
+                child.setX(mStartAvatarX * percent);
+            } else if (mStartAvatarX * percent <= mFinalAvatarX) {
+                child.setX(mFinalAvatarX);
+            }
+
+        } else {
+            //下滑
+            if (mStartY * percent > mFinalAvatarY) {
+                child.setY(mStartY * percent);
+            } else if (mStartY * percent <= mFinalAvatarY) {
+                child.setY(mFinalAvatarY);
+            }
+
+            if (mStartAvatarX * percent > mFinalAvatarX) {
+                child.setX(mStartAvatarX * percent);
+            } else if (mStartAvatarX * percent <= mFinalAvatarX) {
+                child.setX(mFinalAvatarX);
+            }
+        }
+
 
         CoordinatorLayout.LayoutParams layoutParams =
-            (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-        layoutParams.height = (int) ((mAvatarMaxHeight-mCustomFinalHeight) * percent + mCustomFinalHeight);
-        layoutParams.width =  (int) ((mAvatarMaxHeight-mCustomFinalHeight) * percent + mCustomFinalHeight);
+                (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+        layoutParams.height = (int) ((mAvatarMaxHeight - mCustomFinalHeight) * percent + mCustomFinalHeight);
+        layoutParams.width = (int) ((mAvatarMaxHeight - mCustomFinalHeight) * percent + mCustomFinalHeight);
         child.setLayoutParams(layoutParams);
 
         return true;
     }
+
 
 
 }
