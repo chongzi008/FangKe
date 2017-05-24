@@ -267,24 +267,24 @@ public class ShopOfficeActivity extends Activity {
                                 new String[]{"title"}, new int[]{R.id.popupwindow_near_right});
                         near_lv_right.setAdapter(nearRightAdapter);
 
-                    }
+}
 
                 } else if (position == 2) {
-                    near_lv_right.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+                        near_lv_right.setVisibility(View.VISIBLE);
+                        }
+                        }
+                        });
 
 
-        PopupWindow nearPopupWindow = new PopupWindow(nearview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        nearPopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
-        nearPopupWindow.setTouchable(true);
-        nearPopupWindow.showAtLocation(tv_near, Gravity.TOP, 0, 0);
-        nearPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+                        PopupWindow nearPopupWindow = new PopupWindow(nearview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                        nearPopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+                        nearPopupWindow.setTouchable(true);
+                        nearPopupWindow.showAtLocation(tv_near, Gravity.TOP, 0, 0);
+                        nearPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
-    }
+                        }
 
-    private ArrayList<HashMap<String, Object>> getNearWindowData() {
+private ArrayList<HashMap<String, Object>> getNearWindowData() {
         ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "附近");
@@ -300,9 +300,9 @@ public class ShopOfficeActivity extends Activity {
 
         return arrayList;
 
-    }
+        }
 
-    private void initData() {
+private void initData() {
 
         list = new ArrayList();
         ArrayList list1 = new ArrayList();
@@ -382,9 +382,9 @@ public class ShopOfficeActivity extends Activity {
         list.add(list8);
         list.add(list8);
 
-    }
+        }
 
-    private ArrayList<HashMap<String, Object>> getPriceWindowData() {
+private ArrayList<HashMap<String, Object>> getPriceWindowData() {
         ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "不限");
@@ -414,9 +414,9 @@ public class ShopOfficeActivity extends Activity {
 
         return arrayList;
 
-    }
+        }
 
-    private ArrayList<HashMap<String, Object>> getRoomWindowData() {
+private ArrayList<HashMap<String, Object>> getRoomWindowData() {
         ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "不限");
@@ -439,154 +439,156 @@ public class ShopOfficeActivity extends Activity {
 
         return arrayList;
 
+        }
+
+
+class MyAdapter extends BaseAdapter {
+
+
+    @Override
+    public int getCount() {
+        return list.size();
     }
 
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
-    class MyAdapter extends BaseAdapter {
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
+    @Override
+    public int getViewTypeCount() {
+        return 3;
+    }
 
-        @Override
-        public int getCount() {
-            return list.size();
+    @Override
+    public int getItemViewType(int position) {
+
+        //暂时没有真实的返回数据 先让数据的前四条为类型一 后面为类型四
+        if (position == 0) {
+            return Type_1;
+        } else if (position >= 1 && position <= 4) {
+            return Type_2;
+        } else if (position == 5) {
+            return Type_3;
+        } else {
+            return Type_2;
         }
 
-        @Override
-        public Object getItem(int position) {
-            return list.get(position);
-        }
+    }
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 3;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-
-            //暂时没有真实的返回数据 先让数据的前四条为类型一 后面为类型四
-            if (position == 0) {
-                return Type_1;
-            } else if (position >= 1 && position <= 4) {
-                return Type_2;
-            } else if (position == 5) {
-                return Type_3;
-            } else {
-                return Type_2;
-            }
-
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            int type = getItemViewType(position);
-            ShopOfficeActivity.ViewHolderHead viewHolderHead = null;
-            ShopOfficeActivity.ViewHolderMiddle viewHolderMiddle = null;
-            ShopOfficeActivity.ViewHolderNormal viewHolderNormal = null;
-            if (convertView == null) {
-                //没有缓存我们需要新创出各个需要的控件
-                //根据当前的类型创建对应的布局
-                switch (type) {
-                    case Type_1:
-                        convertView = View.inflate(ShopOfficeActivity.this, R.layout.office_lv_headview, null);
-                        viewHolderHead = new ShopOfficeActivity.ViewHolderHead();
-                        viewHolderHead.tv = (TextView) convertView.findViewById(R.id.office_tv_headview);
-                        convertView.setTag(viewHolderHead);
-                        break;
-                    case Type_2:
-                        convertView = View.inflate(ShopOfficeActivity.this, R.layout.office_lv_normalview, null);
-                        viewHolderNormal = new ShopOfficeActivity.ViewHolderNormal();
-                        viewHolderNormal.img = (ImageView) convertView.findViewById(R.id.office_img_normalview);
-                        viewHolderNormal.left = (TextView) convertView.findViewById(R.id.office_tv_normalview_left);
-                        viewHolderNormal.title = (TextView) convertView.findViewById(R.id.office_tv_normalview_title);
-                        viewHolderNormal.area = (TextView) convertView.findViewById(R.id.office_tv_normalview_area);
-                        viewHolderNormal.discount = (TextView) convertView.findViewById(R.id.office_tv_normalview_discount);
-                        viewHolderNormal.money = (TextView) convertView.findViewById(R.id.office_tv_normalview_money);
-                        convertView.setTag(viewHolderNormal);
-                        break;
-                    case Type_3:
-                        convertView = View.inflate(ShopOfficeActivity.this, R.layout.office_lv_middleview, null);
-                        viewHolderMiddle = new ShopOfficeActivity.ViewHolderMiddle();
-                        viewHolderMiddle.btn = (Button) convertView.findViewById(R.id.office_btn_middleview_btn);
-                        convertView.setTag(viewHolderMiddle);
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                switch (type) {
-                    case Type_1:
-                        viewHolderHead = (ShopOfficeActivity.ViewHolderHead) convertView.getTag();
-                        break;
-                    case Type_2:
-                        viewHolderNormal = (ShopOfficeActivity.ViewHolderNormal) convertView.getTag();
-                        break;
-                    case Type_3:
-                        viewHolderMiddle = (ShopOfficeActivity.ViewHolderMiddle) convertView.getTag();
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-            //设置资源
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        int type = getItemViewType(position);
+        ShopOfficeActivity.ViewHolderHead viewHolderHead = null;
+        ShopOfficeActivity.ViewHolderMiddle viewHolderMiddle = null;
+        ShopOfficeActivity.ViewHolderNormal viewHolderNormal = null;
+        if (convertView == null) {
+            //没有缓存我们需要新创出各个需要的控件
+            //根据当前的类型创建对应的布局
             switch (type) {
                 case Type_1:
-                    viewHolderHead.tv.setText("找到4个楼盘吧");
+                    convertView = View.inflate(ShopOfficeActivity.this, R.layout.office_lv_headview, null);
+                    viewHolderHead = new ShopOfficeActivity.ViewHolderHead();
+                    viewHolderHead.tv = (TextView) convertView.findViewById(R.id.office_tv_headview);
+                    convertView.setTag(viewHolderHead);
                     break;
                 case Type_2:
-                    ArrayList l = (ArrayList) list.get(position - 1);
-                    viewHolderNormal.img.setBackgroundResource((Integer) l.get(0));
-                    viewHolderNormal.title.setText((String) l.get(1));
-                    viewHolderNormal.area.setText((String) l.get(2));
-                    viewHolderNormal.money.setText((String) l.get(3));
-
-
+                    convertView = View.inflate(ShopOfficeActivity.this, R.layout.office_lv_normalview, null);
+                    viewHolderNormal = new ShopOfficeActivity.ViewHolderNormal();
+                    viewHolderNormal.img = (ImageView) convertView.findViewById(R.id.office_img_normalview);
+                    viewHolderNormal.left = (TextView) convertView.findViewById(R.id.office_tv_normalview_left);
+                    viewHolderNormal.title = (TextView) convertView.findViewById(R.id.office_tv_normalview_title);
+                    viewHolderNormal.area = (TextView) convertView.findViewById(R.id.office_tv_normalview_area);
+                    viewHolderNormal.discount = (TextView) convertView.findViewById(R.id.office_tv_normalview_discount);
+                    viewHolderNormal.money = (TextView) convertView.findViewById(R.id.office_tv_normalview_money);
+                    convertView.setTag(viewHolderNormal);
                     break;
                 case Type_3:
-                    viewHolderMiddle.btn.setClickable(true);
-                    viewHolderMiddle.btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(ShopOfficeActivity.this, "你真的要订阅吗?", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    convertView = View.inflate(ShopOfficeActivity.this, R.layout.office_lv_middleview, null);
+                    viewHolderMiddle = new ShopOfficeActivity.ViewHolderMiddle();
+                    viewHolderMiddle.btn = (Button) convertView.findViewById(R.id.office_btn_middleview_btn);
+                    convertView.setTag(viewHolderMiddle);
                     break;
-
+                default:
+                    break;
+            }
+        } else {
+            switch (type) {
+                case Type_1:
+                    viewHolderHead = (ShopOfficeActivity.ViewHolderHead) convertView.getTag();
+                    break;
+                case Type_2:
+                    viewHolderNormal = (ShopOfficeActivity.ViewHolderNormal) convertView.getTag();
+                    break;
+                case Type_3:
+                    viewHolderMiddle = (ShopOfficeActivity.ViewHolderMiddle) convertView.getTag();
+                    break;
                 default:
                     break;
             }
 
-            return convertView;
         }
+
+        //设置资源
+        switch (type) {
+            case Type_1:
+                viewHolderHead.tv.setText("找到4个楼盘吧");
+                break;
+            case Type_2:
+                ArrayList l = (ArrayList) list.get(position - 1);
+                viewHolderNormal.img.setBackgroundResource((Integer) l.get(0));
+                viewHolderNormal.title.setText((String) l.get(1));
+                viewHolderNormal.area.setText((String) l.get(2));
+                viewHolderNormal.money.setText((String) l.get(3));
+
+
+                break;
+            case Type_3:
+                viewHolderMiddle.btn.setClickable(true);
+                viewHolderMiddle.btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(ShopOfficeActivity.this, "你真的要订阅吗?", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+
+            default:
+                break;
+        }
+
+        return convertView;
     }
+}
 
 
-    // 通过ViewHolder静态类结合缓存convertView优化ListView性能
-    // 使用 ViewHolder 的好处是缓存了显示数据的视图（View），加快了 UI 的响应速度。
-    static class ViewHolderHead {
-        //头view的holder
-        private TextView tv;
-    }
+// 通过ViewHolder静态类结合缓存convertView优化ListView性能
+// 使用 ViewHolder 的好处是缓存了显示数据的视图（View），加快了 UI 的响应速度。
+static class ViewHolderHead {
+    //头view的holder
 
-    static class ViewHolderMiddle {
-        //中间标题view的holder
-        private Button btn;
-    }
+    public TextView tv;
+}
 
-    static class ViewHolderNormal {
-        //一般的holder
-        private ImageView img;
-        private TextView left;
-        private TextView title;
-        private TextView area;
-        private TextView discount;
-        private TextView money;
+static class ViewHolderMiddle {
+    //中间标题view的holder
+    public Button btn;
+}
 
-    }
+static class ViewHolderNormal {
+    //一般的holder
+    ImageView img;
+    public TextView left;
+    TextView title;
+    TextView area;
+    public TextView discount;
+    TextView money;
+
+
+}
 }
