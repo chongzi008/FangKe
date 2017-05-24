@@ -572,21 +572,21 @@ class MyAdapter extends BaseAdapter {
 static class ViewHolderHead {
     //头view的holder
 
-    public TextView tv;
+    private TextView tv;
 }
 
 static class ViewHolderMiddle {
     //中间标题view的holder
-    public Button btn;
+    private Button btn;
 }
 
 static class ViewHolderNormal {
     //一般的holder
     ImageView img;
-    public TextView left;
+    private TextView left;
     TextView title;
     TextView area;
-    public TextView discount;
+    private TextView discount;
     TextView money;
 
 
