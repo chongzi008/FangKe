@@ -39,6 +39,7 @@ public class OverseasHouseActivity extends Activity {
     private RecyclerView mRecyclerView;
     private PullLeftLoadMoreLayout mPullLeftLoadMoreLayout;
     private ArrayList list;
+    private ImageView narrow_left;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,12 @@ public class OverseasHouseActivity extends Activity {
 
 
     private void initListener() {
+        narrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initDatas() {
@@ -144,6 +151,7 @@ public class OverseasHouseActivity extends Activity {
 
     private void initViews() {
         overseas_lv = (ListView) findViewById(R.id.overseas_lv);
+        narrow_left = (ImageView) findViewById(R.id.oversears_narrow_left);
         View headView = View.inflate(OverseasHouseActivity.this, R.layout.overseashouse_headview, null);
         overseas_lv.addHeaderView(headView);
         oversears_container_ll = (LinearLayout) headView.findViewById(R.id.oversears_container_ll);

@@ -23,6 +23,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/house_price_narrow_left"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"

@@ -17,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+
+import utils.DispalyUtil;
+
 /**
  * 引导页页面
  *@author ChongZi007
@@ -77,7 +80,7 @@ public class GuideActivity extends Activity {
             point.setBackgroundResource(R.drawable.shape_point_gray);// 设置引导页默认圆点
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    30, 30);
+                    DispalyUtil.dip2px(GuideActivity.this,10), DispalyUtil.dip2px(GuideActivity.this,10));
             if (i > 0) {
                 params.leftMargin = 10;// 设置圆点间隔
             }
@@ -95,12 +98,12 @@ public class GuideActivity extends Activity {
                     // 当layout执行结束后回调此方法
                     @Override
                     public void onGlobalLayout() {
-                        System.out.println("layout 结束");
+
                         llPointGroup.getViewTreeObserver()
                                 .removeGlobalOnLayoutListener(this);
                         mPointWidth = llPointGroup.getChildAt(1).getLeft()
                                 - llPointGroup.getChildAt(0).getLeft();
-                        System.out.println("圆点距离:" + mPointWidth);
+
                     }
                 });
 

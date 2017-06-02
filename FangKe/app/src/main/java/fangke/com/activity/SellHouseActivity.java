@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.TabActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TabHost;
 
 /**
@@ -17,12 +19,21 @@ import android.widget.TabHost;
 public class SellHouseActivity extends TabActivity {
 
     private TabHost tabhost;
+    private ImageView narrow_left;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sell_house);
+
+        narrow_left = (ImageView) findViewById(R.id.sell_house_narrow_left);
+        narrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         //从TabActivity上面获取放置Tab的TabHost
         tabhost = getTabHost();
 

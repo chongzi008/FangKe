@@ -29,6 +29,7 @@
                 android:padding="5dp">
 
                 <ImageView
+                    android:id="@+id/shop_office_narrow_left"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"

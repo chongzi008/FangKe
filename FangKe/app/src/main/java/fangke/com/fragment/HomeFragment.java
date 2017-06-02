@@ -86,6 +86,10 @@ public class HomeFragment extends Fragment {
     private ImageView img_area;
     private ImageView img_map;
     private TextView tv_map;
+    private SharedPreferences sp;
+    final String[] PERMISSION = new String[]{
+            Manifest.permission.ACCESS_COARSE_LOCATION,  //定位权限
+    };
 
 
     public HomeFragment() {
@@ -108,6 +112,13 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        sp = mActivity.getSharedPreferences("maps", Context.MODE_PRIVATE);
+        String location = sp.getString("location", "---");
+        tv_area.setText(location);
+        super.onResume();
+    }
 
     /**
      * 初始化布局
@@ -368,7 +379,15 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 //定位
                 Intent intent = new Intent(mActivity, LocationMapActivity.class);
-                startActivity(intent);
+                if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    //Android 6.0申请权限
+                    ActivityCompat.requestPermissions(mActivity, PERMISSION, 1);
+
+                } else {
+                    startActivity(intent);
+                }
+
+
 
 
             }

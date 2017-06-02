@@ -55,6 +55,7 @@ public class ShopOfficeActivity extends Activity {
     private ImageView img_clever;
     private TextView tv_freelook;
     private ImageView img_freelook;
+    private ImageView narrow_left;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class ShopOfficeActivity extends Activity {
         img_area = (ImageView) findViewById(R.id.office_img_area);
         tv_rank = (TextView) findViewById(R.id.office_tv_rank);
         img_rank = (ImageView) findViewById(R.id.office_img_rank);
+        narrow_left = (ImageView) findViewById(R.id.shop_office_narrow_left);
 
 
 
@@ -166,6 +168,12 @@ public class ShopOfficeActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showMoreWindow();
+            }
+        });
+        narrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

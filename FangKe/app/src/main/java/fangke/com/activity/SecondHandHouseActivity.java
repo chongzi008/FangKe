@@ -55,9 +55,10 @@ public class SecondHandHouseActivity extends Activity {
     private ImageView img_xiaoqufangjia;
     private TextView tv_area;
     private ImageView img_area;
-    private float mLastY=0;
-    private float mLastX=0;
+    private float mLastY = 0;
+    private float mLastX = 0;
     private RelativeLayout rl_bottom;
+    private ImageView narrow_left;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class SecondHandHouseActivity extends Activity {
         //得到区域 房价 售价 更多的控件
         tv_quyu = (TextView) findViewById(R.id.secondhandhouse_middle_tv_quyu);
         img_quyu = (ImageView) findViewById(R.id.secondhandhouse_middle_img_quyu);
+        narrow_left = (ImageView) findViewById(R.id.secondhandhouse_narrow_left);
         tv_price = (TextView) findViewById(R.id.secondhandhouse_middle_tv_price);
         img_price = (ImageView) findViewById(R.id.secondhandhouse_middle_img_price);
         tv_room = (TextView) findViewById(R.id.secondhandhouse_middle_tv_room);
@@ -272,6 +274,13 @@ public class SecondHandHouseActivity extends Activity {
             }
         });
 
+        narrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         //监听主页面列表滑动时弹出收回底部window
         lv.setOnTouchListener(new View.OnTouchListener() {
@@ -288,7 +297,7 @@ public class SecondHandHouseActivity extends Activity {
                         float currentY = event.getRawY();
                         float currentX = event.getRawX();
                         //左右滑动跟上下滑动
-                        if(Math.abs((currentY-mLastY))>Math.abs((currentX-mLastX))){
+                        if (Math.abs((currentY - mLastY)) > Math.abs((currentX - mLastX))) {
                             //上下滑动
 
                             if (currentY - mLastY != currentY) {
@@ -307,14 +316,14 @@ public class SecondHandHouseActivity extends Activity {
                                 }
 
                             }
-                        }else{
+                        } else {
                             //左右滑动不做处理即可
 
                         }
 
 
                         mLastY = currentY;
-                        mLastX=currentX;
+                        mLastX = currentX;
                         break;
                     case MotionEvent.ACTION_UP:
                         // 触摸抬起时的操作

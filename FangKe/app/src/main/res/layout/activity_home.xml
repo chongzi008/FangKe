@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="38dp"
+                android:textColor="@color/gray_dark"
                 android:text="首页" />
         </RelativeLayout>
 

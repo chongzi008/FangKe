@@ -45,6 +45,7 @@ public class HousePriceActivity extends AppCompatActivity {
     private ImageView img_age;
     private TextView tv_rank;
     private ImageView img_rank;
+    private ImageView narrow_left;
 
 
     @Override
@@ -66,6 +67,7 @@ public class HousePriceActivity extends AppCompatActivity {
         img_age= (ImageView) findViewById(R.id.village_img_age);
         tv_rank = (TextView) findViewById(R.id.village_tv_rank);
         img_rank = (ImageView) findViewById(R.id.village_img_rank);
+        narrow_left = (ImageView) findViewById(R.id.house_price_narrow_left);
 
 
 
@@ -153,6 +155,12 @@ public class HousePriceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showMoreWindow();
+            }
+        });
+        narrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               finish();
             }
         });
     }

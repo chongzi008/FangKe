@@ -23,4 +23,5 @@
     <color name="partTranslucent">#39000000</color>
     <color name="primary">#03A9F4</color>
     <color name="primaryDark">#0288D1</color>
+    <color name="more_button_green">#F2F8EB</color>
 </resources>

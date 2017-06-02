@@ -50,9 +50,6 @@ public class LocationMapActivity extends Activity {
     private TitleItemDecoration mDecoration;
     private TextView mTvSideBarHint;
     private IndexBar mIndexBar;
-    final String[] PERMISSION = new String[]{
-            Manifest.permission.ACCESS_COARSE_LOCATION,  //定位权限
-    };
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -89,17 +86,8 @@ public class LocationMapActivity extends Activity {
                 Toast.makeText(LocationMapActivity.this, mDatas.get(position).getCity(), Toast.LENGTH_SHORT).show();
             }
         });
-        /**
-         * 设置Android6.0的权限申请
-         */
-        if (ContextCompat.checkSelfPermission(LocationMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //Android 6.0申请权限
-            ActivityCompat.requestPermissions(LocationMapActivity.this, PERMISSION, 1);
-            startLocation();
 
-        } else {
             startLocation();
-        }
 
 
     }

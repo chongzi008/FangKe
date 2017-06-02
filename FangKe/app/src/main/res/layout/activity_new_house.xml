@@ -28,6 +28,7 @@
                 android:padding="5dp">
 
                 <ImageView
+                    android:id="@+id/newhouse_narrow_left"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
@@ -77,30 +78,34 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/newhouse_tv_near"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="right"
                         android:text="附近"
-                        android:textSize="18sp" />
+                        android:textSize="14sp"
+                        android:textColor="@color/mblue"
+                       />
 
                     <ImageView
                         android:id="@+id/newhouse_img_near"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_blue_downarrow" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
@@ -108,19 +113,22 @@
                         android:id="@+id/newhouse_tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="价格"
-                        android:textSize="18sp" />
+                        android:gravity="right"
+                        android:text="不限"
+                        android:textSize="14sp"
+                         />
 
                     <ImageView
                         android:id="@+id/newhouse_img_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_gray_downarrow" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -129,19 +137,21 @@
                         android:id="@+id/newhouse_tv_room"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="right"
                         android:text="户型"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/newhouse_img_room"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_gray_downarrow" />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:gravity="center"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
@@ -150,17 +160,18 @@
                         android:id="@+id/newhouse_tv_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="right"
                         android:text="更多"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/newhouse_img_more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_gray_downarrow" />
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </RelativeLayout>

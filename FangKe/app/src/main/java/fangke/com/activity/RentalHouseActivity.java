@@ -41,6 +41,7 @@ public class RentalHouseActivity extends Activity {
     private ListView rental_lv;
     private ArrayList list;
     private RelativeLayout rl_top;
+    private ImageView narrow_left;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +136,7 @@ public class RentalHouseActivity extends Activity {
         img_quyu = (ImageView) findViewById(R.id.rental_middle_img_quyu);
         tv_price = (TextView) findViewById(R.id.rental_middle_tv_price);
         img_price = (ImageView) findViewById(R.id.rental_middle_img_price);
+        narrow_left = (ImageView) findViewById(R.id.rental_house_narrow_left);
         tv_more = (TextView) findViewById(R.id.rental_middle_tv_more);
         img_more = (ImageView) findViewById(R.id.rental_middle_img_more);
         //得到lv 设置adapter
@@ -182,6 +184,12 @@ public class RentalHouseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showMoreWindow();
+            }
+        });
+        narrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
