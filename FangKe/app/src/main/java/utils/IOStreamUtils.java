@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
  * 读取某路径下的json文件
  */
 
-public class StreamUtils {
+public class IOStreamUtils {
 
     public static String readFromInputStream(InputStream in) {
 

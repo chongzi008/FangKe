@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import utils.StreamUtils;
+import utils.IOStreamUtils;
 
 /**
  * 闪屏页面
@@ -140,7 +140,7 @@ public class SplashActivity extends Activity {
                     if (responseCode == 200) {
                         //连接成功
                         InputStream in = conn.getInputStream();
-                        String rs = StreamUtils.readFromInputStream(in);
+                        String rs = IOStreamUtils.readFromInputStream(in);
                         //现在就要解析从服务器得到的json数据
                         JSONObject jo = new JSONObject(rs);
 

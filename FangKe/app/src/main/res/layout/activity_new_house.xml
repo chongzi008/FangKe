@@ -15,14 +15,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:background="#EEEEEE">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:orientation="horizontal"
                 android:padding="5dp">
@@ -72,11 +70,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/newhouse_popupwindow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="0dp"

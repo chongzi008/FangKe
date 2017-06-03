@@ -1,10 +1,10 @@
 package fangke.com.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,29 +19,27 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import fangke.com.bean.NewHouseConditionBean;
 import fangke.com.bean.RightListviewJsonBean;
-import utils.DispalyUtil;
-import utils.StreamUtils;
+import fangke.com.view.NoRepeatButton;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import utils.HttpUtil;
+import utils.IOStreamUtils;
 
 /**
  * 新房页面
@@ -55,6 +53,8 @@ public class NewHouseActivity extends Activity {
     public final static int Type_1 = 0;
     public final static int Type_2 = 1;
     public final static int Type_3 = 2;
+    public final static int POPUPWINDOW_DATA = 3;
+    public final static int HOUSELIST_DATA = 4;
     private ListView lv;
     private ArrayList list;
     private TextView tv_near;
@@ -95,41 +95,79 @@ public class NewHouseActivity extends Activity {
     private PopupWindow pricePopupWindow;
     private ArrayList<String> roomList;
     private PopupWindow roomPopupWindow;
-    private ArrayList<Button> featureList;
-    private Button more_wechat;
-    private Button more_shapanlou;
-    private Button more_videohouse;
-    private ArrayList<Button> areaList;
-    private Button more_60;
-    private Button more_80;
-    private Button more_100;
-    private Button more_120;
-    private Button more_150;
-    private Button more_200;
-    private Button more_250;
-    private ArrayList<Button> workList;
-    private Button more_zhuzhai;
-    private Button more_bieshu;
-    private Button more_shangzhu;
-    private Button more_shangpu;
-    private Button more_xiezilou;
-    private ArrayList<Button> hotList;
-    private Button more_gangxu;
-    private Button more_youhui;
-    private Button more_buxiangou;
-    private Button more_jijiangkaipan;
-    private Button more_feimaopi;
-    private Button more_gaishanfang;
-    private Button more_resize;
-    private Button more_check;
+    private HashSet<NoRepeatButton> featureList;
+    private NoRepeatButton more_wechat;
+    private NoRepeatButton more_shapanlou;
+    private NoRepeatButton more_videohouse;
+    private HashSet<NoRepeatButton> areaList;
+    private NoRepeatButton more_60;
+    private NoRepeatButton more_80;
+    private NoRepeatButton more_100;
+    private NoRepeatButton more_120;
+    private NoRepeatButton more_150;
+    private NoRepeatButton more_200;
+    private NoRepeatButton more_250;
+    private HashSet<NoRepeatButton> workList;
+    private NoRepeatButton more_zhuzhai;
+    private NoRepeatButton more_bieshu;
+    private NoRepeatButton more_shangzhu;
+    private NoRepeatButton more_shangpu;
+    private NoRepeatButton more_xiezilou;
+    private HashSet<NoRepeatButton> hotList;
+    private NoRepeatButton more_gangxu;
+    private NoRepeatButton more_youhui;
+    private NoRepeatButton more_buxiangou;
+    private NoRepeatButton more_jijiangkaipan;
+    private NoRepeatButton more_feimaopi;
+    private NoRepeatButton more_gaishanfang;
+    private NoRepeatButton more_resize;
+    private NoRepeatButton more_check;
+    private LinearLayout ll_popupwindow;
+    private NewHouseConditionBean conditionBean;
+    private Gson gson;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case POPUPWINDOW_DATA:
+                    //解析一下json文件
+                    String zhuhaiDatas = (String) msg.obj;
+                    Gson gson = new Gson();
+                    List<RightListviewJsonBean> zhuhai = gson.fromJson(zhuhaiDatas, new TypeToken<List<RightListviewJsonBean>>() {
+                    }.getType());
+                    for (RightListviewJsonBean bean : zhuhai) {
+                        if (rightList_region == null) {
+                            rightList_region = bean.getRegion();
+                        }//实为中间listview数据源
+                        if (rightList_subway == null) {
+                            rightList_subway = bean.getSubway();
+                        }//实为中间listview数据源
+                    }
+                    righttList.add(rightList_region);
+                    finalList.add(rightList_region.get(1).getAreas());
+                    ll_popupwindow.setVisibility(View.VISIBLE);
+
+                    break;
+                case HOUSELIST_DATA:
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+    private PopupWindow morePopupWindow;
+    private HashSet<NoRepeatButton> btns;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_new_house);
-        initData();
         initViews();
+        initData();
         initListener();
 
     }
@@ -163,9 +201,15 @@ public class NewHouseActivity extends Activity {
         img_clever = (ImageView) findViewById(R.id.newhouse_bottom_img_clever);
         tv_freelook = (TextView) findViewById(R.id.newhouse_bottom_tv_freelook);
         img_freelook = (ImageView) findViewById(R.id.newhouse_bottom_img_freelook);
-
+        //包含四个window的布局
+        ll_popupwindow = (LinearLayout) findViewById(R.id.newhouse_popupwindow);
         lv = (ListView) findViewById(R.id.newhouse_lv);
-        lv.setAdapter(new MyAdapter());
+        featureList = new HashSet<>();
+        workList = new HashSet<>();
+        areaList = new HashSet<>();
+        hotList = new HashSet<>();
+        gson = new Gson();
+
     }
 
     private void initListener() {
@@ -291,66 +335,127 @@ public class NewHouseActivity extends Activity {
         //处理几百个按钮的点击事件
         //这里使用每一类都用一个arraylist来保存点击过的button 点击过的按钮改变响应的颜色
         //下面是属于特色一类的
-        featureList = new ArrayList<>();
+        btns = new HashSet<>();
         //微聊
-        more_wechat = (Button) moreView.findViewById(R.id.newhouse_popupview_more_wechat);
+        more_wechat = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_wechat);
+        btns.add(more_wechat);
         //沙盘楼
-        more_shapanlou = (Button) moreView.findViewById(R.id.newhouse_popupview_more_shapanlou);
+        more_shapanlou = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_shapanlou);
+        btns.add(more_shapanlou);
         //视频看房
-        more_videohouse = (Button) moreView.findViewById(R.id.newhouse_popupview_more_videohouse);
+        more_videohouse = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_videohouse);
+        btns.add(more_videohouse);
         //下面是属于面积一类的
-        areaList = new ArrayList<>();
         //60
-        more_60 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_60);
+        more_60 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_60);
+        btns.add(more_60);
         //60-80
-        more_80 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_80);
+        more_80 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_80);
+        btns.add(more_80);
         //more_100
-        more_100 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_100);
+        more_100 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_100);
+        btns.add(more_100);
         //more_120
-        more_120 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_120);
+        more_120 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_120);
+        btns.add(more_120);
         //more_150
-        more_150 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_150);
+        more_150 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_150);
+        btns.add(more_150);
         //more_200
-        more_200 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_200);
+        more_200 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_200);
+        btns.add(more_200);
         //more_250
-        more_250 = (Button) moreView.findViewById(R.id.newhouse_popupview_more_250);
+        more_250 = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_250);
+        btns.add(more_250);
         //下面是属于物业一类的
-        workList = new ArrayList<>();
         //more_zhuzhai
-        more_zhuzhai = (Button) moreView.findViewById(R.id.newhouse_popupview_more_zhuzhai);
+        more_zhuzhai = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_zhuzhai);
+        btns.add(more_zhuzhai);
         //more_bieshu
-        more_bieshu = (Button) moreView.findViewById(R.id.newhouse_popupview_more_bieshu);
+        more_bieshu = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_bieshu);
+        btns.add(more_bieshu);
         //more_shangzhu
-        more_shangzhu = (Button) moreView.findViewById(R.id.newhouse_popupview_more_shangzhu);
+        more_shangzhu = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_shangzhu);
+        btns.add(more_shangzhu);
         //more_shangpu
-        more_shangpu = (Button) moreView.findViewById(R.id.newhouse_popupview_more_shangpu);
+        more_shangpu = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_shangpu);
+        btns.add(more_shangpu);
         //more_xiezilou
-        more_xiezilou = (Button) moreView.findViewById(R.id.newhouse_popupview_more_xiezilou);
+        more_xiezilou = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_xiezilou);
+        btns.add(more_xiezilou);
         //下面是属于热门标签一类的
-        hotList = new ArrayList<>();
         //more_gangxu
-        more_gangxu = (Button) moreView.findViewById(R.id.newhouse_popupview_more_gangxu);
+        more_gangxu = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_gangxu);
+        btns.add(more_gangxu);
         //more_youhui
-        more_youhui = (Button) moreView.findViewById(R.id.newhouse_popupview_more_youhui);
+        more_youhui = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_youhui);
+        btns.add(more_youhui);
         //more_buxiangou
-        more_buxiangou = (Button) moreView.findViewById(R.id.newhouse_popupview_more_buxiangou);
+        more_buxiangou = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_buxiangou);
+        btns.add(more_buxiangou);
         //more_jijiangkaipan
-        more_jijiangkaipan = (Button) moreView.findViewById(R.id.newhouse_popupview_more_jijiangkaipan);
+        more_jijiangkaipan = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_jijiangkaipan);
+        btns.add(more_jijiangkaipan);
         //more_feimaopi
-        more_feimaopi = (Button) moreView.findViewById(R.id.newhouse_popupview_more_feimaopi);
+        more_feimaopi = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_feimaopi);
+        btns.add(more_feimaopi);
         //more_gaishanfang
-        more_gaishanfang = (Button) moreView.findViewById(R.id.newhouse_popupview_more_gaishanfang);
+        more_gaishanfang = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_gaishanfang);
+        btns.add(more_gaishanfang);
         //重置跟确定的按钮
         //more_resize
-        more_resize = (Button) moreView.findViewById(R.id.newhouse_popupview_more_resize);
+        more_resize = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_resize);
         //more_check
-        more_check = (Button) moreView.findViewById(R.id.newhouse_popupview_more_check);
+        more_check = (NoRepeatButton) moreView.findViewById(R.id.newhouse_popupview_more_check);
 
-        PopupWindow pricePopupWindow = new PopupWindow(moreView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
-        pricePopupWindow.setTouchable(true);
-        pricePopupWindow.showAtLocation(tv_price, Gravity.TOP, 0, 0);
-        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        if (conditionBean != null && conditionBean.getMore() != null && conditionBean.getMore().getFeature() != null
+                && conditionBean.getMore().getSize() != null && conditionBean.getMore().getWork() != null
+                && conditionBean.getMore().getHottag() != null) {
+            for (NoRepeatButton btn : btns) {
+                for (String s : conditionBean.getMore().getFeature()) {
+                    if ((btn.getText().equals(s))) {
+                        btn.setTextColor(getResources().getColor(R.color.white));
+                        btn.setBackgroundResource(R.color.mblue);
+                        if (!featureList.contains(btn)) {
+                            featureList.add(btn);
+                        }
+                    }
+                }
+                for (String s : conditionBean.getMore().getSize()) {
+                    if ((btn.getText().equals(s))) {
+                        btn.setTextColor(getResources().getColor(R.color.white));
+                        btn.setBackgroundResource(R.color.mblue);
+                        if (!areaList.contains(btn)) {
+                            areaList.add(btn);
+                        }
+                    }
+                }
+                for (String s : conditionBean.getMore().getWork()) {
+                    if ((btn.getText().equals(s))) {
+                        btn.setTextColor(getResources().getColor(R.color.white));
+                        btn.setBackgroundResource(R.color.mblue);
+                        if (!workList.contains(btn)) {
+                            workList.add(btn);
+                        }
+                    }
+                }
+                for (String s : conditionBean.getMore().getHottag()) {
+                    if ((btn.getText().equals(s))) {
+                        btn.setTextColor(getResources().getColor(R.color.white));
+                        btn.setBackgroundResource(R.color.mblue);
+                        if (!hotList.contains(btn)) {
+                            hotList.add(btn);
+                        }
+                    }
+                }
+
+            }
+        }
+        morePopupWindow = new PopupWindow(moreView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        morePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+        morePopupWindow.setTouchable(true);
+        morePopupWindow.showAtLocation(tv_price, Gravity.TOP, 0, 0);
+        morePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
     }
 
@@ -597,40 +702,91 @@ public class NewHouseActivity extends Activity {
             //以上是热门标签分类的点击
             case R.id.newhouse_popupview_more_resize:
                 //所谓重置就是循环遍历所有分类的集合 依次把他们从集合中去除并且还原原来的颜色
+              for (NoRepeatButton btn : btns) {
+                  btn.setTextColor(getResources().getColor(R.color.mblue));
+                  btn.setBackgroundResource(R.color.more_button_green);
+              	}
+              	featureList.clear();
+              	workList.clear();
+              	areaList.clear();
+              	hotList.clear();
 
-                Iterator<Button> featureIterator = featureList.iterator();
-                while (featureIterator.hasNext()) {
-                    Button btn = featureIterator.next();
-                    btn.setTextColor(getResources().getColor(R.color.mblue));
-                    btn.setBackgroundResource(R.color.more_button_green);
-                    featureIterator.remove();
-                }
-
-                Iterator<Button> areaIterator = areaList.iterator();
-                while (areaIterator.hasNext()) {
-                    Button btn = areaIterator.next();
-                    btn.setTextColor(getResources().getColor(R.color.mblue));
-                    btn.setBackgroundResource(R.color.more_button_green);
-                    areaIterator.remove();
-                }
-                Iterator<Button> workIterator = workList.iterator();
-                while (workIterator.hasNext()) {
-                    Button btn = workIterator.next();
-                    btn.setTextColor(getResources().getColor(R.color.mblue));
-                    btn.setBackgroundResource(R.color.more_button_green);
-                    workIterator.remove();
-                }
-                Iterator<Button> hotIterator = hotList.iterator();
-                while (hotIterator.hasNext()) {
-                    Button btn = hotIterator.next();
-                    btn.setTextColor(getResources().getColor(R.color.mblue));
-                    btn.setBackgroundResource(R.color.more_button_green);
-                    hotIterator.remove();
+                if (conditionBean != null) {
+                    if (conditionBean.getMore() != null) {
+                        conditionBean.getMore().getFeature().clear();
+                        conditionBean.getMore().getSize().clear();
+                        conditionBean.getMore().getWork().clear();
+                        conditionBean.getMore().getHottag().clear();
+                    }
                 }
 
                 break;
             case R.id.newhouse_popupview_more_check:
+                if (conditionBean == null) {
+                    conditionBean = new NewHouseConditionBean();
+                }
+                if (conditionBean.getMore() == null) {
+                    NewHouseConditionBean.More m = new NewHouseConditionBean.More();
+                    conditionBean.setMore(m);
+                }
+                conditionBean.getMore().setFeature(new ArrayList<String>());
+                conditionBean.getMore().setSize(new ArrayList<String>());
+                conditionBean.getMore().setWork(new ArrayList<String>());
+                conditionBean.getMore().setHottag(new ArrayList<String>());
 
+
+                //遍历所有的已选信息
+                Iterator<NoRepeatButton> featureIterator_check = featureList.iterator();
+                while (featureIterator_check.hasNext()) {
+                    NoRepeatButton btn = featureIterator_check.next();
+                    conditionBean.getMore().getFeature().add((String) btn.getText());
+                }
+
+                Iterator<NoRepeatButton> areaIterator_check = areaList.iterator();
+                while (areaIterator_check.hasNext()) {
+                    NoRepeatButton btn = areaIterator_check.next();
+                    conditionBean.getMore().getSize().add((String) btn.getText());
+                }
+                Iterator<NoRepeatButton> workIterator_check = workList.iterator();
+                while (workIterator_check.hasNext()) {
+                    NoRepeatButton btn = workIterator_check.next();
+                    conditionBean.getMore().getWork().add((String) btn.getText());
+                }
+                Iterator<NoRepeatButton> hotIterator_check = hotList.iterator();
+                while (hotIterator_check.hasNext()) {
+                    NoRepeatButton btn = hotIterator_check.next();
+                    conditionBean.getMore().getHottag().add((String) btn.getText());
+                }
+                tv_more.setTextColor(getResources().getColor(R.color.mblue));
+                img_more.setImageResource(R.drawable.newhouse_blue_downarrow);
+                //最后访问数据库
+                if (morePopupWindow != null) {
+                    morePopupWindow.dismiss();
+                }
+
+                String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                System.out.println("我的最终数据时" + item);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
                 break;
 
             default:
@@ -657,7 +813,37 @@ public class NewHouseActivity extends Activity {
                 if (roomPopupWindow != null) {
                     roomPopupWindow.dismiss();
                 }
-                Toast.makeText(NewHouseActivity.this, "访问数据库请求数据", Toast.LENGTH_SHORT).show();
+                if (conditionBean == null) {
+                    conditionBean = new NewHouseConditionBean();
+                }
+                //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
+                if (roomList.get(position).equals("不限")) {
+                    conditionBean.setRoom("不限");
+                } else {
+                    conditionBean.setRoom(roomList.get(position));
+                }
+                String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
         roomPopupWindow = new PopupWindow(roomView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -702,7 +888,37 @@ public class NewHouseActivity extends Activity {
                 if (pricePopupWindow != null) {
                     pricePopupWindow.dismiss();
                 }
-                Toast.makeText(NewHouseActivity.this, "访问数据库请求数据", Toast.LENGTH_SHORT).show();
+                if (conditionBean == null) {
+                    conditionBean = new NewHouseConditionBean();
+                }
+                //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
+                if (priceList.get(position).equals("不限")) {
+                    conditionBean.setPrice("不限");
+                } else {
+                    conditionBean.setPrice(priceList.get(position));
+                }
+                String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
             }
         });
         pricePopupWindow = new PopupWindow(priceView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -738,11 +954,45 @@ public class NewHouseActivity extends Activity {
                     if (nearPopupWindow != null) {
                         nearPopupWindow.dismiss();
                     }
-                    Toast.makeText(NewHouseActivity.this, "访问数据库请求数据", Toast.LENGTH_SHORT).show();
+                    if (conditionBean == null) {
+                        conditionBean = new NewHouseConditionBean();
+                    }
+                    if (conditionBean.getArea() == null) {
+                        NewHouseConditionBean.Area area = new NewHouseConditionBean.Area();
+                        conditionBean.setArea(area);
+                    }
+
+                    //点击的是附近 其实只需要把Area四个属性都设置为空即可
+                    conditionBean.getArea().setQu("附近");
+                    conditionBean.getArea().setZhen("");
+                    conditionBean.getArea().setSubwayarea("");
+                    conditionBean.getArea().setSubwayline("");
+                    String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                    HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
                 } else if (position == 1) {
                     righttList.clear();
                     leftSelectPosition = 1;
-//关键是这一句，激情了，它可以让listview改动过的数据重新加载一遍，以达到你想要的效果
+                    //关键是这一句，激情了，它可以让listview改动过的数据重新加载一遍，以达到你想要的效果
                     myLeftListViewAdapter.notifyDataSetChanged();
                     righttList.add(rightList_region);
                     myRightListViewAdapter.notifyDataSetChanged();
@@ -761,7 +1011,41 @@ public class NewHouseActivity extends Activity {
                                 if (nearPopupWindow != null) {
                                     nearPopupWindow.dismiss();
                                 }
-                                Toast.makeText(NewHouseActivity.this, "访问数据库请求数据", Toast.LENGTH_SHORT).show();
+                                if (conditionBean == null) {
+                                    conditionBean = new NewHouseConditionBean();
+                                }
+                                if (conditionBean.getArea() == null) {
+                                    NewHouseConditionBean.Area area = new NewHouseConditionBean.Area();
+                                    conditionBean.setArea(area);
+                                }
+                                //这里点击的就是不限 只需要设置全部设置为空即可
+                                conditionBean.getArea().setQu("");
+                                conditionBean.getArea().setZhen("");
+                                conditionBean.getArea().setSubwayarea("");
+                                conditionBean.getArea().setSubwayline("");
+
+                                String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                             } else {
                                 //有数据 此时需要显示第三个listview 同时刷新数据 还要默认选第一项
                                 finalList.add(datas);
@@ -779,7 +1063,39 @@ public class NewHouseActivity extends Activity {
                                         if (nearPopupWindow != null) {
                                             nearPopupWindow.dismiss();
                                         }
-                                        Toast.makeText(NewHouseActivity.this, "访问数据库请求数据", Toast.LENGTH_SHORT).show();
+                                        if (conditionBean == null) {
+                                            conditionBean = new NewHouseConditionBean();
+                                        }
+                                        if (conditionBean.getArea() == null) {
+                                            NewHouseConditionBean.Area area = new NewHouseConditionBean.Area();
+                                            conditionBean.setArea(area);
+                                        }
+                                        conditionBean.getArea().setQu(righttList.get(0).get(righttSelectPosition).getName());
+                                        conditionBean.getArea().setZhen(finalList.get(0).get(position));
+                                        conditionBean.getArea().setSubwayarea("");
+                                        conditionBean.getArea().setSubwayline("");
+                                        String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                                        HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                                            @Override
+                                            public void onFailure(Call call, IOException e) {
+                                                NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onResponse(Call call, Response response) throws IOException {
+                                                NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        });
                                     }
                                 });
 
@@ -810,56 +1126,24 @@ public class NewHouseActivity extends Activity {
     }
 
     private void initData() {
-
-
-          //创建okHttpClient对象
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-          //创建一个Request
-        final Request request = new Request.Builder()
-                .url("http://192.168.191.1:8080/house/newhouse_near_getNearData.action")
-                .build();
-//http://localhost:8080/house/newhouse_near_getNearData.action
-        Call call = mOkHttpClient.newCall(request);
-         //请求加入调度
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                System.out.println("得到失败+++++++++++++++++++++++++++");
-            }
-
-            @Override
-            public void onResponse(final Response response) throws IOException {
-                InputStream inputStream = response.body().byteStream();
-                System.out.println("得到数据成功+++++++++++++++++++hhhhhhhhhhhhhhh22222222++++++++");
-
-            }
-        });
-
-
         lefttList = new ArrayList();
         righttList = new ArrayList();
         lefttList.add("附近");
         lefttList.add("区域");
         lefttList.add("地铁");
         finalList = new ArrayList();
-        //解析一下json文件
-        Gson gson = new Gson();
-        String zhuhaiDatas = StreamUtils.getJson("zhuhai.json", NewHouseActivity.this);
+        requestPopupWindowData("http://192.168.191.1:8080/house/newhouse_near_getNearData.action");
+        requestHouseListData("http://192.168.191.1:8080/house/newhouse_near_getNearData.action");
+        lv.setAdapter(new MyAdapter());
+    }
 
-        List<RightListviewJsonBean> zhuhai = gson.fromJson(zhuhaiDatas, new TypeToken<List<RightListviewJsonBean>>() {
-        }.getType());
-        for (RightListviewJsonBean bean : zhuhai) {
-            if (rightList_region == null) {
-                rightList_region = bean.getRegion();
-            }//实为中间listview数据源
-            if (rightList_subway == null) {
-                rightList_subway = bean.getSubway();
-            }//实为中间listview数据源
-            // finalList.add(bean.getAreas());//为第三个listview数据源，但是特别需要注意第三个是一个需要变化的数据源 每次点击的时候要动态变化数据
+    /**
+     * 请求房源信息
+     *
+     * @param address
+     */
+    private void requestHouseListData(String address) {
 
-        }
-        righttList.add(rightList_region);
-        finalList.add(rightList_region.get(1).getAreas());
         list = new ArrayList();
         ArrayList list1 = new ArrayList();
         ArrayList list2 = new ArrayList();
@@ -940,6 +1224,32 @@ public class NewHouseActivity extends Activity {
 
     }
 
+    private void requestPopupWindowData(String address) {
+
+        HttpUtil.sendOkHttpRequest(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                NewHouseActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(NewHouseActivity.this, "不好意思，访问失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream inputStream = response.body().byteStream();
+                String data = IOStreamUtils.readFromInputStream(inputStream);
+                Message message = Message.obtain();
+                message.what = POPUPWINDOW_DATA;
+                message.obj = data;
+                handler.sendMessage(message);
+            }
+        });
+    }
+
     private void getPriceWindowData() {
         priceList = new ArrayList<String>();
         priceList.add("不限");
@@ -950,8 +1260,6 @@ public class NewHouseActivity extends Activity {
         priceList.add("2万-3万");
         priceList.add("3万-4万");
         priceList.add("4万以上");
-
-
     }
 
     private void getRoomWindowData() {

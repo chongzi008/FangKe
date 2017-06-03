@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 android:id="@+id/newhouse_popupview_more_wechat"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                 android:onClick="click"
                 android:textColor="@color/mblue" />
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 android:id="@+id/newhouse_popupview_more_shapanlou"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 android:onClick="click"
                 android:textColor="@color/mblue" />
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 android:id="@+id/newhouse_popupview_more_videohouse"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_60"
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="60以下"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_80"
                 android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="60-80"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_100"
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="80-100"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_120"
                 android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="100-120"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_150"
                 android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="120-150"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_200"
                 android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
                 android:onClick="click"
                 android:layout_marginTop="12dp"
                 android:text="150-200"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_250"
                 android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_zhuzhai"
                 android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                 android:onClick="click"
                 android:textColor="@color/mblue" />
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_bieshu"
                 android:layout_width="wrap_content"
@@ -215,7 +215,7 @@
                 android:onClick="click"
                 android:textColor="@color/mblue" />
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_shangzhu"
                 android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
                 android:onClick="click"
                 android:textColor="@color/mblue" />
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_shangpu"
                 android:layout_width="wrap_content"
@@ -239,7 +239,7 @@
                 android:onClick="click"
                 android:textColor="@color/mblue" />
 
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_xiezilou"
                 android:layout_width="wrap_content"
@@ -280,7 +280,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_gangxu"
                 android:layout_width="wrap_content"
@@ -291,7 +291,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="刚需房"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_youhui"
                 android:layout_width="wrap_content"
@@ -302,7 +302,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="优惠打折"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_buxiangou"
                 android:layout_width="wrap_content"
@@ -313,7 +313,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="不限购"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_jijiangkaipan"
                 android:layout_width="wrap_content"
@@ -324,7 +324,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="即将开盘"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_feimaopi"
                 android:layout_width="wrap_content"
@@ -335,7 +335,7 @@
                android:background="@color/more_button_green"
                 android:onClick="click"
                 android:text="非毛坯"/>
-            <Button
+            <fangke.com.view.NoRepeatButton
                 style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/newhouse_popupview_more_gaishanfang"
                 android:layout_width="wrap_content"
@@ -360,7 +360,7 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         >
-        <Button
+        <fangke.com.view.NoRepeatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/newhouse_popupview_more_resize"
             android:layout_width="0dp"
@@ -372,7 +372,7 @@
             android:onClick="click"
             android:text="重置"/>
 
-        <Button
+        <fangke.com.view.NoRepeatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/newhouse_popupview_more_check"
             android:layout_width="0dp"
