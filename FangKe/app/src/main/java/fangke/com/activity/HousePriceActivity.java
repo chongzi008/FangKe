@@ -1,6 +1,7 @@
 package fangke.com.activity;
 
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -8,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,8 +20,18 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import fangke.com.bean.HousePriceConditionBean;
+import fangke.com.bean.NewHouseConditionBean;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import utils.HttpUtil;
 
 /**
  * 小区房价页面
@@ -39,13 +51,18 @@ public class HousePriceActivity extends AppCompatActivity {
     private TextView tv_type;
     private ImageView img_type;
     private float mLastY = 0;
-
-
+    ArrayList<HashMap<String, Object>> arrayList;
+    private HousePriceConditionBean conditionBean;
     private TextView tv_age;
     private ImageView img_age;
     private TextView tv_rank;
     private ImageView img_rank;
     private ImageView narrow_left;
+    private Gson gson;
+    private PopupWindow pricePopupWindow;
+    private PopupWindow nearPopupWindow;
+    private PopupWindow agePopupWindow;
+    private PopupWindow rankPopupWindow;
 
 
     @Override
@@ -68,7 +85,7 @@ public class HousePriceActivity extends AppCompatActivity {
         tv_rank = (TextView) findViewById(R.id.village_tv_rank);
         img_rank = (ImageView) findViewById(R.id.village_img_rank);
         narrow_left = (ImageView) findViewById(R.id.house_price_narrow_left);
-
+        gson= new Gson();
 
 
         lv = (ListView) findViewById(R.id.village_lv);
@@ -173,40 +190,166 @@ public class HousePriceActivity extends AppCompatActivity {
         SimpleAdapter priceAdapter = new SimpleAdapter(HousePriceActivity.this, getRankWindowData(), R.layout.popupwindow_room_item,
                 new String[]{"title"}, new int[]{R.id.popupwindow_room_item_tv});
         lv_rank.setAdapter(priceAdapter);
-        PopupWindow pricePopupWindow = new PopupWindow(moreView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
-        pricePopupWindow.setTouchable(true);
-        pricePopupWindow.showAtLocation(tv_type, Gravity.TOP, 0, 0);
-        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        lv_rank.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                tv_rank.setText(arrayList.get(i).get("title").toString());
+                tv_rank.setTextColor(getResources().getColor(R.color.mblue));
+                img_rank.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if(rankPopupWindow!=null){
+                    rankPopupWindow.dismiss();
+                }
+
+                //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
+                if(conditionBean==null){
+                    conditionBean = new HousePriceConditionBean();
+                }
+                conditionBean.setRank(arrayList.get(i).get("title").toString());
+
+                String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+        rankPopupWindow = new PopupWindow(moreView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        rankPopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+        rankPopupWindow.setTouchable(true);
+        rankPopupWindow.showAtLocation(tv_type, Gravity.TOP, 0, 0);
+        rankPopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
     }
 
     //显示房龄的Window
     private void showAgeWindow() {
         View roomView = View.inflate(HousePriceActivity.this, R.layout.village_popupwindow_age, null);
-        ListView lv_room = (ListView) roomView.findViewById(R.id.village_popupwindow_age_lv);
+        ListView lv_age= (ListView) roomView.findViewById(R.id.village_popupwindow_age_lv);
         SimpleAdapter priceAdapter = new SimpleAdapter(HousePriceActivity.this, getAgeWindowData(), R.layout.popupwindow_room_item,
                 new String[]{"title"}, new int[]{R.id.popupwindow_room_item_tv});
-        lv_room.setAdapter(priceAdapter);
-        PopupWindow pricePopupWindow = new PopupWindow(roomView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
-        pricePopupWindow.setTouchable(true);
-        pricePopupWindow.showAtLocation(tv_type, Gravity.TOP, 0, 0);
-        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        lv_age.setAdapter(priceAdapter);
+        lv_age.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               tv_age.setText(arrayList.get(i).get("title").toString());
+                tv_age.setTextColor(getResources().getColor(R.color.mblue));
+                img_age.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if(agePopupWindow!=null){
+                   agePopupWindow.dismiss();
+                }
+
+                //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
+                if(conditionBean==null){
+                    conditionBean = new HousePriceConditionBean();
+                }
+                conditionBean.setAge(arrayList.get(i).get("title").toString());
+
+                String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+            }
+
+        });
+        agePopupWindow = new PopupWindow(roomView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        agePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
+        agePopupWindow.setTouchable(true);
+        agePopupWindow.showAtLocation(tv_type, Gravity.TOP, 0, 0);
+        agePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
     }
-
 
 
 
     //显示类型的window
     private void showTypeWindow() {
         View priceView = View.inflate(HousePriceActivity.this, R.layout.village_popupwindow_type, null);
-        ListView lv_price = (ListView) priceView.findViewById(R.id.village_popupview_type_lv);
-        SimpleAdapter priceAdapter = new SimpleAdapter(HousePriceActivity.this, getTypeWindowData(), R.layout.popupwindow_price_item,
+        final ListView lv_price = (ListView) priceView.findViewById(R.id.village_popupview_type_lv);
+        final SimpleAdapter priceAdapter = new SimpleAdapter(HousePriceActivity.this, getTypeWindowData(), R.layout.popupwindow_price_item,
                 new String[]{"title"}, new int[]{R.id.popupwindow_price_item_tv});
         lv_price.setAdapter(priceAdapter);
-        PopupWindow pricePopupWindow = new PopupWindow(priceView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        lv_price.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(HousePriceActivity.this,arrayList.get(i).get("title").toString(), Toast.LENGTH_SHORT).show();
+                priceAdapter.notifyDataSetChanged();
+                tv_type.setText(arrayList.get(i).get("title").toString());
+                tv_type.setTextColor(getResources().getColor(R.color.mblue));
+                img_type.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if(pricePopupWindow!=null){
+                    pricePopupWindow.dismiss();
+                        }
+
+                //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
+            if(conditionBean==null){
+                conditionBean = new HousePriceConditionBean();
+                }
+                    conditionBean.setRoomtpye(arrayList.get(i).get("title").toString());
+
+                String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+
+        pricePopupWindow = new PopupWindow(priceView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
         pricePopupWindow.setTouchable(true);
         pricePopupWindow.showAtLocation(tv_type, Gravity.TOP, 0, 0);
@@ -225,7 +368,7 @@ public class HousePriceActivity extends AppCompatActivity {
         SimpleAdapter nearAdapter = new SimpleAdapter(HousePriceActivity.this, getNearWindowData(), R.layout.popupwindow_near_left_item,
                 new String[]{"title"}, new int[]{R.id.popupwindow_near_left});
         near_lv_left.setAdapter(nearAdapter);
-        near_lv_left.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        near_lv_left.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
@@ -236,7 +379,7 @@ public class HousePriceActivity extends AppCompatActivity {
                     } else {
 
                         near_lv_right.setVisibility(View.VISIBLE);
-                        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+                        arrayList = new ArrayList<HashMap<String, Object>>();
                         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
                         tempHashMap1.put("title", "不限");
                         HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
@@ -273,9 +416,49 @@ public class HousePriceActivity extends AppCompatActivity {
                 }
             }
         });
+        near_lv_right.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                tv_near.setText(arrayList.get(i).get("title").toString());
+                tv_near.setTextColor(getResources().getColor(R.color.mblue));
+                img_near.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if( nearPopupWindow !=null){
+                    nearPopupWindow .dismiss();
+                }
 
+                //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
+                if(conditionBean==null){
+                    conditionBean = new HousePriceConditionBean();
+                }
+                conditionBean.setNear(arrayList.get(i).get("title").toString());
 
-        PopupWindow nearPopupWindow = new PopupWindow(nearview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
+                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        HousePriceActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(HousePriceActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+
+        nearPopupWindow = new PopupWindow(nearview, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         nearPopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
         nearPopupWindow.setTouchable(true);
         nearPopupWindow.showAtLocation(tv_near, Gravity.TOP, 0, 0);
@@ -284,7 +467,7 @@ public class HousePriceActivity extends AppCompatActivity {
     }
 
     private ArrayList<HashMap<String, Object>> getNearWindowData() {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+       arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "附近");
         HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
@@ -384,7 +567,7 @@ public class HousePriceActivity extends AppCompatActivity {
     }
 
     private ArrayList<HashMap<String, Object>> getTypeWindowData() {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+        arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "不限");
         HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
@@ -412,7 +595,7 @@ public class HousePriceActivity extends AppCompatActivity {
     }
 
     private ArrayList<HashMap<String, Object>> getAgeWindowData() {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+         arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "不限");
         HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();
@@ -436,7 +619,7 @@ public class HousePriceActivity extends AppCompatActivity {
     }
 
     private ArrayList<HashMap<String, Object>> getRankWindowData() {
-        ArrayList<HashMap<String, Object>> arrayList = new ArrayList<HashMap<String, Object>>();
+        arrayList = new ArrayList<HashMap<String, Object>>();
         HashMap<String, Object> tempHashMap1 = new HashMap<String, Object>();
         tempHashMap1.put("title", "全部");
         HashMap<String, Object> tempHashMap2 = new HashMap<String, Object>();

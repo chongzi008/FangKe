@@ -72,78 +72,82 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/village_tv_near"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:text="区域"/>
                     <ImageView
                         android:id="@+id/village_img_near"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_blue_downarrow"
                         />
 
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/village_tv_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:text="类型"/>
                     <ImageView
                         android:id="@+id/village_img_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_gray_downarrow"
                         />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/village_tv_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:text="房龄"/>
                     <ImageView
                         android:id="@+id/village_img_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_gray_downarrow"
                         />
-                </RelativeLayout>
+                </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/village_tv_rank"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:text="排序"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -152,11 +156,11 @@
                         android:id="@+id/village_img_rank"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/newhouse_gray_downarrow"
                         />
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </RelativeLayout>
