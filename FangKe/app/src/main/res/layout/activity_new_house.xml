@@ -19,6 +19,7 @@
             android:background="#EEEEEE">
 
             <LinearLayout
+                android:id="@+id/newhouse_top_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -34,7 +35,7 @@
                     android:background="@drawable/newhouse_narrow_left" />
 
                 <RelativeLayout
-                    android:layout_width="230dp"
+                    android:layout_width="245dp"
                     android:layout_height="35dp"
                     android:layout_marginLeft="10dp"
                     android:background="#E5E5E5">
@@ -58,9 +59,10 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/newhouse_tv_map"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="地图"
                     android:textColor="@android:color/holo_blue_light"
@@ -175,6 +177,10 @@
 
             </LinearLayout>
         </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height=".1dp"
+            android:background="@color/gray_light"/>
 
         <ListView
             android:id="@+id/newhouse_lv"

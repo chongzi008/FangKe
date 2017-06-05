@@ -2,6 +2,7 @@ package fangke.com.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -168,6 +169,8 @@ public class NewHouseActivity extends Activity {
     };
     private PopupWindow morePopupWindow;
     private HashSet<NoRepeatButton> btns;
+    private LinearLayout ll_top;
+    private TextView tv_map;
 
 
     @Override
@@ -212,7 +215,9 @@ public class NewHouseActivity extends Activity {
         img_freelook = (ImageView) findViewById(R.id.newhouse_bottom_img_freelook);
         //包含四个window的布局
         ll_popupwindow = (LinearLayout) findViewById(R.id.newhouse_popupwindow);
+        ll_top = (LinearLayout) findViewById(R.id.newhouse_top_ll);
         lv = (ListView) findViewById(R.id.newhouse_lv);
+        tv_map = (TextView) findViewById(R.id.newhouse_tv_map);
         featureList = new HashSet<>();
         workList = new HashSet<>();
         areaList = new HashSet<>();
@@ -336,6 +341,31 @@ public class NewHouseActivity extends Activity {
                 finish();
             }
         });
+
+        ll_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(NewHouseActivity.this,NewhouseSearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tv_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(NewHouseActivity.this,MapActivity.class);
+                startActivity(intent);
+            }
+        });
+
+       //  tv_new;
+       //  img_new;
+        // tv_discount;
+       //  img_discount;
+       //  tv_clever;
+       //  img_clever;
+      //   tv_freelook;
+       //  img_freelook;
     }
 
     //显示更多的window
@@ -1586,7 +1616,7 @@ public class NewHouseActivity extends Activity {
             //设置资源
             switch (type) {
                 case Type_1:
-                    viewHolderHead.tv.setText("找到4个楼盘吧");
+                    viewHolderHead.tv.setText("找到4个楼盘");
                     break;
                 case Type_2:
                     ArrayList l = (ArrayList) list.get(position - 1);

@@ -25,4 +25,5 @@
     <color name="primaryDark">#0288D1</color>
     <color name="more_button_green">#F2F8EB</color>
     <color name="black_ff">#80000000</color>
+    <color name="newhouse_gray_normal">#FEFFFF</color>
 </resources>
