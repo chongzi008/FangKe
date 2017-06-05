@@ -30,7 +30,6 @@ public class WeChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_wechat, null);
         initViews();
-        System.out.println("我是微聊页面");
         return view;
     }
 

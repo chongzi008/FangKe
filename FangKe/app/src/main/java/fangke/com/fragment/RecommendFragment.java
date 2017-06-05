@@ -56,8 +56,6 @@ public class RecommendFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_recommend,null);
         initData();
         initViews();
-        System.out.println("我是推荐页面");
-
         return view;
 
 

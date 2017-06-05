@@ -1,61 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#FEFEFE"
     android:layout_height="450dp"
+    android:background="#FEFEFE"
     android:orientation="vertical">
-<ListView
-    android:id="@+id/newhouse_popupview_price_lv"
-    android:layout_width="match_parent"
-    android:layout_height="400dp">
 
-</ListView>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:padding="5dp"
-    android:orientation="horizontal"
-    android:background="#F5F5F5">
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="15dp"
-      android:textSize="18sp"
-      android:textColor="@color/black"
-      android:text="自定义"/>
+    <ListView
+        android:id="@+id/newhouse_popupview_price_lv"
+        android:layout_width="match_parent"
+        android:layout_height="400dp">
 
-  <EditText
-      android:layout_width="80dp"
-      android:layout_height="wrap_content"
-      android:background="#FEFEFE"
-      android:hint="最低价"
-      android:layout_marginLeft="15dp"/>
+    </ListView>
 
-  <TextView
-      android:layout_width="10dp"
-      android:layout_height="wrap_content"
-      android:text="--"
-      android:textColor="@color/black"
-      android:layout_marginLeft="15dp"/>
-    <EditText
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:background="#FEFEFE"
-        android:hint="最高价"
-        android:layout_marginLeft="15dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:text="元"/>
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:text="确定"
-        android:background="@drawable/selector_newhouse_middlebutton"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#F5F5F5"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="自定义"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/newhouse_et_bottomprice"
+            android:layout_width="70dp"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="#FEFEFE"
+            android:gravity="center"
+            android:onClick="priceclick"
+            android:hint="最低价" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/newhouse_et_topprice"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="#FEFEFE"
+            android:hint="最高价"
+            android:onClick="priceclick"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="元"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/newhouse_price_btn_check"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/selector_newhouse_middlebutton"
+            android:text="确定"
+            android:textSize="14sp"
+            android:onClick="priceclick"/>
+
+    </LinearLayout>
 </LinearLayout>

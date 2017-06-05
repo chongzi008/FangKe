@@ -129,7 +129,7 @@ public class SplashActivity extends Activity {
                 Message message = Message.obtain();
                 HttpURLConnection conn = null;
                 try {
-                    URL url = new URL("http://192.168.1.118:8080/CleverBug/versionServlet?method=a");
+                    URL url = new URL("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     conn.setConnectTimeout(5000);

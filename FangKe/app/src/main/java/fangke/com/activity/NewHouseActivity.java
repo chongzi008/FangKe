@@ -1,19 +1,27 @@
 package fangke.com.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,8 +46,9 @@ import fangke.com.view.NoRepeatButton;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import utils.HttpUtil;
+import utils.HttpUtils;
 import utils.IOStreamUtils;
+import utils.TypeWritingUtils;
 
 /**
  * 新房页面
@@ -702,14 +711,14 @@ public class NewHouseActivity extends Activity {
             //以上是热门标签分类的点击
             case R.id.newhouse_popupview_more_resize:
                 //所谓重置就是循环遍历所有分类的集合 依次把他们从集合中去除并且还原原来的颜色
-              for (NoRepeatButton btn : btns) {
-                  btn.setTextColor(getResources().getColor(R.color.mblue));
-                  btn.setBackgroundResource(R.color.more_button_green);
-              	}
-              	featureList.clear();
-              	workList.clear();
-              	areaList.clear();
-              	hotList.clear();
+                for (NoRepeatButton btn : btns) {
+                    btn.setTextColor(getResources().getColor(R.color.mblue));
+                    btn.setBackgroundResource(R.color.more_button_green);
+                }
+                featureList.clear();
+                workList.clear();
+                areaList.clear();
+                hotList.clear();
 
                 if (conditionBean != null) {
                     if (conditionBean.getMore() != null) {
@@ -766,7 +775,7 @@ public class NewHouseActivity extends Activity {
 
                 String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
                 System.out.println("我的最终数据时" + item);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         NewHouseActivity.this.runOnUiThread(new Runnable() {
@@ -823,7 +832,7 @@ public class NewHouseActivity extends Activity {
                     conditionBean.setRoom(roomList.get(position));
                 }
                 String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         NewHouseActivity.this.runOnUiThread(new Runnable() {
@@ -874,6 +883,10 @@ public class NewHouseActivity extends Activity {
     private void showPriceWindow() {
         final View priceView = View.inflate(NewHouseActivity.this, R.layout.newhouse_popupwindow_price, null);
         ListView lv_price = (ListView) priceView.findViewById(R.id.newhouse_popupview_price_lv);
+        TextView et_bottomprice = (TextView) priceView.findViewById(R.id.newhouse_et_bottomprice);
+        TextView et_topprice = (TextView) priceView.findViewById(R.id.newhouse_et_topprice);
+        Button btn_check = (Button) priceView.findViewById(R.id.newhouse_price_btn_check);
+
         getPriceWindowData();
         final MyPriceListViewAdapter myPriceListViewAdapter = new MyPriceListViewAdapter();
         lv_price.setAdapter(myPriceListViewAdapter);
@@ -892,13 +905,21 @@ public class NewHouseActivity extends Activity {
                     conditionBean = new NewHouseConditionBean();
                 }
                 //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
-                if (priceList.get(position).equals("不限")) {
-                    conditionBean.setPrice("不限");
-                } else {
-                    conditionBean.setPrice(priceList.get(position));
-                }
+               if(priceList.get(position).equals("两万以下")) {
+                    conditionBean.setPrice("0-20000");
+                }else if(priceList.get(position).equals("2-3万")) {
+                    conditionBean.setPrice("20000-30000");
+                }else if(priceList.get(position).equals("3-5万")) {
+                    conditionBean.setPrice("30000-50000");
+                }else if(priceList.get(position).equals("5-8万")) {
+                    conditionBean.setPrice("50000-80000");
+                }else if(priceList.get(position).equals("8-10万")) {
+                    conditionBean.setPrice("80000-100000");
+                }else{
+                   conditionBean.setPrice(priceList.get(position));
+               }
                 String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         NewHouseActivity.this.runOnUiThread(new Runnable() {
@@ -925,8 +946,205 @@ public class NewHouseActivity extends Activity {
         pricePopupWindow.setAnimationStyle(R.style.popwin_near_anim_style);
         pricePopupWindow.setTouchable(true);
         pricePopupWindow.showAtLocation(tv_price, Gravity.TOP, 0, 0);
-        pricePopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
 
+    }
+
+    public void priceclick(View v) {
+
+        switch (v.getId()) {
+            case R.id.newhouse_et_bottomprice:
+                showPriceBtnWindow(0);
+                break;
+            case R.id.newhouse_et_topprice:
+                showPriceBtnWindow(1);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void showPriceBtnWindow(int position) {
+        final View priceBtnView = View.inflate(NewHouseActivity.this, R.layout.newhouse_price_btn_window, null);
+        final EditText window_bottomprice = (EditText) priceBtnView.findViewById(R.id.newhouse_btn_window_bottomprice);
+        final EditText window_topprice = (EditText) priceBtnView.findViewById(R.id.newhouse_btn_window_topprice);
+        final Button window_check = (Button) priceBtnView.findViewById(R.id.newhouse_btn_window_check);
+        ImageView window_btn_img = (ImageView) priceBtnView.findViewById(R.id.newhouse_price_btn_img);
+        final PopupWindow priceBtnWindow = new PopupWindow(priceBtnView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        priceBtnWindow.setAnimationStyle(R.style.popwin_price_btn_anim_style);
+        priceBtnWindow.setTouchable(true);
+        //设置点击窗口外边窗口消失
+        priceBtnWindow.setOutsideTouchable(false);
+        // 设置此参数获得焦点，否则无法点击
+        priceBtnWindow.setFocusable(true);
+        priceBtnWindow.showAtLocation(ll_popupwindow, Gravity.BOTTOM, 0, 0);
+        priceBtnWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        TypeWritingUtils.UpOrOffTypeWritting(NewHouseActivity.this);//打开或关闭输入法
+        window_btn_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (priceBtnWindow != null) {
+                    priceBtnWindow.dismiss();
+                }
+                TypeWritingUtils.UpOrOffTypeWritting(NewHouseActivity.this);//打开或关闭输入法
+            }
+        });
+        priceBtnView.setFocusable(true);//设置view能够接听事件
+        // 重写onKeyListener
+        priceBtnView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (priceBtnWindow != null) {
+                        priceBtnWindow.dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+
+        if (position == 0) {
+            window_bottomprice.requestFocus();
+
+        } else {
+            window_topprice.requestFocus();
+
+        }
+        window_bottomprice.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (priceBtnWindow != null) {
+                        priceBtnWindow.dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+        window_topprice.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (priceBtnWindow != null) {
+                        priceBtnWindow.dismiss();
+                    }
+                }
+                return false;
+            }
+        });
+
+        window_bottomprice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String condition=s.toString();
+                if(TextUtils.isEmpty(condition)){
+                  window_check.setEnabled(false);
+                }else {
+                    window_check.setEnabled(true);
+                }
+            }
+        });
+
+        window_topprice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String condition=s.toString();
+                if(TextUtils.isEmpty(condition)){
+                  window_check.setEnabled(false);
+                }else {
+                    window_check.setEnabled(true);
+                }
+            }
+        });
+
+        window_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               boolean isReq=true;
+                if (conditionBean == null) {
+                    conditionBean = new NewHouseConditionBean();
+                }
+                String bottom_data = window_bottomprice.getText().toString();
+                String top_data = window_topprice.getText().toString();
+                //当我们点击时候 条件存进bean中对应地方
+                String data="";
+                if(TextUtils.isEmpty(bottom_data)&&!TextUtils.isEmpty(top_data)){
+                    data=top_data+"元以下";
+                    tv_price.setText(data);//左边为空右边不为空
+                    conditionBean.setPrice(data);
+                }else if(!TextUtils.isEmpty(bottom_data)&&TextUtils.isEmpty(top_data)){
+                    data=bottom_data+"元以上";
+                    tv_price.setText(data);//左边不为空右边为空
+                    conditionBean.setPrice(data);
+                }else{
+                    int b_data =Integer.parseInt(bottom_data);
+                    int t_data =Integer.parseInt(top_data);
+                    if(b_data>t_data){
+                        //数字区间有问题需要判断一下
+                        isReq=false;
+                        Toast.makeText(NewHouseActivity.this,"您输入的价格区间有问题",Toast.LENGTH_SHORT).show();
+                    }else{
+                        data=bottom_data+"-"+top_data+"元";
+                        tv_price.setText(data);//左边不为空右边为空
+                        conditionBean.setPrice(data);
+                    }
+
+                }
+                if(isReq){
+                    tv_price.setTextColor(getResources().getColor(R.color.mblue));
+                    img_price.setImageResource(R.drawable.newhouse_blue_downarrow);
+                    if (pricePopupWindow != null) {
+                        pricePopupWindow.dismiss();
+                    }
+                    if (priceBtnWindow != null) {
+                        priceBtnWindow.dismiss();
+                    }
+                    String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
+                    HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(NewHouseActivity.this, "请求数据失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            NewHouseActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
+                }
+
+            }
+        });
     }
 
     //显示附近的window
@@ -968,7 +1186,7 @@ public class NewHouseActivity extends Activity {
                     conditionBean.getArea().setSubwayarea("");
                     conditionBean.getArea().setSubwayline("");
                     String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
-                    HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                    HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
                             NewHouseActivity.this.runOnUiThread(new Runnable() {
@@ -1025,7 +1243,7 @@ public class NewHouseActivity extends Activity {
                                 conditionBean.getArea().setSubwayline("");
 
                                 String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
-                                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                                     @Override
                                     public void onFailure(Call call, IOException e) {
                                         NewHouseActivity.this.runOnUiThread(new Runnable() {
@@ -1075,7 +1293,7 @@ public class NewHouseActivity extends Activity {
                                         conditionBean.getArea().setSubwayarea("");
                                         conditionBean.getArea().setSubwayline("");
                                         String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
-                                        HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                                        HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                                             @Override
                                             public void onFailure(Call call, IOException e) {
                                                 NewHouseActivity.this.runOnUiThread(new Runnable() {
@@ -1226,7 +1444,7 @@ public class NewHouseActivity extends Activity {
 
     private void requestPopupWindowData(String address) {
 
-        HttpUtil.sendOkHttpRequest(address, new Callback() {
+        HttpUtils.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
 
@@ -1254,12 +1472,12 @@ public class NewHouseActivity extends Activity {
         priceList = new ArrayList<String>();
         priceList.add("不限");
         priceList.add("优惠楼盘");
-        priceList.add("一万以下");
-        priceList.add("1-1.5万");
-        priceList.add("1.5到2万");
-        priceList.add("2万-3万");
-        priceList.add("3万-4万");
-        priceList.add("4万以上");
+        priceList.add("两万以下");
+        priceList.add("2-3万");
+        priceList.add("3-5万");
+        priceList.add("5-8万");
+        priceList.add("8-10万");
+        priceList.add("10万以上");
     }
 
     private void getRoomWindowData() {
@@ -1272,7 +1490,6 @@ public class NewHouseActivity extends Activity {
         roomList.add("五室以上");
 
     }
-
 
     class MyAdapter extends BaseAdapter {
 
@@ -1397,7 +1614,6 @@ public class NewHouseActivity extends Activity {
             return convertView;
         }
     }
-
 
     // 通过ViewHolder静态类结合缓存convertView优化ListView性能
     // 使用 ViewHolder 的好处是缓存了显示数据的视图（View），加快了 UI 的响应速度。

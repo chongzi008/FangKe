@@ -9,7 +9,7 @@ import okhttp3.Request;
  * Created by ChongZi007 on 2017/6/2.
  */
 
-public class HttpUtil {
+public class HttpUtils {
     /**
      * 发送请求
      *

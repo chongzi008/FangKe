@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/newhouse_price_btn_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:background="@color/black_ff" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#F5F5F5"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:text="自定义"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/newhouse_btn_window_bottomprice"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="#FEFEFE"
+                android:hint="最低价"
+                android:gravity="center"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:onClick="priceclick"
+                android:textCursorDrawable="@drawable/shape_ed_cursor"
+               />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@color/black" />
+
+            <EditText
+                android:id="@+id/newhouse_btn_window_topprice"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:background="#FEFEFE"
+                android:gravity="center"
+                android:hint="最高价"
+                android:onClick="priceclick"
+                android:textCursorDrawable="@drawable/shape_ed_cursor"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:text="元"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/newhouse_btn_window_check"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/selector_newhouse_middlebutton"
+                android:enabled="false"
+                android:text="确定"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+</RelativeLayout>

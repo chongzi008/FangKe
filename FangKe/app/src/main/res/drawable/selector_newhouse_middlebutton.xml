@@ -3,6 +3,7 @@
     <item android:state_focused="true" android:drawable="@drawable/shape_newhouse_middlebutton_pressed"/>
     <item android:state_selected="true" android:drawable="@drawable/shape_newhouse_middlebutton_pressed"/>
     <item android:state_pressed="true" android:drawable="@drawable/shape_newhouse_middlebutton_pressed"/>
+    <item android:state_enabled="false" android:drawable="@drawable/shape_newhouse_middlebutton_enable"/>
     <item android:drawable="@drawable/shape_newhouse_middlebutton"/>
 
 </selector>

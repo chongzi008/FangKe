@@ -12,6 +12,10 @@
         <item name="android:windowEnterAnimation">@anim/popupwindow_near_in_anim</item>
         <item name="android:windowExitAnimation">@anim/popupwindow_near_out_anim</item>
     </style>
+    <style name="popwin_price_btn_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_price_btn_in_anim</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_price_btn_out_anim</item>
+    </style>
     <style name="rentalhouse_popwin_near_anim_style">
         <item name="android:windowEnterAnimation">@anim/rentalhouse_popupwindow_near_in_anim</item>
         <item name="android:windowExitAnimation">@anim/rentalhouse_popupwindow_near_out_anim</item>
