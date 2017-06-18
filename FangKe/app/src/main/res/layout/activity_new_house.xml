@@ -93,7 +93,7 @@
                         android:gravity="right"
                         android:text="附近"
                         android:textSize="14sp"
-                        android:textColor="@color/mblue"
+                        android:textColor="@color/black"
                        />
 
                     <ImageView
@@ -102,7 +102,7 @@
                         android:layout_height="8dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:background="@drawable/newhouse_blue_downarrow" />
+                        android:background="@drawable/newhouse_gray_downarrow" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -116,6 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
+                        android:textColor="@color/black"
                         android:text="不限"
                         android:textSize="14sp"
                          />
@@ -140,6 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
+                        android:textColor="@color/black"
                         android:text="户型"
                         android:textSize="14sp" />
 
@@ -163,6 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
+                        android:textColor="@color/black"
                         android:text="更多"
                         android:textSize="14sp" />
 

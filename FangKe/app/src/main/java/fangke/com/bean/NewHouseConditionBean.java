@@ -85,15 +85,6 @@ public class NewHouseConditionBean {
             return zhen;
         }
 
-        @Override
-        public String toString() {
-            return "Area{" +
-                    "qu='" + qu + '\'' +
-                    ", zhen='" + zhen + '\'' +
-                    ", subwayline='" + subwayline + '\'' +
-                    ", subwayarea='" + subwayarea + '\'' +
-                    '}';
-        }
     }
 
     public static class More {
@@ -135,24 +126,7 @@ public class NewHouseConditionBean {
             return hottag;
         }
 
-        @Override
-        public String toString() {
-            return "More{" +
-                    "feature=" + feature +
-                    ", size=" + size +
-                    ", work=" + work +
-                    ", hottag=" + hottag +
-                    '}';
-        }
+
     }
 
-    @Override
-    public String toString() {
-        return "NewHouseConditionBean{" +
-                "area=" + area +
-                ", price='" + price + '\'' +
-                ", room='" + room + '\'' +
-                ", more=" + more +
-                '}';
-    }
 }

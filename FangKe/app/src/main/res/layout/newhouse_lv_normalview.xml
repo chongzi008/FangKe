@@ -12,7 +12,7 @@
             android:layout_width="130dp"
             android:layout_height="100dp"
             android:layout_margin="10dp"
-            android:background="@drawable/newhouse1"/>
+           />
 
         <TextView
             android:id="@+id/newhouse_tv_normalview_left"

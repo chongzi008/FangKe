@@ -1,7 +1,6 @@
 package fangke.com.activity;
 
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,23 +14,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import fangke.com.bean.HousePriceConditionBean;
-import fangke.com.bean.NewHouseConditionBean;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import utils.HttpUtil;
+import utils.HttpUtils;
 
 /**
  * 小区房价页面
@@ -207,7 +201,7 @@ public class HousePriceActivity extends AppCompatActivity {
                 conditionBean.setRank(arrayList.get(i).get("title").toString());
 
                 String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         HousePriceActivity.this.runOnUiThread(new Runnable() {
@@ -263,7 +257,7 @@ public class HousePriceActivity extends AppCompatActivity {
                 conditionBean.setAge(arrayList.get(i).get("title").toString());
 
                 String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         HousePriceActivity.this.runOnUiThread(new Runnable() {
@@ -324,7 +318,7 @@ public class HousePriceActivity extends AppCompatActivity {
                     conditionBean.setRoomtpye(arrayList.get(i).get("title").toString());
 
                 String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         HousePriceActivity.this.runOnUiThread(new Runnable() {
@@ -433,7 +427,7 @@ public class HousePriceActivity extends AppCompatActivity {
                 conditionBean.setNear(arrayList.get(i).get("title").toString());
 
                 String item = gson.toJson(conditionBean, HousePriceConditionBean.class);
-                HttpUtil.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
+                HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         HousePriceActivity.this.runOnUiThread(new Runnable() {

@@ -72,7 +72,8 @@
         <activity android:name=".NewhouseMostNewActivity" />
         <activity android:name=".NewhouseDisocountActivity" />
         <activity android:name=".NewhouseCleverActivity" />
-        <activity android:name=".NewhouseFreeLookActivity"></activity>
+        <activity android:name=".NewhouseFreeLookActivity" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

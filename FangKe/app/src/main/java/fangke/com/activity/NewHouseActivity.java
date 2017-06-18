@@ -3,7 +3,12 @@ package fangke.com.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,11 +48,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import fangke.com.bean.NewHouseConditionBean;
+import fangke.com.bean.NewhouseSearchBean;
 import fangke.com.bean.RightListviewJsonBean;
 import fangke.com.view.NoRepeatButton;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import utils.BigMapUtils;
+import utils.DispalyUtil;
 import utils.HttpUtils;
 import utils.IOStreamUtils;
 import utils.TypeWritingUtils;
@@ -63,10 +72,11 @@ public class NewHouseActivity extends Activity {
     public final static int Type_1 = 0;
     public final static int Type_2 = 1;
     public final static int Type_3 = 2;
+    public final static int Type_4 = 3;
     public final static int POPUPWINDOW_DATA = 3;
     public final static int HOUSELIST_DATA = 4;
     private ListView lv;
-    private ArrayList list;
+    private ArrayList<List<NewhouseSearchBean>> list;
     private TextView tv_near;
     private ImageView img_near;
     private TextView tv_price;
@@ -171,6 +181,9 @@ public class NewHouseActivity extends Activity {
     private HashSet<NoRepeatButton> btns;
     private LinearLayout ll_top;
     private TextView tv_map;
+    private MyAdapter myHouseAdapter;
+    private ArrayList likelist;
+    private Drawable drawable;
 
 
     @Override
@@ -223,7 +236,10 @@ public class NewHouseActivity extends Activity {
         areaList = new HashSet<>();
         hotList = new HashSet<>();
         gson = new Gson();
-
+        Resources res = getResources();
+        Bitmap bitmap = BitmapFactory.decodeResource(res, R.drawable.newhouse_zhanweitu);
+        Bitmap bp = BigMapUtils.zoomBitmap(bitmap, DispalyUtil.dip2px(NewHouseActivity.this, 130), DispalyUtil.dip2px(NewHouseActivity.this, 100));
+        drawable = new BitmapDrawable(res, bp);
     }
 
     private void initListener() {
@@ -345,7 +361,7 @@ public class NewHouseActivity extends Activity {
         ll_top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(NewHouseActivity.this,NewhouseSearchActivity.class);
+                Intent intent = new Intent(NewHouseActivity.this, NewhouseSearchActivity.class);
                 startActivity(intent);
             }
         });
@@ -353,19 +369,19 @@ public class NewHouseActivity extends Activity {
         tv_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(NewHouseActivity.this,MapActivity.class);
+                Intent intent = new Intent(NewHouseActivity.this, MapActivity.class);
                 startActivity(intent);
             }
         });
 
-       //  tv_new;
-       //  img_new;
+        //  tv_new;
+        //  img_new;
         // tv_discount;
-       //  img_discount;
-       //  tv_clever;
-       //  img_clever;
-      //   tv_freelook;
-       //  img_freelook;
+        //  img_discount;
+        //  tv_clever;
+        //  img_clever;
+        //   tv_freelook;
+        //  img_freelook;
     }
 
     //显示更多的window
@@ -758,6 +774,9 @@ public class NewHouseActivity extends Activity {
                         conditionBean.getMore().getHottag().clear();
                     }
                 }
+                tv_more.setText("更多");
+                tv_more.setTextColor(getResources().getColor(R.color.black));
+                img_more.setImageResource(R.drawable.newhouse_gray_downarrow);
 
                 break;
             case R.id.newhouse_popupview_more_check:
@@ -796,15 +815,21 @@ public class NewHouseActivity extends Activity {
                     NoRepeatButton btn = hotIterator_check.next();
                     conditionBean.getMore().getHottag().add((String) btn.getText());
                 }
-                tv_more.setTextColor(getResources().getColor(R.color.mblue));
-                img_more.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if (featureList.size() == 0 && areaList.size() == 0 && workList.size() == 0 && hotList.size() == 0) {
+                    tv_more.setText("更多");
+                    tv_more.setTextColor(getResources().getColor(R.color.black));
+                    img_more.setImageResource(R.drawable.newhouse_gray_downarrow);
+                } else {
+                    tv_more.setTextColor(getResources().getColor(R.color.mblue));
+                    img_more.setImageResource(R.drawable.newhouse_blue_downarrow);
+                }
+
                 //最后访问数据库
                 if (morePopupWindow != null) {
                     morePopupWindow.dismiss();
                 }
 
                 String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
-                System.out.println("我的最终数据时" + item);
                 HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -818,10 +843,22 @@ public class NewHouseActivity extends Activity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        final String data = IOStreamUtils.readFromInputStream(response.body().byteStream());
                         NewHouseActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                //要解析数据 解析完数据之后我们就给lv设置适配器设置数据
+                                List<NewhouseSearchBean> houseDatas = parseDataFromServer(data);
+                                list.clear();
+                                list.add(houseDatas);
+                                if (myHouseAdapter == null) {
+                                    myHouseAdapter = new MyAdapter();
+                                    lv.setAdapter(myHouseAdapter);
+                                }
+                                myHouseAdapter.notifyDataSetChanged();
+
+
                             }
                         });
                     }
@@ -846,9 +883,16 @@ public class NewHouseActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 roomSelectPosition = position;
                 myroomListViewAdapter.notifyDataSetChanged();
-                tv_room.setText(roomList.get(position));
-                tv_room.setTextColor(getResources().getColor(R.color.mblue));
-                img_room.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if (position == 0) {
+                    tv_room.setText("户型");
+                    tv_room.setTextColor(getResources().getColor(R.color.black));
+                    img_room.setImageResource(R.drawable.newhouse_gray_downarrow);
+                } else {
+                    tv_room.setText(roomList.get(position));
+                    tv_room.setTextColor(getResources().getColor(R.color.mblue));
+                    img_room.setImageResource(R.drawable.newhouse_blue_downarrow);
+                }
+
                 if (roomPopupWindow != null) {
                     roomPopupWindow.dismiss();
                 }
@@ -875,10 +919,22 @@ public class NewHouseActivity extends Activity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        final String data = IOStreamUtils.readFromInputStream(response.body().byteStream());
                         NewHouseActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                //要解析数据 解析完数据之后我们就给lv设置适配器设置数据
+                                List<NewhouseSearchBean> houseDatas = parseDataFromServer(data);
+                                list.clear();
+                                list.add(houseDatas);
+                                if (myHouseAdapter == null) {
+                                    myHouseAdapter = new MyAdapter();
+                                    lv.setAdapter(myHouseAdapter);
+                                }
+                                myHouseAdapter.notifyDataSetChanged();
+
+
                             }
                         });
                     }
@@ -925,9 +981,16 @@ public class NewHouseActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 priceSelectPosition = position;
                 myPriceListViewAdapter.notifyDataSetChanged();
-                tv_price.setText(priceList.get(position));
-                tv_price.setTextColor(getResources().getColor(R.color.mblue));
-                img_price.setImageResource(R.drawable.newhouse_blue_downarrow);
+                if (position == 0) {
+                    tv_price.setText("价格");
+                    tv_price.setTextColor(getResources().getColor(R.color.black));
+                    img_price.setImageResource(R.drawable.newhouse_gray_downarrow);
+                } else {
+                    tv_price.setText(priceList.get(position));
+                    tv_price.setTextColor(getResources().getColor(R.color.mblue));
+                    img_price.setImageResource(R.drawable.newhouse_blue_downarrow);
+                }
+
                 if (pricePopupWindow != null) {
                     pricePopupWindow.dismiss();
                 }
@@ -935,19 +998,19 @@ public class NewHouseActivity extends Activity {
                     conditionBean = new NewHouseConditionBean();
                 }
                 //当我们点击时候 条件存进bean中对应地方 需要判断的是如果点击的是不限我们就设为null 或者空字符串即可
-               if(priceList.get(position).equals("两万以下")) {
+                if (priceList.get(position).equals("两万以下")) {
                     conditionBean.setPrice("0-20000");
-                }else if(priceList.get(position).equals("2-3万")) {
+                } else if (priceList.get(position).equals("2-3万")) {
                     conditionBean.setPrice("20000-30000");
-                }else if(priceList.get(position).equals("3-5万")) {
+                } else if (priceList.get(position).equals("3-5万")) {
                     conditionBean.setPrice("30000-50000");
-                }else if(priceList.get(position).equals("5-8万")) {
+                } else if (priceList.get(position).equals("5-8万")) {
                     conditionBean.setPrice("50000-80000");
-                }else if(priceList.get(position).equals("8-10万")) {
+                } else if (priceList.get(position).equals("8-10万")) {
                     conditionBean.setPrice("80000-100000");
-                }else{
-                   conditionBean.setPrice(priceList.get(position));
-               }
+                } else {
+                    conditionBean.setPrice(priceList.get(position));
+                }
                 String item = gson.toJson(conditionBean, NewHouseConditionBean.class);
                 HttpUtils.sendOkHttpRequestForForm("http://192.168.191.1:8080/house/newhouse_near_getWindowRequestData.action", "condition", item, new Callback() {
                     @Override
@@ -962,10 +1025,22 @@ public class NewHouseActivity extends Activity {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        final String data = IOStreamUtils.readFromInputStream(response.body().byteStream());
                         NewHouseActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                //要解析数据 解析完数据之后我们就给lv设置适配器设置数据
+                                List<NewhouseSearchBean> houseDatas = parseDataFromServer(data);
+                                list.clear();
+                                list.add(houseDatas);
+                                if (myHouseAdapter == null) {
+                                    myHouseAdapter = new MyAdapter();
+                                    lv.setAdapter(myHouseAdapter);
+                                }
+                                myHouseAdapter.notifyDataSetChanged();
+
+
                             }
                         });
                     }
@@ -1076,10 +1151,10 @@ public class NewHouseActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String condition=s.toString();
-                if(TextUtils.isEmpty(condition)){
-                  window_check.setEnabled(false);
-                }else {
+                String condition = s.toString();
+                if (TextUtils.isEmpty(condition)) {
+                    window_check.setEnabled(false);
+                } else {
                     window_check.setEnabled(true);
                 }
             }
@@ -1098,49 +1173,48 @@ public class NewHouseActivity extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String condition=s.toString();
-                if(TextUtils.isEmpty(condition)){
-                  window_check.setEnabled(false);
-                }else {
+                String condition = s.toString();
+                if (TextUtils.isEmpty(condition)) {
+                    window_check.setEnabled(false);
+                } else {
                     window_check.setEnabled(true);
                 }
             }
         });
-
         window_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               boolean isReq=true;
+                boolean isReq = true;
                 if (conditionBean == null) {
                     conditionBean = new NewHouseConditionBean();
                 }
                 String bottom_data = window_bottomprice.getText().toString();
                 String top_data = window_topprice.getText().toString();
                 //当我们点击时候 条件存进bean中对应地方
-                String data="";
-                if(TextUtils.isEmpty(bottom_data)&&!TextUtils.isEmpty(top_data)){
-                    data=top_data+"元以下";
+                String data = "";
+                if (TextUtils.isEmpty(bottom_data) && !TextUtils.isEmpty(top_data)) {
+                    data = top_data + "元以下";
                     tv_price.setText(data);//左边为空右边不为空
                     conditionBean.setPrice(data);
-                }else if(!TextUtils.isEmpty(bottom_data)&&TextUtils.isEmpty(top_data)){
-                    data=bottom_data+"元以上";
+                } else if (!TextUtils.isEmpty(bottom_data) && TextUtils.isEmpty(top_data)) {
+                    data = bottom_data + "元以上";
                     tv_price.setText(data);//左边不为空右边为空
                     conditionBean.setPrice(data);
-                }else{
-                    int b_data =Integer.parseInt(bottom_data);
-                    int t_data =Integer.parseInt(top_data);
-                    if(b_data>t_data){
+                } else {
+                    int b_data = Integer.parseInt(bottom_data);
+                    int t_data = Integer.parseInt(top_data);
+                    if (b_data > t_data) {
                         //数字区间有问题需要判断一下
-                        isReq=false;
-                        Toast.makeText(NewHouseActivity.this,"您输入的价格区间有问题",Toast.LENGTH_SHORT).show();
-                    }else{
-                        data=bottom_data+"-"+top_data+"元";
+                        isReq = false;
+                        Toast.makeText(NewHouseActivity.this, "您输入的价格区间有问题", Toast.LENGTH_SHORT).show();
+                    } else {
+                        data = bottom_data + "-" + top_data + "元";
                         tv_price.setText(data);//左边不为空右边为空
                         conditionBean.setPrice(data);
                     }
 
                 }
-                if(isReq){
+                if (isReq) {
                     tv_price.setTextColor(getResources().getColor(R.color.mblue));
                     img_price.setImageResource(R.drawable.newhouse_blue_downarrow);
                     if (pricePopupWindow != null) {
@@ -1197,8 +1271,6 @@ public class NewHouseActivity extends Activity {
                 if (position == 0) {
                     //这是定位暂时就直接改变一下颜色
                     leftSelectPosition = 0;
-                    tv_near.setTextColor(getResources().getColor(R.color.mblue));
-                    img_near.setImageResource(R.drawable.newhouse_blue_downarrow);
                     if (nearPopupWindow != null) {
                         nearPopupWindow.dismiss();
                     }
@@ -1229,10 +1301,22 @@ public class NewHouseActivity extends Activity {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
+                            final String data = IOStreamUtils.readFromInputStream(response.body().byteStream());
                             NewHouseActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                    //要解析数据 解析完数据之后我们就给lv设置适配器设置数据
+                                    List<NewhouseSearchBean> houseDatas = parseDataFromServer(data);
+                                    list.clear();
+                                    list.add(houseDatas);
+                                    if (myHouseAdapter == null) {
+                                        myHouseAdapter = new MyAdapter();
+                                        lv.setAdapter(myHouseAdapter);
+                                    }
+                                    myHouseAdapter.notifyDataSetChanged();
+
+
                                 }
                             });
                         }
@@ -1241,7 +1325,6 @@ public class NewHouseActivity extends Activity {
                     righttList.clear();
                     leftSelectPosition = 1;
                     //关键是这一句，激情了，它可以让listview改动过的数据重新加载一遍，以达到你想要的效果
-                    myLeftListViewAdapter.notifyDataSetChanged();
                     righttList.add(rightList_region);
                     myRightListViewAdapter.notifyDataSetChanged();
                     near_lv_right.setVisibility(View.VISIBLE);
@@ -1249,11 +1332,11 @@ public class NewHouseActivity extends Activity {
                     near_lv_right.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            finalList.clear();//清空数据源
+
                             righttSelectPosition = position;
-                            ArrayList<String> datas = righttList.get(0).get(position).getAreas();
+                            final ArrayList<String> datas = righttList.get(0).get(position).getAreas();
                             if (datas.size() == 0) {
-                                //如果数据源为空 那么就是第一个直接就问数据库 关闭窗口
+                                //如果数据源为空 其实没有第三个lst的数据源我们都要直接就问数据库 并且关闭窗口
                                 tv_near.setTextColor(getResources().getColor(R.color.black));
                                 img_near.setImageResource(R.drawable.newhouse_gray_downarrow);
                                 if (nearPopupWindow != null) {
@@ -1286,15 +1369,28 @@ public class NewHouseActivity extends Activity {
 
                                     @Override
                                     public void onResponse(Call call, Response response) throws IOException {
+                                        final String data = IOStreamUtils.readFromInputStream(response.body().byteStream());
                                         NewHouseActivity.this.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                                //要解析数据 解析完数据之后我们就给lv设置适配器设置数据
+                                                List<NewhouseSearchBean> houseDatas = parseDataFromServer(data);
+                                                list.clear();
+                                                list.add(houseDatas);
+                                                if (myHouseAdapter == null) {
+                                                    myHouseAdapter = new MyAdapter();
+                                                    lv.setAdapter(myHouseAdapter);
+                                                }
+                                                myHouseAdapter.notifyDataSetChanged();
+
+
                                             }
                                         });
                                     }
                                 });
                             } else {
+                                finalList.clear();//清空数据源
                                 //有数据 此时需要显示第三个listview 同时刷新数据 还要默认选第一项
                                 finalList.add(datas);
                                 myFinalListViewAdapter.notifyDataSetChanged();
@@ -1336,10 +1432,22 @@ public class NewHouseActivity extends Activity {
 
                                             @Override
                                             public void onResponse(Call call, Response response) throws IOException {
+                                                final String data = IOStreamUtils.readFromInputStream(response.body().byteStream());
                                                 NewHouseActivity.this.runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(NewHouseActivity.this, "请求数据成功啦", Toast.LENGTH_SHORT).show();
+                                                        //要解析数据 解析完数据之后我们就给lv设置适配器设置数据
+                                                        List<NewhouseSearchBean> houseDatas = parseDataFromServer(data);
+                                                        list.clear();
+                                                        list.add(houseDatas);
+                                                        if (myHouseAdapter == null) {
+                                                            myHouseAdapter = new MyAdapter();
+                                                            lv.setAdapter(myHouseAdapter);
+                                                        }
+                                                        myHouseAdapter.notifyDataSetChanged();
+
+
                                                     }
                                                 });
                                             }
@@ -1373,6 +1481,13 @@ public class NewHouseActivity extends Activity {
 
     }
 
+    private List<NewhouseSearchBean> parseDataFromServer(String data) {
+        List<NewhouseSearchBean> datas = gson.fromJson(data, new TypeToken<List<NewhouseSearchBean>>() {
+        }.getType());
+
+        return datas;
+    }
+
     private void initData() {
         lefttList = new ArrayList();
         righttList = new ArrayList();
@@ -1382,7 +1497,6 @@ public class NewHouseActivity extends Activity {
         finalList = new ArrayList();
         requestPopupWindowData("http://192.168.191.1:8080/house/newhouse_near_getNearData.action");
         requestHouseListData("http://192.168.191.1:8080/house/newhouse_near_getNearData.action");
-        lv.setAdapter(new MyAdapter());
     }
 
     /**
@@ -1393,6 +1507,8 @@ public class NewHouseActivity extends Activity {
     private void requestHouseListData(String address) {
 
         list = new ArrayList();
+        likelist = new ArrayList();
+
         ArrayList list1 = new ArrayList();
         ArrayList list2 = new ArrayList();
         ArrayList list3 = new ArrayList();
@@ -1459,16 +1575,14 @@ public class NewHouseActivity extends Activity {
         list8.add("刚需房 低密度 ");
         list8.add("110m2");
 
-        list.add(list1);
-        list.add(list2);
-        list.add(list3);
-        list.add(list4);
-        list.add(list5);
-        list.add(list6);
-        list.add(list7);
-        list.add(list8);
-        list.add(list8);
-        list.add(list8);
+        likelist.add(list1);
+        likelist.add(list2);
+        likelist.add(list3);
+        likelist.add(list4);
+        likelist.add(list5);
+        likelist.add(list6);
+        likelist.add(list7);
+        likelist.add(list8);
 
     }
 
@@ -1526,12 +1640,12 @@ public class NewHouseActivity extends Activity {
 
         @Override
         public int getCount() {
-            return list.size();
+            return list.get(0).size() + likelist.size() + 2;
         }
 
         @Override
         public Object getItem(int position) {
-            return list.get(position);
+            return null;
         }
 
         @Override
@@ -1541,7 +1655,7 @@ public class NewHouseActivity extends Activity {
 
         @Override
         public int getViewTypeCount() {
-            return 3;
+            return 4;
         }
 
         @Override
@@ -1550,12 +1664,12 @@ public class NewHouseActivity extends Activity {
             //暂时没有真实的返回数据 先让数据的前四条为类型一 后面为类型四
             if (position == 0) {
                 return Type_1;
-            } else if (position >= 1 && position <= 4) {
+            } else if (position >= 1 && position < (list.get(0).size() + 1) && list.get(0).size() != 0) {
                 return Type_2;
-            } else if (position == 5) {
+            } else if (position == (list.get(0).size() + 1)) {
                 return Type_3;
             } else {
-                return Type_2;
+                return Type_4;
             }
 
         }
@@ -1566,6 +1680,7 @@ public class NewHouseActivity extends Activity {
             ViewHolderHead viewHolderHead = null;
             ViewHolderMiddle viewHolderMiddle = null;
             ViewHolderNormal viewHolderNormal = null;
+            ViewHolderLikes viewHolderLikes = null;
             if (convertView == null) {
                 //没有缓存我们需要新创出各个需要的控件
                 //根据当前的类型创建对应的布局
@@ -1593,19 +1708,36 @@ public class NewHouseActivity extends Activity {
                         viewHolderMiddle.btn = (Button) convertView.findViewById(R.id.newhouse_btn_middleview_btn);
                         convertView.setTag(viewHolderMiddle);
                         break;
+                    case Type_4:
+                        convertView = View.inflate(NewHouseActivity.this, R.layout.newhouse_lv_normalview, null);
+                        viewHolderLikes = new ViewHolderLikes();
+                        viewHolderLikes.img = (ImageView) convertView.findViewById(R.id.newhouse_img_normalview);
+                        viewHolderLikes.left = (TextView) convertView.findViewById(R.id.newhouse_tv_normalview_left);
+                        viewHolderLikes.title = (TextView) convertView.findViewById(R.id.newhouse_tv_normalview_title);
+                        viewHolderLikes.area = (TextView) convertView.findViewById(R.id.newhouse_tv_normalview_area);
+                        viewHolderLikes.discount = (TextView) convertView.findViewById(R.id.newhouse_tv_normalview_discount);
+                        viewHolderLikes.money = (TextView) convertView.findViewById(R.id.newhouse_tv_normalview_money);
+                        convertView.setTag(viewHolderLikes);
+                        break;
                     default:
                         break;
                 }
             } else {
                 switch (type) {
                     case Type_1:
+
                         viewHolderHead = (ViewHolderHead) convertView.getTag();
+
+
                         break;
                     case Type_2:
                         viewHolderNormal = (ViewHolderNormal) convertView.getTag();
                         break;
                     case Type_3:
                         viewHolderMiddle = (ViewHolderMiddle) convertView.getTag();
+                        break;
+                    case Type_4:
+                        viewHolderLikes = (ViewHolderLikes) convertView.getTag();
                         break;
                     default:
                         break;
@@ -1616,16 +1748,27 @@ public class NewHouseActivity extends Activity {
             //设置资源
             switch (type) {
                 case Type_1:
-                    viewHolderHead.tv.setText("找到4个楼盘");
+                    if (list.get(0).size() == 0) {
+
+                    } else {
+                        viewHolderHead.tv.setText("找到" + list.get(0).size() + "个楼盘");
+
+                    }
+
+
                     break;
                 case Type_2:
-                    ArrayList l = (ArrayList) list.get(position - 1);
-                    viewHolderNormal.img.setBackgroundResource((Integer) l.get(0));
-                    viewHolderNormal.title.setText((String) l.get(1));
-                    viewHolderNormal.area.setText((String) l.get(2));
-                    viewHolderNormal.money.setText((String) l.get(3));
-
-
+                    if (list.size() != 0) {
+                        List<NewhouseSearchBean> newhouseSearchBeen = list.get(0);
+                        viewHolderNormal.title.setText(newhouseSearchBeen.get(position - 1).getHname());
+                        viewHolderNormal.area.setText(newhouseSearchBeen.get(position - 1).getHaddress());
+                        viewHolderNormal.money.setText(newhouseSearchBeen.get(position - 1).getHprice() + "/m2");
+                        Glide.with(NewHouseActivity.this)
+                                .load("http://192.168.191.1:8080/house" + newhouseSearchBeen.get(position - 1).getHimage())
+                                .placeholder(drawable)
+                                .centerCrop()
+                                .into(viewHolderNormal.img);
+                    }
                     break;
                 case Type_3:
                     viewHolderMiddle.btn.setClickable(true);
@@ -1636,7 +1779,13 @@ public class NewHouseActivity extends Activity {
                         }
                     });
                     break;
-
+                case Type_4:
+                    ArrayList li = (ArrayList) likelist.get(position - (list.get(0).size() + 2));
+                    viewHolderLikes.img.setBackgroundResource((Integer) li.get(0));
+                    viewHolderLikes.title.setText((String) li.get(1));
+                    viewHolderLikes.area.setText((String) li.get(2));
+                    viewHolderLikes.money.setText((String) li.get(3));
+                    break;
                 default:
                     break;
             }
@@ -1658,6 +1807,17 @@ public class NewHouseActivity extends Activity {
     }
 
     static class ViewHolderNormal {
+        //一般的holder
+        private ImageView img;
+        private TextView left;
+        private TextView title;
+        private TextView area;
+        private TextView discount;
+        private TextView money;
+
+    }
+
+    static class ViewHolderLikes {
         //一般的holder
         private ImageView img;
         private TextView left;
@@ -1714,6 +1874,9 @@ public class NewHouseActivity extends Activity {
 
         @Override
         public int getCount() {
+            if (finalList.get(0).size() == 0) {
+                return 1;
+            }
             return finalList.get(0).size();
         }
 
@@ -1736,15 +1899,22 @@ public class NewHouseActivity extends Activity {
             } else {
                 view = convertView;
             }
-            TextView item_tv = (TextView) view.findViewById(R.id.newhouse_left_lv_item_tv);
-            item_tv.setText(finalList.get(0).get(position));
-            if (finalSelectPosition == position) {
-                item_tv.setTextColor(getResources().getColor(R.color.mblue));
+            if (finalList.get(0).size() == 0) {
+
             } else {
-                item_tv.setTextColor(getResources().getColor(R.color.black));
+
+                TextView item_tv = (TextView) view.findViewById(R.id.newhouse_left_lv_item_tv);
+                item_tv.setText(finalList.get(0).get(position));
+                if (finalSelectPosition == position) {
+                    item_tv.setTextColor(getResources().getColor(R.color.mblue));
+                } else {
+                    item_tv.setTextColor(getResources().getColor(R.color.black));
+                }
+                return view;
             }
             return view;
         }
+
     }
 
     class MyLeftListViewAdapter extends BaseAdapter {

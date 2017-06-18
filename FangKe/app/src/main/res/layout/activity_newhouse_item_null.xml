@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    tools:context="fangke.com.activity.FindHouseActivity"
     android:orientation="vertical"
     android:padding="10dp">
-<TextView
-    android:id="@+id/newhouse_tv_headview"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="14sp"
-    android:textColor="@color/black"
-    android:text="找到4个楼盘"/>
 
     <ImageView
-        android:id="@+id/lv_headview_sousuo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/search_null"
-        android:visibility="gone"/>
+        android:background="@drawable/search_null"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +20,5 @@
         android:layout_marginTop="5dp"
         android:text="当前条件无筛选结果"
         android:textSize="14sp"
-        android:visibility="gone"
-        />
+       />
 </LinearLayout>
